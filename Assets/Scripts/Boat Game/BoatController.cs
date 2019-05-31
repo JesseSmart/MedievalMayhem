@@ -40,6 +40,8 @@ public class BoatController : MonoBehaviour
             MoveBoat(1);
         }
 
+        //if (Input.GetButtonDown("joystick " + playerNum + " button " + 1))
+
         if (Input.GetKeyDown(KeyCode.A))
         {
 

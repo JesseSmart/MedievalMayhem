@@ -17,4 +17,14 @@ public class ObstacleMover : MonoBehaviour
     {
         transform.Translate(Vector3.back * speed * Time.fixedDeltaTime);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Boat"))
+        {
+            other.GetComponent<BoatStats>().TakeDamage(1);
+            Destroy(gameObject);
+            
+        }
+    }
 }
