@@ -7,6 +7,7 @@ public class BoatController : MonoBehaviour
     public int playerNum;
     public Rigidbody rbody;
     public int currentSpeed;
+    public GameObject testIndicatorObj;
 
     private string[] horizontalArray = new string[4] { "P1Horizontal", "P2Horizontal", "P3Horizontal", "P4Horizontal" };
     private string[] verticalArray = new string[4] { "P1Vertical", "P2Vertical", "P3Vertical", "P4Vertical" };
@@ -30,30 +31,48 @@ public class BoatController : MonoBehaviour
         if (Input.GetButtonDown(leftBumperArray[pNum]))
         {
             print("Player " + pNum + ": Pressed Left Bumper");
-            rbody.AddForce(-10, 0, 0);
+            //rbody.AddForce(-10, 0, 0);
+
+            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            StartCoroutine(WaitSec(0.5f));
+
             MoveBoat(-1);
         }
 
         if (Input.GetButtonDown(rightBumperArray[pNum]))
         {
             print("Player " + pNum + ": Pressed Left Bumper");
+
+            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            StartCoroutine(WaitSec(0.5f));
+
             MoveBoat(1);
         }
 
-        //if (Input.GetButtonDown("joystick " + playerNum + " button " + 1))
+        //if (Input.GetButtonDown("joystick " + playerNum + " button " + 0))
+        //if (Input.GetKeyDown(KeyCode.Joystick1Button0))
+        //{
+        //    print("Player " + pNum + ": Pressed " + 0);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && playerNum == 0)
         {
 
             print("Player " + pNum + ": Pressed A");
+
+            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            StartCoroutine(WaitSec(0.5f));
 
             MoveBoat(-1);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && playerNum == 0)
         {
 
             print("Player " + pNum + ": Pressed A");
+
+            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            StartCoroutine(WaitSec(0.5f));
 
             MoveBoat(1);
         }
@@ -78,4 +97,11 @@ public class BoatController : MonoBehaviour
     //    //render
     //    rbody.MovePosition(newPos);
     //}
+
+    IEnumerator WaitSec(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        testIndicatorObj.GetComponent<MeshRenderer>().enabled = false;
+
+    }
 }
