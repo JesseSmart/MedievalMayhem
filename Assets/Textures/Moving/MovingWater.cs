@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovingWater : MonoBehaviour
 {
 
-    public float scrollSpeed = 0.5f;
+    public float scrollSpeed = 1f;
     private Renderer rend;
 
     // Start is called before the first frame update
@@ -18,6 +18,7 @@ public class MovingWater : MonoBehaviour
     void Update()
     {
         float offset = Time.time * scrollSpeed;
-        rend.material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
+        rend.material.SetTextureOffset("_MainTex", new Vector2(Mathf.Sin(offset), 0));
+        //scrollSpeed = Mathf.Sin(Time.deltaTime * scrollSpeed);
     }
 }
