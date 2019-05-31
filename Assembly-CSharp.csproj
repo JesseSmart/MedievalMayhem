@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Boat Game\ObstacleMover.cs" />
     <Compile Include="Assets\Scripts\Boat Game\ObstacleSpawner.cs" />
     <Compile Include="Assets\Scripts\InputManager.cs" />
+    <Compile Include="Assets\Textures\Moving\MovingWater.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/jsmart6/Documents/GitHub/MedievalMayhem/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
