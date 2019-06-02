@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4420159, g: 0.4838673, b: 0.5324972, a: 1}
+  m_IndirectSpecularColor: {r: 0.43749017, g: 0.4853112, b: 0.56558603, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerModel-Amimated (1)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
         type: 3}
       propertyPath: m_Controller
@@ -220,6 +225,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerModel-Amimated
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
         type: 3}
@@ -377,7 +387,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 4.5904e-41, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 1.8990226e-35, z: 5e-43, w: 3.729428e-35}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -388,13 +398,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.07929338, y: -0.18207999, z: 0.18394068, w: 0.96266574}
+  m_LocalRotation: {x: 0.76604444, y: 0, z: 0, w: 0.64278764}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 12.688001, y: -19.235, z: 19.476002}
+  m_LocalEulerAnglesHint: {x: 100, y: 0, z: 0}
 --- !u!1001 &743077881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -587,7 +597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1427646729
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -692,6 +702,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerModel-Amimated (2)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
         type: 3}
       propertyPath: m_Controller
@@ -780,6 +795,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerModel-Amimated (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
         type: 3}
