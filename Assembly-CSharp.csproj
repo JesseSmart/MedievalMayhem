@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Models\MiniGameResources\Minigame4\JiggleBoneChicken.cs" />
     <Compile Include="Assets\Scripts\Boat Game\BoatController.cs" />
     <Compile Include="Assets\Scripts\Boat Game\BoatStats.cs" />
     <Compile Include="Assets\Scripts\Boat Game\DeletionTrigger.cs" />
