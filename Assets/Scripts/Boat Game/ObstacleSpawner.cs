@@ -67,6 +67,7 @@ public class ObstacleSpawner : MonoBehaviour
             }
             else
             {
+
                 for (int j = 0; j < 10; j++)
                 {
                     rndLane = Random.Range(0, spawnPoints.Length);
@@ -107,6 +108,11 @@ public class ObstacleSpawner : MonoBehaviour
         void SpawnObstacle(int lane)
         {
             Instantiate(obstaclesArray[Random.Range(0, obstaclesArray.Length)], spawnPoints[lane].transform.position, spawnPoints[lane].transform.rotation);
+        }
+
+        IEnumerator CheckAllLanes(float waitTime, int lane)
+        {
+            return null;
         }
     }
 }

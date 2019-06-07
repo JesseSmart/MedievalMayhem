@@ -14,8 +14,9 @@ public class BoatController : MonoBehaviour
     private string[] leftBumperArray = new string[4] { "P1LeftBumper", "P2LeftBumper", "P3LeftBumper", "P4LeftBumper" };
     private string[] rightBumperArray = new string[4] { "P1RightBumper", "P2RightBumper", "P3RightBumper", "P4RightBumper" };
 
-    public float scrollSpeed = 1f;
-    public float constantForceBase;
+    //public float scrollSpeed = 1f;
+    //public float constantForceBase;
+    //public GameObject WaterObj;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,7 @@ public class BoatController : MonoBehaviour
     void Update()
     {
         InputBoat(playerNum);
-        ConstantForce();
+        //ConstantForce();
     }
 
     void InputBoat(int pNum)
@@ -109,10 +110,11 @@ public class BoatController : MonoBehaviour
 
     }
 
-    void ConstantForce() //look at this and the MovingWater script on the plane
-    {
-        float offset = Time.time * scrollSpeed;
-        rbody.AddForce(Mathf.Sin(offset) * constantForceBase, 0, 0);
+    //public void ConstantForce() //look at this and the MovingWater script on the plane
+    //{
+    //    float offset = Time.time * scrollSpeed;
+    //    WaterObj.GetComponent<MovingWater>().offset = offset;
+    //    rbody.AddForce(Mathf.Sin(offset) * constantForceBase, 0, 0);
 
-    }
+    //}
 }
