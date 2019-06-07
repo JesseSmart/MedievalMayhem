@@ -21,6 +21,8 @@ public class ObstacleSpawner : MonoBehaviour
 
     public float randomObstacleDelay;
 
+    //private int totalSpawnedBatch;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +55,9 @@ public class ObstacleSpawner : MonoBehaviour
         rndObstacleTotal = Random.Range(minObstacleSpawn, maxObstacleSpawn);
 
         bool hasSpawned = false;
+
+        int totalSpawnedBatch;
+        totalSpawnedBatch = rndObstacleTotal;
         for (int i = 0; i < rndObstacleTotal; i++)
         {
             int rndLane;
@@ -68,6 +73,8 @@ public class ObstacleSpawner : MonoBehaviour
             else
             {
 
+                //StartCoroutine(CheckAllLanes(hasSpawned));
+
                 for (int j = 0; j < 10; j++)
                 {
                     rndLane = Random.Range(0, spawnPoints.Length);
@@ -82,8 +89,10 @@ public class ObstacleSpawner : MonoBehaviour
 
                 }
             }
+            //if all spawned
 
             ResetArrays();
+            
         }
 
 
@@ -107,11 +116,26 @@ public class ObstacleSpawner : MonoBehaviour
 
         void SpawnObstacle(int lane)
         {
+            totalSpawnedBatch--;
             Instantiate(obstaclesArray[Random.Range(0, obstaclesArray.Length)], spawnPoints[lane].transform.position, spawnPoints[lane].transform.rotation);
         }
 
-        IEnumerator CheckAllLanes(float waitTime, int lane)
+        IEnumerator CheckAllLanes(bool spawned)
         {
+            while (spawned == false)
+            {
+                int rndLane;
+                rndLane = Random.Range(0, spawnPoints.Length);
+
+                if (nowOccupiedLaneArray[rndLane] == false)
+                {
+                    nowOccupiedLaneArray[rndLane] = true;
+                    //SpawnObstacle(rndLane);
+                    StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane));
+                    spawned = true;
+                }
+            }
+
             return null;
         }
     }

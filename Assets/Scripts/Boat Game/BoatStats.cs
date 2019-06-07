@@ -43,31 +43,10 @@ public class BoatStats : MonoBehaviour
     {
         float offset = Time.time * scrollSpeed;
         WaterObj.GetComponent<MovingWater>().offset = offset;
-        rbody.AddForce(Mathf.Sin(offset) * constantForceBase , 0, 0);
-
-        print(offset + " | " + scrollSpeed);
-
-        //if (offset >= scrollSpeed)
-        //{
-        //    isIncreasing = true;
-        //}
-        //else if (offset <= -scrollSpeed)
-        //{
-        //    isIncreasing = false;
-        //}
-        //if (isIncreasing)
-        //{
-        //    rbody.AddForce(constantForceBase, 0, 0);
-
-        //}
-        //else
-        //{
-        //    rbody.AddForce(-constantForceBase, 0, 0);
-
-        //}
+        rbody.AddForce(Mathf.Cos(offset) * constantForceBase , 0, 0);
+        print(scrollSpeed + " | " + Mathf.Cos(offset));
 
 
-        //if it decreasing force in opposite direction
 
     }
 
