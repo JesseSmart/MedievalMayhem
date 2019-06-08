@@ -1,13 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class BoatController : MonoBehaviour
+using UnityEngine.Networking;
+public class BoatController : NetworkBehaviour
 {
     public int playerNum;
-    public Rigidbody rbody;
+    private GameObject boatObj;
+    private Rigidbody rbody;
     public int currentSpeed;
-    public GameObject testIndicatorObj;
+
+
+    private GameObject[] networkPlayerObjs;
+    private int netPlayerNum;
+    private GameObject[] spArray;
+    //public GameObject testIndicatorObj;
 
     private string[] horizontalArray = new string[4] { "P1Horizontal", "P2Horizontal", "P3Horizontal", "P4Horizontal" };
     private string[] verticalArray = new string[4] { "P1Vertical", "P2Vertical", "P3Vertical", "P4Vertical" };
@@ -19,13 +25,27 @@ public class BoatController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        boatObj = GameObject.FindGameObjectWithTag("Boat");
+        rbody = boatObj.GetComponent<Rigidbody>();
+
+        //spArray = boatObj.GetComponent<BoatStats>().spawnPointArray;
+        //networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
+        //netPlayerNum = networkPlayerObjs.Length; //player 1 = int 0, just so you know
+        //gameObject.transform.parent = spArray[netPlayerNum].transform;
+        //gameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        InputBoat(playerNum);
+        if (hasAuthority)
+        {
+            InputBoat(playerNum);
+        }
+        else
+        {
+            print("aint local");
+        }
     }
 
     void InputBoat(int pNum)
@@ -34,20 +54,20 @@ public class BoatController : MonoBehaviour
         {
             print("Player " + pNum + ": Pressed Left Bumper");
 
-            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            StartCoroutine(WaitSec(0.5f));
+            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            //StartCoroutine(WaitSec(0.5f));
 
-            MoveBoat(-1);
+            CmdMoveBoat(-1);
         }
 
         if (Input.GetButtonDown(rightBumperArray[pNum]))
         {
             print("Player " + pNum + ": Pressed Left Bumper");
 
-            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            StartCoroutine(WaitSec(0.5f));
+            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            //StartCoroutine(WaitSec(0.5f));
 
-            MoveBoat(1);
+            CmdMoveBoat(1);
         }
 
 
@@ -57,10 +77,10 @@ public class BoatController : MonoBehaviour
 
             print("Player " + pNum + ": Pressed A");
 
-            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            StartCoroutine(WaitSec(0.5f));
+            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            //StartCoroutine(WaitSec(0.5f));
 
-            MoveBoat(-1);
+            CmdMoveBoat(-1);
         }
 
         if (Input.GetKeyDown(KeyCode.D) && playerNum == 0)
@@ -68,14 +88,15 @@ public class BoatController : MonoBehaviour
 
             print("Player " + pNum + ": Pressed A");
 
-            testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            StartCoroutine(WaitSec(0.5f));
+            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
+            //StartCoroutine(WaitSec(0.5f));
 
-            MoveBoat(1);
+            CmdMoveBoat(1);
         }
     }
 
-    void MoveBoat(int dir)
+    [Command]
+    void CmdMoveBoat(int dir)
     {
         anim.SetTrigger("Row");
         rbody.AddForce(dir * 10, 0, 0);
@@ -86,7 +107,7 @@ public class BoatController : MonoBehaviour
     IEnumerator WaitSec(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        testIndicatorObj.GetComponent<MeshRenderer>().enabled = false;
+        //testIndicatorObj.GetComponent<MeshRenderer>().enabled = false;
 
     }
 
