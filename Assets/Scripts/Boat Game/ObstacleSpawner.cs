@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ObstacleSpawner : MonoBehaviour
+
+public class ObstacleSpawner : NetworkBehaviour
 {
     public GameObject[] spawnPoints;
     public GameObject[] obstaclesArray;
@@ -32,11 +34,16 @@ public class ObstacleSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0)
+
+        if (isServer)
         {
-            Spawner();
-            spawnTimer = spawnInterval;
+            spawnTimer -= Time.deltaTime;
+            if (spawnTimer <= 0)
+            {
+                Spawner();
+                spawnTimer = spawnInterval;
+            }
+
         }
     }
 
@@ -67,7 +74,7 @@ public class ObstacleSpawner : MonoBehaviour
             {
                 nowOccupiedLaneArray[rndLane] = true;
                 //SpawnObstacle(rndLane);
-                StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane));
+                StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane, Random.Range(0, obstaclesArray.Length)));
                 hasSpawned = true;
             }
             else
@@ -82,7 +89,7 @@ public class ObstacleSpawner : MonoBehaviour
                     {
 
                         nowOccupiedLaneArray[rndLane] = true;
-                        StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane));
+                        StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane, Random.Range(0, obstaclesArray.Length)));
                         //SpawnObstacle(rndLane);
                         hasSpawned = true;
                     }
@@ -94,51 +101,57 @@ public class ObstacleSpawner : MonoBehaviour
             ResetArrays();
             
         }
+    }
 
 
+    
+    IEnumerator WaitAndSpawn(float waitTime, int lane, int rndObstIndex)
+    {
+        yield return new WaitForSecondsRealtime(waitTime);
+        //Instantiate(obstaclesArray[rndObstIndex], spawnPoints[lane].transform.position, spawnPoints[lane].transform.rotation);
+        //ResetArrays();
+        CmdSpawnObstacle(lane, rndObstIndex);
 
+    }
 
-        IEnumerator WaitAndSpawn(float waitTime, int lane)
+    [Command]
+    void CmdSpawnObstacle(int lane, int index)
+    {
+        //totalSpawnedBatch--;
+        GameObject obstacle = Instantiate(obstaclesArray[index], spawnPoints[lane].transform.position, spawnPoints[lane].transform.rotation);
+        NetworkServer.Spawn(obstacle);
+    }
+
+    void ResetArrays()
+    {
+        for (int i = 0; i < nowOccupiedLaneArray.Length; i++)
         {
-            yield return new WaitForSecondsRealtime(waitTime);
-            Instantiate(obstaclesArray[Random.Range(0, obstaclesArray.Length)], spawnPoints[lane].transform.position, spawnPoints[lane].transform.rotation);
-            //ResetArrays();
-
-        }
-
-        void ResetArrays()
-        {
-            for (int i = 0; i < nowOccupiedLaneArray.Length; i++)
-            {
-                nowOccupiedLaneArray[i] = false;
-            }
-        }
-
-        void SpawnObstacle(int lane)
-        {
-            totalSpawnedBatch--;
-            Instantiate(obstaclesArray[Random.Range(0, obstaclesArray.Length)], spawnPoints[lane].transform.position, spawnPoints[lane].transform.rotation);
-        }
-
-        IEnumerator CheckAllLanes(bool spawned)
-        {
-            while (spawned == false)
-            {
-                int rndLane;
-                rndLane = Random.Range(0, spawnPoints.Length);
-
-                if (nowOccupiedLaneArray[rndLane] == false)
-                {
-                    nowOccupiedLaneArray[rndLane] = true;
-                    //SpawnObstacle(rndLane);
-                    StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane));
-                    spawned = true;
-                }
-            }
-
-            return null;
+            nowOccupiedLaneArray[i] = false;
         }
     }
+
+        
+
+    IEnumerator CheckAllLanes(bool spawned)
+    {
+        while (spawned == false)
+        {
+            int rndLane;
+            rndLane = Random.Range(0, spawnPoints.Length);
+
+            if (nowOccupiedLaneArray[rndLane] == false)
+            {
+                nowOccupiedLaneArray[rndLane] = true;
+                //SpawnObstacle(rndLane);
+                StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane, Random.Range(0, obstaclesArray.Length)));
+                spawned = true;
+            }
+        }
+
+        return null;
+    }
 }
+
+
 
 

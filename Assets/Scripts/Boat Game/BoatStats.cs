@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+
 
 public class BoatStats : MonoBehaviour
 {
@@ -9,7 +11,8 @@ public class BoatStats : MonoBehaviour
     public float constantForceBase;
     public Rigidbody rbody;
 
-    private bool isIncreasing;
+    public GameObject[] spawnPointArray;
+    //[SyncVar]
     public int health;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,7 @@ public class BoatStats : MonoBehaviour
     {
         CheckDeath();
         ConstantForce();
+
     }
 
     public void TakeDamage(int damage)
@@ -44,7 +48,7 @@ public class BoatStats : MonoBehaviour
         float offset = Time.time * scrollSpeed;
         WaterObj.GetComponent<MovingWater>().offset = offset;
         rbody.AddForce(Mathf.Cos(offset) * constantForceBase , 0, 0);
-        print(scrollSpeed + " | " + Mathf.Cos(offset));
+        //print(scrollSpeed + " | " + Mathf.Cos(offset));
 
 
 
