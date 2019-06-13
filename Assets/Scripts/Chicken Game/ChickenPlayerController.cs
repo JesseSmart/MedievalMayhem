@@ -7,6 +7,7 @@ public class ChickenPlayerController : MonoBehaviour
 
     public Rigidbody rbody;
     public float speed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,10 +29,13 @@ public class ChickenPlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 inputVector = new Vector3(horizontalInput, 0, verticalInput) * speed;
+        Vector3 inputVector = new Vector3(horizontalInput, 0, verticalInput);
         inputVector = Vector3.ClampMagnitude(inputVector, 1); //1 might have to be baseMovementSpeed instead. clamp prevents diagonal movement being faster
         Vector3 movement = inputVector * speed;
         Vector3 newPos = currentPos + movement * Time.fixedDeltaTime;
+        //transform.Translate(newPos);
         rbody.MovePosition(newPos);
     }
+
+
 }
