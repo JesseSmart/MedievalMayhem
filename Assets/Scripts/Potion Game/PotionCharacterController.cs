@@ -7,6 +7,9 @@ public class PotionCharacterController : MonoBehaviour
     public Rigidbody rbody;
     public float speed;
 
+	private bool hasPickedUp;
+
+	public GameObject holdPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +19,7 @@ public class PotionCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+		//PickupCheck();
         Movement();
     }
 
@@ -35,4 +38,27 @@ public class PotionCharacterController : MonoBehaviour
         //transform.Translate(newPos);
         rbody.MovePosition(newPos);
     }
+
+	public void PickupCheck(GameObject pickupObject)
+	{
+		if (!hasPickedUp)
+		{
+			
+			if (Input.GetKey(KeyCode.Space))
+			{
+				hasPickedUp = true;
+				//pickupObject.GetComponent<BoxCollider>().enabled = false;
+
+				pickupObject.transform.position = holdPoint.transform.position;
+			}
+
+				
+		}
+
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			hasPickedUp = false;
+			//pickupObject.GetComponent<BoxCollider>().enabled = true;
+		}
+	}
 }

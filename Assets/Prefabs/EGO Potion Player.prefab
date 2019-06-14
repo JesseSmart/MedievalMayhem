@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 473849872662540892}
   - component: {fileID: 8957815956344167178}
   - component: {fileID: 4911649542163143991}
+  - component: {fileID: 4690761543437606516}
   m_Layer: 0
   m_Name: trigGrabBox
   m_TagString: Untagged
@@ -91,6 +92,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4690761543437606516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3136058649514288650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b82c1d9bee0214db825370ac5d02bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentObj: {fileID: 3137213601965512117}
 --- !u!1 &3137213601965512117
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +137,7 @@ Transform:
   m_Children:
   - {fileID: 5359434466966747440}
   - {fileID: 204009290870329121}
+  - {fileID: 1982250363775102459}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -169,6 +184,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 3110512034149671979}
   speed: 10
+  holdPoint: {fileID: 3518475882720825174}
+--- !u!1 &3518475882720825174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1982250363775102459}
+  m_Layer: 0
+  m_Name: EGO Hold Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1982250363775102459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3518475882720825174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0052054673, y: 0.402, z: 0.26}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7423384932658308811}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1088249940344312362
 PrefabInstance:
   m_ObjectHideFlags: 0
