@@ -10,10 +10,14 @@ public class ChickenGameManager : MonoBehaviour
 
     public TextMeshProUGUI tmpCurrentScore;
     public TextMeshProUGUI tmpTargetScore;
+    public TextMeshProUGUI tmpTimerText;
+
+    public float matchDuration;
+    private float matchTimer;
     // Start is called before the first frame update
     void Start()
     {
-        
+        matchTimer = matchDuration;
     }
 
     // Update is called once per frame
@@ -22,6 +26,16 @@ public class ChickenGameManager : MonoBehaviour
         if (gameScore >= targetScore)
         {
             //win game
+        }
+
+        matchTimer -= Time.deltaTime;
+        if (matchTimer <= 0)
+        {
+            //game lost
+        }
+        else
+        {
+            tmpTimerText.text = matchTimer.ToString("00:00");
         }
 
         tmpCurrentScore.text = gameScore.ToString();

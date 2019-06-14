@@ -40,7 +40,13 @@ public class ChickenAI : MonoBehaviour
 
             if (dist <= minFleeRange)
             {
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3 (playerObjs[i].transform.position.x, transform.position.y, playerObjs[i].transform.position.z), -fleeSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(playerObjs[i].transform.position.x, transform.position.y, playerObjs[i].transform.position.z), -fleeSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.LookRotation(transform.position - playerObjs[i].transform.position);
+            }
+            else
+            {
+                //idle
+                //transform.LookAt(playerObjs[i].transform.position);
             }
         }
     }
