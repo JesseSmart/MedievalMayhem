@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 544}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -45,7 +45,7 @@ MonoBehaviour:
     y: 0
     width: 2560
     height: 1358
-  m_MinSize: {x: 950, y: 544}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -414,7 +414,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 36ceffff
+      m_ExpandedIDs: 8efbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -537,11 +537,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.103753604, y: -0.22852132, z: 0.024501879, w: -0.9676878}
     speed: 2
-    m_Value: {x: -0.103716396, y: -0.22997181, z: 0.0246574, w: -0.9673407}
+    m_Value: {x: -0.10375361, y: -0.22852132, z: 0.02450188, w: -0.9676878}
   m_Size:
     m_Target: 13.086262
     speed: 2
-    m_Value: 2.2064977
+    m_Value: 13.086262
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -694,20 +694,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Models/MiniGameResources/Minigame5
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Models/MiniGameResources/Minigame5
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\cshepherd2\Documents\GitHub\MedievalMayhem
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 10430000
-    m_LastClickedID: 17168
-    m_ExpandedIDs: 0000000010430000ee4300001c440000344400006644000000ca9a3b
+    m_SelectedIDs: de2f0000
+    m_LastClickedID: 12254
+    m_ExpandedIDs: 000000008a2c0000ac2d0000162e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -735,7 +735,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 
+    m_ExpandedIDs: 000000008a2c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
