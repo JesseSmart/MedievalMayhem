@@ -7,7 +7,7 @@ public class ChickenPlayerController : MonoBehaviour
 
     public Rigidbody rbody;
     public float speed;
-
+	public Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +35,7 @@ public class ChickenPlayerController : MonoBehaviour
         Vector3 newPos = currentPos + movement * Time.fixedDeltaTime;
         //transform.Translate(newPos);
         rbody.MovePosition(newPos);
+		anim.SetFloat("mySpeed", Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
     }
 
 

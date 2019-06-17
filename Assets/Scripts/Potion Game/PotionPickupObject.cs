@@ -6,6 +6,8 @@ public class PotionPickupObject : MonoBehaviour
 {
 	public GameObject parentObj;
 
+	private GameObject myObject;
+	private int objsHeld;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,19 +19,18 @@ public class PotionPickupObject : MonoBehaviour
         
     }
 
-	private void OnTriggerStay(Collider other)
-	{
-		if (other.gameObject.CompareTag("Ingredient"))
-		{
-			parentObj.GetComponent<PotionCharacterController>().PickupCheck(other.gameObject);
-		}
-	}
-	//private void OnTriggerExit(Collider other)
+
+	//private void OnTriggerStay(Collider other)
 	//{
 	//	if (other.gameObject.CompareTag("Ingredient"))
 	//	{
 
+	//		parentObj.GetComponent<PotionCharacterController>().PickupCheck(other.gameObject);
+
+
 	//	}
 	//}
+
+
 
 }
