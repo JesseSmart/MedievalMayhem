@@ -15,23 +15,31 @@ public class BoatGameManager : MonoBehaviour
     public int loadScene;
     public int nextGameInt;
 
+    public GameObject[] playerSpawnPoints;
+
+
     public TextMeshProUGUI uiTimer;
 
     public Image identifierImageObject;
     public Sprite innocentIdentifierImage;
     public Sprite sabotagerIdentifierImage;
 
+    private GameObject boatObj;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.GetInt("isOnline") == 1)
-        {
-            OnlineSetter();
-        }
-        else
-        {
-            OfflineSetter();
-        }
+        //boatObj = GameObject.FindGameObjectWithTag("Boat");
+        //playerSpawnPoints = boatObj.GetComponent<BoatStats>().spawnPointArray;
+
+        //if (PlayerPrefs.GetInt("isOnline") == 1)
+        //{
+        //    OnlineSetter();
+        //}
+        //else
+        //{
+        //    OfflineSetter();
+        //}
 
 
         gameTimer = gameDuration;
@@ -57,16 +65,16 @@ public class BoatGameManager : MonoBehaviour
         PlayerPrefs.SetInt("NextScene", nextGameInt);
     }
 
-    private void OnlineSetter()
-    {
-        identifierImageObject.enabled = false;
-    }
+    //private void OnlineSetter()
+    //{
+    //    identifierImageObject.enabled = false;
+    //}
 
-    private void OfflineSetter()
-    {
-        identifierImageObject.enabled = true;
+    //private void OfflineSetter()
+    //{
+    //    identifierImageObject.enabled = true;
 
 
 
-    }
+    //}
 }

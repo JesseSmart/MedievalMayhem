@@ -422,8 +422,8 @@ GameObject:
   - component: {fileID: 304158215}
   - component: {fileID: 304158214}
   m_Layer: 0
-  m_Name: EGO Scene
-  m_TagString: Untagged
+  m_Name: EGO GameManager
+  m_TagString: MinigameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -444,6 +444,11 @@ MonoBehaviour:
   gameTimer: 0
   loadScene: 0
   nextGameInt: 0
+  playerSpawnPoints:
+  - {fileID: 1102756318717246872}
+  - {fileID: 1102756318717246871}
+  - {fileID: 1102756318717246870}
+  - {fileID: 1102756318717246869}
   uiTimer: {fileID: 907980911}
   identifierImageObject: {fileID: 1656085998}
   innocentIdentifierImage: {fileID: 10907, guid: 0000000000000000f000000000000000,
@@ -1720,6 +1725,30 @@ MonoBehaviour:
     i15: 125
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!1 &1102756318717246869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2478239305351719780, guid: 82f1655bba5e27643afe91b99174357d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1102756318717246865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1102756318717246870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6887241148304530144, guid: 82f1655bba5e27643afe91b99174357d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1102756318717246865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1102756318717246871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4988231902635119231, guid: 82f1655bba5e27643afe91b99174357d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1102756318717246865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1102756318717246872 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3707628125151092251, guid: 82f1655bba5e27643afe91b99174357d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1102756318717246865}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1398310986686463227
 PrefabInstance:
   m_ObjectHideFlags: 0

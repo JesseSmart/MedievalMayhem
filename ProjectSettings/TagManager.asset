@@ -9,6 +9,8 @@ TagManager:
   - Chicken
   - Coop
   - Ingredient
+  - MinigameManager
+  - NetworkManager
   layers:
   - Default
   - TransparentFX
