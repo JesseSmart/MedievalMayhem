@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
 
     public int loadScene;
-
+    public GameObject panelNetwork;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +34,11 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene(loadScene);
     }
 
+    public void GoToNetworkPanelClick()
+    {
+        panelNetwork.SetActive(true);
+        gameObject.SetActive(false);
+    }
 
     public void QuitGame()
     {
