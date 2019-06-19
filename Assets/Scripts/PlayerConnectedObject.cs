@@ -26,6 +26,10 @@ public class PlayerConnectedObject : NetworkBehaviour
 
         CheckMinigame();
 
+
+        //CmdSpawnMyUnit(0);
+
+
         //playerTotal++;
 
         //if (isLocalPlayer)
@@ -47,14 +51,18 @@ public class PlayerConnectedObject : NetworkBehaviour
 
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
         netPlayerNum = networkPlayerObjs.Length; //player 1 = int 0, just so you know
-
         GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform);
+
+        NetworkServer.SpawnWithClientAuthority(go, connectionToClient);
+        
+        
+        //test network spawn point stuff
+        //GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum]);
 
 
         //myPlayerUnit = go;
 
         //go.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
-        NetworkServer.SpawnWithClientAuthority(go, connectionToClient);
     }
 
     void CheckMinigame()

@@ -11,9 +11,9 @@ public class LobbySceneManager : NetworkBehaviour
     public GameObject[] playerSpawnPoints;
     private GameObject networkManagerObj;
 
-    public Scene[] minigameScenes;
-
-
+    public string[] minigameSceneNames;
+    //debug 
+    private float timr = 8;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,25 +23,34 @@ public class LobbySceneManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        timr -= Time.deltaTime;
+        if (timr <= 0)
+        {
+            LoadNextGame();
+            timr = 10;
+        }
     }
 
     public void LoadNextGame() //or maybe voting scene
     {
-
+        
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
+        
+        
+        
         //if host
-        networkManagerObj.GetComponent<CustomNetworkManager>().onlineScene = minigameScenes[0].ToString();
+        //networkManagerObj.GetComponent<CustomNetworkManager>().onlineScene = minigameScenes[0].ToString();
 
-        if (isServer)
-        {
-            networkManagerObj.GetComponent<CustomNetworkManager>().StartUpHost();
+        //if (isServer)
+        //{
+        //    networkManagerObj.GetComponent<CustomNetworkManager>().StartUpHost();
 
-        }
-        else if (isLocalPlayer)        
-        {
-            networkManagerObj.GetComponent<CustomNetworkManager>().JoinGame();
+        //}
+        //else if (isLocalPlayer)        
+        //{
+        //    networkManagerObj.GetComponent<CustomNetworkManager>().JoinGame();
 
-        }
+        //}
 
 
         //else
