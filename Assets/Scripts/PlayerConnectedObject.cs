@@ -45,8 +45,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     }
 
-    [Command]
-    void CmdSpawnMyUnit(int charContNum)
+    [ClientRpc]
+    void RpcSpawnMyUnit(int charContNum)
     {
 
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
@@ -98,7 +98,7 @@ public class PlayerConnectedObject : NetworkBehaviour
     {
 
         spArray = minigameManagerObj.GetComponent<LobbySceneManager>().playerSpawnPoints;
-        CmdSpawnMyUnit(0);
+        RpcSpawnMyUnit(0);
 
     }
 
@@ -108,7 +108,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 
         spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
         //spArray = minigameManagerObj.GetComponent<BoatGameManager>();
-        CmdSpawnMyUnit(1);
+        RpcSpawnMyUnit(1);
 
     }
 

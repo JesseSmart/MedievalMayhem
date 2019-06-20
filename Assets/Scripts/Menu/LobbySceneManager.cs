@@ -10,10 +10,13 @@ public class LobbySceneManager : NetworkBehaviour
 
     public GameObject[] playerSpawnPoints;
     private GameObject networkManagerObj;
+    public GameObject[] readyTextArray;
 
     public string[] minigameSceneNames;
     //debug 
     private float timr = 8;
+
+    private int totalReadys = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +26,22 @@ public class LobbySceneManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        timr -= Time.deltaTime;
-        if (timr <= 0)
+        //timr -= Time.deltaTime;
+        //if (timr <= 0)
+        //{
+        //    LoadNextGame();
+        //    timr = 10;
+        //}
+    }
+
+
+    public void PlayerReadyUp(int pNum)
+    {
+        totalReadys += 1;
+
+        if (totalReadys >= 2) //make 4 later
         {
             LoadNextGame();
-            timr = 10;
         }
     }
 
