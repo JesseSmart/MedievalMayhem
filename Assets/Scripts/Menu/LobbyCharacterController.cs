@@ -11,6 +11,7 @@ public class LobbyCharacterController : NetworkBehaviour
 
     private GameObject sceneManager;
 
+	[SyncVar]
     private bool hasReadied;
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,25 @@ public class LobbyCharacterController : NetworkBehaviour
         {
             InputManager(playerNum);
         }
+
+		if (isServer)
+		{
+			int readyPlayers = 0;
+
+			LobbyCharacterController[] playersInLobby = FindObjectsOfType<LobbyCharacterController>();
+			foreach (LobbyCharacterController cha in playersInLobby)
+			{
+				if (cha.hasReadied)
+				{
+					readyPlayers++;
+				}
+			}
+
+			if (readyPlayers == playersInLobby.Length)
+			{
+				sceneManager.GetComponent<LobbySceneManager>().CmdPlayersHaveReadyUp();
+			}
+		}
     }
 
     void InputManager(int pNum)
@@ -37,11 +57,29 @@ public class LobbyCharacterController : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                readyTexts[pNum].GetComponent<TextMeshProUGUI>().enabled = true;
-                sceneManager.GetComponent<LobbySceneManager>().PlayerReadyUp(pNum);
-                hasReadied = true;
+				CmdReadyUp(pNum);
             }
 
         }
     }
+
+	[Command]
+	void CmdReadyUp(int pNum)
+	{
+		RpcSnedPlayerReadied(pNum);
+	}
+
+	[ClientRpc]
+	void RpcSnedPlayerReadied(int pNum)
+	{
+		foreach (LobbyCharacterController cha in FindObjectsOfType<LobbyCharacterController>())
+		{
+
+			readyTexts[pNum].GetComponent<TextMeshProUGUI>().enabled = true;
+			if (cha.playerNum == pNum)
+			{
+				cha.hasReadied = true;
+			}
+		}
+	}
 }

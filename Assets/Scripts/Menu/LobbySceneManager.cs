@@ -34,21 +34,22 @@ public class LobbySceneManager : NetworkBehaviour
         //}
     }
 
-
-    public void PlayerReadyUp(int pNum)
+	[Command]
+    public void CmdPlayersHaveReadyUp()
     {
-        totalReadys += 1;
+		networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
+		//totalReadys += 1;
 
-        if (totalReadys >= 2) //make 4 later
-        {
-            LoadNextGame();
-        }
+  //      if (totalReadys >= 2) //make 4 later
+  //      {
+  //          LoadNextGame();
+  //      }
     }
 
     public void LoadNextGame() //or maybe voting scene
     {
         
-        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
+        //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
         
         
         

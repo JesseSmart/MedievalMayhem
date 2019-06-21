@@ -21,22 +21,14 @@ public class PlayerConnectedObject : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		//if (!isLocalPlayer)
+		//{
+		//	return;
+		//}
         minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
-
 
         CheckMinigame();
 
-
-        //CmdSpawnMyUnit(0);
-
-
-        //playerTotal++;
-
-        //if (isLocalPlayer)
-        //{
-        //    //Instantiate(playerUnitPrefab);
-        //    Debug.Log("PlayerConnectionObject:: Start -- Spawnming my own pwersonal unit.");
-        //}
     }
 
     // Update is called once per frame
@@ -50,19 +42,11 @@ public class PlayerConnectedObject : NetworkBehaviour
     {
 
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
-        netPlayerNum = networkPlayerObjs.Length; //player 1 = int 0, just so you know
+        netPlayerNum = networkPlayerObjs.Length - 1; //player 1 = int 0, just so you know
         GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform);
 
         NetworkServer.SpawnWithClientAuthority(go, connectionToClient);
         
-        
-        //test network spawn point stuff
-        //GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum]);
-
-
-        //myPlayerUnit = go;
-
-        //go.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
     }
 
     void CheckMinigame()
@@ -107,7 +91,6 @@ public class PlayerConnectedObject : NetworkBehaviour
     {
 
         spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
-        //spArray = minigameManagerObj.GetComponent<BoatGameManager>();
         RpcSpawnMyUnit(1);
 
     }
