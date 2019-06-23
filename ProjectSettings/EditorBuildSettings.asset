@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 6757dee8c87b9ec4fb92ea1ac0a6b989
   - enabled: 1
+    path: Assets/Scenes/PlayerLobbyScene.unity
+    guid: 3a17861c9f439c544b5c0d2c28062406
+  - enabled: 1
     path: Assets/Scenes/JesseNetworkTestingV2.unity
     guid: d92143d66f26b294785017163a690b2e
-  - enabled: 0
-    path: Assets/Scenes/JesseNetworkTesting.unity
-    guid: 7fe3844947b373a418f169501c07f838
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Minigame4.unity
+    guid: edc6844d075d7aa47b6ef05b3481f6e9
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Minigame5.unity
+    guid: 63504587d6f815447806037da9beaed8
   m_configObjects: {}

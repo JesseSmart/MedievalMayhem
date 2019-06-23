@@ -54,8 +54,13 @@ public class CustomNetworkManager : NetworkManager
 
     void SetupOtherSceneButtons() //does not exist yet and button name may change
     {
-        GameObject.Find("btnDisconnect").GetComponent<Button>().onClick.RemoveAllListeners(); //button name?
-        GameObject.Find("btnDisconnect").GetComponent<Button>().onClick.AddListener(NetworkManager.singleton.StopHost); //button name?
+        //GameObject.Find("btnDisconnect").GetComponent<Button>().onClick.RemoveAllListeners(); //button name?
+        //GameObject.Find("btnDisconnect").GetComponent<Button>().onClick.AddListener(NetworkManager.singleton.StopHost); //button name?
+    }
+
+    public void LoadGameScene(string sceneName)
+    {
+        ServerChangeScene(sceneName);
     }
 
 

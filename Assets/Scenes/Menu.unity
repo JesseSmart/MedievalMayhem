@@ -1438,7 +1438,7 @@ GameObject:
   - component: {fileID: 244037204}
   m_Layer: 0
   m_Name: NetworkManager
-  m_TagString: Untagged
+  m_TagString: NetworkManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1469,12 +1469,13 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: Menu
-  m_OnlineScene: JesseNetworkTestingV2
+  m_OnlineScene: PlayerLobbyScene
   m_SpawnPrefabs:
   - {fileID: 3137213601965512117, guid: 5ccbbe0167e5fdd438fdf9a859682c8a, type: 3}
   - {fileID: 7226467945713483952, guid: df5f4e93b2eb6934dacc4e9b2eff31ef, type: 3}
   - {fileID: 7226467945713483952, guid: eaacd88ea9880f942b539c4662a8b0e3, type: 3}
   - {fileID: 7226467945713483952, guid: 17607479a94e6274c9ab6491ade1db03, type: 3}
+  - {fileID: 3137213601965512117, guid: d4f7572551526124cbeda38d8121ed59, type: 3}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
