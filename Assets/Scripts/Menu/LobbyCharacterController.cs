@@ -11,16 +11,23 @@ public class LobbyCharacterController : NetworkBehaviour
 
     private GameObject sceneManager;
 
+	public Material[] playerColours;
+
 	[SyncVar]
     private bool hasReadied;
-    // Start is called before the first frame update
-    void Start()
+
+	public GameObject playerModelObj;
+	// Start is called before the first frame update
+
+	void Start()
     {
         sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
         playerObjs = GameObject.FindGameObjectsWithTag("Player");
 
         playerNum = playerObjs.Length - 1;
         readyTexts = sceneManager.GetComponent<LobbySceneManager>().readyTextArray;
+
+		playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
     }
 
     // Update is called once per frame

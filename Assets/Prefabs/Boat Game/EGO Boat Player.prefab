@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7423384932658308811}
   - component: {fileID: 7808567306415146450}
   - component: {fileID: 8335322725198136293}
+  - component: {fileID: 5375089606101548033}
   m_Layer: 0
   m_Name: EGO Boat Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,6 +82,28 @@ MonoBehaviour:
   playerNum: 0
   currentSpeed: 1
   anim: {fileID: 2660090817621595210}
+--- !u!114 &5375089606101548033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137213601965512117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!1001 &1088249940344312362
 PrefabInstance:
   m_ObjectHideFlags: 0

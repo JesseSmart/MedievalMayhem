@@ -21,22 +21,35 @@ public class BoatController : NetworkBehaviour
     private string[] rightBumperArray = new string[4] { "P1RightBumper", "P2RightBumper", "P3RightBumper", "P4RightBumper" };
 
     public Animator anim;
-  
-    // Start is called before the first frame update
-    void Start()
+
+	private GameObject[] playerObjs;
+	private GameObject sceneManager;
+
+
+
+	// Start is called before the first frame update
+	void Start()
     {
         boatObj = GameObject.FindGameObjectWithTag("Boat");
         rbody = boatObj.GetComponent<Rigidbody>();
 
-        //spArray = boatObj.GetComponent<BoatStats>().spawnPointArray;
-        //networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
-        //netPlayerNum = networkPlayerObjs.Length; //player 1 = int 0, just so you know
-        //gameObject.transform.parent = spArray[netPlayerNum].transform;
-        //gameObject.transform.localPosition = new Vector3(0, 0, 0);
-    }
+		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
+		playerObjs = GameObject.FindGameObjectsWithTag("Player");
 
-    // Update is called once per frame
-    void Update()
+		playerNum = playerObjs.Length - 1;
+
+		transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
+		transform.localPosition = new Vector3(0, 0, 0);
+
+		//readyTexts = sceneManager.GetComponent<LobbySceneManager>().readyTextArray;
+
+		//playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+
+
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         if (hasAuthority)
         {

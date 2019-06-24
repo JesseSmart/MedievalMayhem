@@ -43,7 +43,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
         netPlayerNum = networkPlayerObjs.Length - 1; //player 1 = int 0, just so you know
-        GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform);
+        GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
 
         NetworkServer.SpawnWithClientAuthority(go, connectionToClient);
         

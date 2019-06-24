@@ -132,6 +132,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624dde0c83cbeac43b17d30d01bb5334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNum: 0
+  readyTexts: []
+  playerColours:
+  - {fileID: 2100000, guid: 8131188a418223843844bdce12a1ec6c, type: 2}
+  - {fileID: 2100000, guid: 4cc20909f6d0e014b88c4629427b9ea7, type: 2}
+  - {fileID: 2100000, guid: 5eb4d49dfdfd21947933568d5fa4d2b2, type: 2}
+  - {fileID: 2100000, guid: 419c5225150c2044f9401d58a6ec5b82, type: 2}
+  playerModelObj: {fileID: 5676913073425538801}
+  testShader: {fileID: 0}
 --- !u!1001 &1955525277746499118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,11 +228,22 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 15f8a2aefe4a0cf46b4d0b8310feec53, type: 2}
+    - target: {fileID: 385077049266207273, guid: 1bcd7db1eb59ffe4690a658adda25682,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dddbfa4fb2186f498dde017fa647331, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bcd7db1eb59ffe4690a658adda25682, type: 3}
 --- !u!4 &6798710508015396148 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 1bcd7db1eb59ffe4690a658adda25682,
+    type: 3}
+  m_PrefabInstance: {fileID: 1955525277746499118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5676913073425538801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3032301621289922337, guid: 1bcd7db1eb59ffe4690a658adda25682,
     type: 3}
   m_PrefabInstance: {fileID: 1955525277746499118}
   m_PrefabAsset: {fileID: 0}
