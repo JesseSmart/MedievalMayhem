@@ -82,6 +82,12 @@ MonoBehaviour:
   playerNum: 0
   currentSpeed: 1
   anim: {fileID: 2660090817621595210}
+  playerColours:
+  - {fileID: 2100000, guid: 8131188a418223843844bdce12a1ec6c, type: 2}
+  - {fileID: 2100000, guid: 4cc20909f6d0e014b88c4629427b9ea7, type: 2}
+  - {fileID: 2100000, guid: 5eb4d49dfdfd21947933568d5fa4d2b2, type: 2}
+  - {fileID: 2100000, guid: 419c5225150c2044f9401d58a6ec5b82, type: 2}
+  playerModelObj: {fileID: 6553058737789879029}
 --- !u!114 &5375089606101548033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +208,12 @@ Transform:
 --- !u!95 &2660090817621595210 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
+    type: 3}
+  m_PrefabInstance: {fileID: 1088249940344312362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6553058737789879029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3032301621289922337, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
     type: 3}
   m_PrefabInstance: {fileID: 1088249940344312362}
   m_PrefabAsset: {fileID: 0}

@@ -26,9 +26,14 @@ public class BoatGameManager : MonoBehaviour
 
     private GameObject boatObj;
 
+    private GameObject networkManagerObj;
     // Start is called before the first frame update
     void Start()
     {
+        networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+        PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
+
+
         //boatObj = GameObject.FindGameObjectWithTag("Boat");
         //playerSpawnPoints = boatObj.GetComponent<BoatStats>().spawnPointArray;
 
@@ -61,8 +66,9 @@ public class BoatGameManager : MonoBehaviour
 
     private void EndGame()
     {
-        SceneManager.LoadScene(loadScene);
-        PlayerPrefs.SetInt("NextScene", nextGameInt);
+        //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
+
     }
 
     //private void OnlineSetter()

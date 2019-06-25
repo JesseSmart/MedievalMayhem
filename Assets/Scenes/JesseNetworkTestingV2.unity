@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12d4b31f1880004b93c568585be047e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDuration: 30
+  gameDuration: 10
   gameTimer: 0
   loadScene: 0
   nextGameInt: 0

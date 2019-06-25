@@ -6668,7 +6668,7 @@ GameObject:
   - component: {fileID: 2023352539}
   m_Layer: 0
   m_Name: EGO ChickenGameManager
-  m_TagString: Untagged
+  m_TagString: MinigameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6689,7 +6689,7 @@ MonoBehaviour:
   tmpCurrentScore: {fileID: 1315074259}
   tmpTargetScore: {fileID: 1563833306}
   tmpTimerText: {fileID: 479927059}
-  matchDuration: 40
+  matchDuration: 20
 --- !u!4 &2023352540
 Transform:
   m_ObjectHideFlags: 0

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Minigames/Minigame5.unity
     guid: 63504587d6f815447806037da9beaed8
+  - enabled: 1
+    path: Assets/Scenes/Voting Scene.unity
+    guid: 890e73ec1ae0b2d4dba91d05a60ad702
   m_configObjects: {}

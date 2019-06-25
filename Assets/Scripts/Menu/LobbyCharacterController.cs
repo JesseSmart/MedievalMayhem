@@ -17,6 +17,7 @@ public class LobbyCharacterController : NetworkBehaviour
     private bool hasReadied;
 
 	public GameObject playerModelObj;
+
 	// Start is called before the first frame update
 
 	void Start()

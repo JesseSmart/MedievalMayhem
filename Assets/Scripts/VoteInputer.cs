@@ -30,71 +30,71 @@ public class VoteInputer : MonoBehaviour
 
     void InputManage(int pNum)
     {
-        #region //PC Controls
-        if (Input.GetKeyDown(KeyCode.Alpha1) && pNum == 0 && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed 1");
-            parentObject.GetComponent<VoteManager>().VoteAdd(0);
-            hasInputted[pNum] = true;
-        }
+        //#region //PC Controls
+        //if (Input.GetKeyDown(KeyCode.Alpha1) && pNum == 0 && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed 1");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(0);
+        //    hasInputted[pNum] = true;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && pNum == 0 && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed 2");
-            parentObject.GetComponent<VoteManager>().VoteAdd(1);
-            hasInputted[pNum] = true;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && pNum == 0 && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed 3");
-            parentObject.GetComponent<VoteManager>().VoteAdd(2);
-            hasInputted[pNum] = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2) && pNum == 0 && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed 2");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(1);
+        //    hasInputted[pNum] = true;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3) && pNum == 0 && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed 3");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(2);
+        //    hasInputted[pNum] = true;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha4) && pNum == 0 && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed 4");
-            parentObject.GetComponent<VoteManager>().VoteAdd(3);
-            hasInputted[pNum] = true;
-        }
-        #endregion
-
-
-
-        if (Input.GetButtonDown(aButtonArray[pNum]) && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed A");
-            parentObject.GetComponent<VoteManager>().VoteAdd(0);
-            hasInputted[pNum] = true;
-
-        }
-
-        if (Input.GetButtonDown(xButtonArray[pNum]) && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed X");
-            parentObject.GetComponent<VoteManager>().VoteAdd(1);
-            hasInputted[pNum] = true;
+        //if (Input.GetKeyDown(KeyCode.Alpha4) && pNum == 0 && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed 4");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(3);
+        //    hasInputted[pNum] = true;
+        //}
+        //#endregion
 
 
-        }
 
-        if (Input.GetButtonDown(yButtonArray[pNum]) && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed Y");
-            parentObject.GetComponent<VoteManager>().VoteAdd(2);
-            hasInputted[pNum] = true;
+        //if (Input.GetButtonDown(aButtonArray[pNum]) && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed A");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(0);
+        //    hasInputted[pNum] = true;
 
+        //}
 
-        }
-
-        if (Input.GetButtonDown(bButtonArray[pNum]) && hasInputted[pNum] == false)
-        {
-            print("Player " + pNum + ": Pressed B");
-            parentObject.GetComponent<VoteManager>().VoteAdd(3);
-            hasInputted[pNum] = true;
+        //if (Input.GetButtonDown(xButtonArray[pNum]) && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed X");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(1);
+        //    hasInputted[pNum] = true;
 
 
-        }
+        //}
+
+        //if (Input.GetButtonDown(yButtonArray[pNum]) && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed Y");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(2);
+        //    hasInputted[pNum] = true;
+
+
+        //}
+
+        //if (Input.GetButtonDown(bButtonArray[pNum]) && hasInputted[pNum] == false)
+        //{
+        //    print("Player " + pNum + ": Pressed B");
+        //    parentObject.GetComponent<VoteManager>().VoteAdd(3);
+        //    hasInputted[pNum] = true;
+
+
+        //}
     }
 
 

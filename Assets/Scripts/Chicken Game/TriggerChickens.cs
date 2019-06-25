@@ -4,12 +4,12 @@ using UnityEngine;
 public class TriggerChickens : MonoBehaviour
 {
 
-    public GameObject gameMaster;
+    private GameObject minigameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        minigameManager = GameObject.FindGameObjectWithTag("MinigameManager");
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class TriggerChickens : MonoBehaviour
         if (other.gameObject.CompareTag("Chicken"))
         {
             other.gameObject.GetComponent<ChickenAI>().Capture();
-            gameMaster.GetComponent<ChickenGameManager>().GainPoint();
+            minigameManager.GetComponent<ChickenGameManager>().GainPoint();
         }
     }
 

@@ -13,63 +13,61 @@ public class LobbySceneManager : NetworkBehaviour
     public GameObject[] readyTextArray;
 
     public string[] minigameSceneNames;
-    //debug 
-    private float timr = 8;
 
     private int totalReadys = 0;
+
+    private int[] levelLoadOrder = new int[3] { 0,1,2}; //make sure is length of possible levels loadable. Could maybe make void 
     // Start is called before the first frame update
     void Start()
     {
         networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+        RandomizeArray(levelLoadOrder);
+        SetLevelNames();
+        SetLevelOrder();
+        PlayerPrefs.SetInt("GamesPlayed", 0);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //timr -= Time.deltaTime;
-        //if (timr <= 0)
-        //{
-        //    LoadNextGame();
-        //    timr = 10;
-        //}
+
     }
 
 	[Command]
     public void CmdPlayersHaveReadyUp()
     {
-		networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
-		//totalReadys += 1;
+		//networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
 
-  //      if (totalReadys >= 2) //make 4 later
-  //      {
-  //          LoadNextGame();
-  //      }
     }
 
-    public void LoadNextGame() //or maybe voting scene
+    
+
+    void RandomizeArray(int[] array) //randomises load order array
     {
-        
-        //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
-        
-        
-        
-        //if host
-        //networkManagerObj.GetComponent<CustomNetworkManager>().onlineScene = minigameScenes[0].ToString();
+        for (int i = array.Length - 1; i > 1; i--)
+        {
+            int rnd = Random.Range(0, i);
+            int temp = array[i];
+            array[i] = array[rnd];
+            array[rnd] = temp;
+        }
+    }
 
-        //if (isServer)
-        //{
-        //    networkManagerObj.GetComponent<CustomNetworkManager>().StartUpHost();
+    void SetLevelNames() //converts list of level names into playerpref
+    {
+        for (int i = 0; i < minigameSceneNames.Length; i++)
+        {
+            PlayerPrefs.SetString("LevelName" + i, minigameSceneNames[i]);
+        }
+    }
 
-        //}
-        //else if (isLocalPlayer)        
-        //{
-        //    networkManagerObj.GetComponent<CustomNetworkManager>().JoinGame();
-
-        //}
-
-
-        //else
-
-
+    void SetLevelOrder() // sets randomised level load sequence to playpref
+    {
+        for (int i = 0; i < levelLoadOrder.Length; i++)
+        {
+            PlayerPrefs.SetInt("LevelLoad" + i, levelLoadOrder[i]);
+        }
     }
 }

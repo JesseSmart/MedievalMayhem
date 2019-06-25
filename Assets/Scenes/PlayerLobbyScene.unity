@@ -844,6 +844,9 @@ MonoBehaviour:
   - {fileID: 248441108}
   minigameSceneNames:
   - JesseNetworkTestingV2
+  - Minigame4
+  - Minigame5
+  levelLoadOrder: 0000000001000000020000000300000004000000
 --- !u!4 &786599100
 Transform:
   m_ObjectHideFlags: 0

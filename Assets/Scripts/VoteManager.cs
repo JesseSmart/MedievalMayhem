@@ -13,33 +13,46 @@ public class VoteManager : MonoBehaviour
 
     public Image[] sabotagerIndicatorArray;
 
+    private float tempTimer = 5; //debug
+    private GameObject networkManagerObj;
+
     // Start is called before the first frame update
     void Start()
     {
+        networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (totalInputs >= 4)
+        //if (totalInputs >= 4)
+        //{
+        //    VotingComplete();
+        //}
+
+        tempTimer -= Time.deltaTime;
+        if (tempTimer <= 0)
         {
-            VotingComplete();
+            networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+
         }
+
     }
 
-    public void VoteAdd(int suspectedPlayer)
-    {
-        voteTotalArray[suspectedPlayer] += 1;
-        voteText[suspectedPlayer].text = voteTotalArray[suspectedPlayer].ToString();
-        totalInputs += 1;
-    }
+    //public void VoteAdd(int suspectedPlayer)
+    //{
+    //    voteTotalArray[suspectedPlayer] += 1;
+    //    voteText[suspectedPlayer].text = voteTotalArray[suspectedPlayer].ToString();
+    //    totalInputs += 1;
+    //}
 
-    private void VotingComplete()
-    {
-        print("VOTING COMPLETE");
-        sabotagerIndicatorArray[Random.Range(0, 3)].enabled = true;
-    }
+    //private void VotingComplete()
+    //{
+    //    print("VOTING COMPLETE");
+    //    sabotagerIndicatorArray[Random.Range(0, 3)].enabled = true;
+    //}
 
 
 }

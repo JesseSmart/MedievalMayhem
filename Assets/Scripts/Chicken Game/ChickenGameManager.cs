@@ -14,10 +14,16 @@ public class ChickenGameManager : MonoBehaviour
 
     public float matchDuration;
     private float matchTimer;
+
+    private GameObject networkManagerObj;
+
     // Start is called before the first frame update
     void Start()
     {
         matchTimer = matchDuration;
+
+        networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+        PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
     }
 
     // Update is called once per frame
@@ -26,12 +32,14 @@ public class ChickenGameManager : MonoBehaviour
         if (gameScore >= targetScore)
         {
             //win game
+            GameEnd();
         }
 
         matchTimer -= Time.deltaTime;
         if (matchTimer <= 0)
         {
             //game lost
+            GameEnd();
         }
         else
         {
@@ -45,5 +53,11 @@ public class ChickenGameManager : MonoBehaviour
     public void GainPoint()
     {
         gameScore += 1;
+    }
+
+    public void GameEnd()
+    {
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
+
     }
 }

@@ -11,9 +11,15 @@ public class CauldronTrigger : MonoBehaviour
 
     public Color cauldronColour;
     public float colorFloat;
+
+    public float gameDuration;
+    private float gameTimer;
+
+    public GameObject minigameManager;
     // Start is called before the first frame update
     void Start()
     {
+        minigameManager = GameObject.FindGameObjectWithTag("MinigameManager");
 
     }
 
@@ -23,10 +29,13 @@ public class CauldronTrigger : MonoBehaviour
         if (liquidValue >= failureThreshold || liquidValue <= -failureThreshold)
         {
             //fail
+            minigameManager.GetComponent<PotionGameManager>().GameEnd();
         }
         colorFloat = (liquidValue + (failureThreshold / 2)) / failureThreshold;
         cauldronColour = Color.Lerp(Color.red, Color.blue, colorFloat);
         gameObject.GetComponent<Renderer>().material.color = cauldronColour;
+
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,4 +53,6 @@ public class CauldronTrigger : MonoBehaviour
     {
         liquidValue += pVal;
     }
+
+    
 }

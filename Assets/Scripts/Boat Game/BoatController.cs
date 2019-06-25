@@ -25,10 +25,13 @@ public class BoatController : NetworkBehaviour
 	private GameObject[] playerObjs;
 	private GameObject sceneManager;
 
+    public Material[] playerColours;
+
+    public GameObject playerModelObj;
 
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         boatObj = GameObject.FindGameObjectWithTag("Boat");
         rbody = boatObj.GetComponent<Rigidbody>();
@@ -41,9 +44,8 @@ public class BoatController : NetworkBehaviour
 		transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
 		transform.localPosition = new Vector3(0, 0, 0);
 
-		//readyTexts = sceneManager.GetComponent<LobbySceneManager>().readyTextArray;
 
-		//playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+		playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
 
 
 	}
@@ -65,45 +67,22 @@ public class BoatController : NetworkBehaviour
     {
         if (Input.GetButtonDown(leftBumperArray[pNum]))
         {
-            print("Player " + pNum + ": Pressed Left Bumper");
-
-            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            //StartCoroutine(WaitSec(0.5f));
-
             CmdMoveBoat(-1);
         }
 
         if (Input.GetButtonDown(rightBumperArray[pNum]))
         {
-            print("Player " + pNum + ": Pressed Left Bumper");
-
-            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            //StartCoroutine(WaitSec(0.5f));
-
             CmdMoveBoat(1);
         }
 
 
-
-        if (Input.GetKeyDown(KeyCode.A) && playerNum == 0)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-
-            print("Player " + pNum + ": Pressed A");
-
-            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            //StartCoroutine(WaitSec(0.5f));
-
             CmdMoveBoat(-1);
         }
 
-        if (Input.GetKeyDown(KeyCode.D) && playerNum == 0)
+        if (Input.GetKeyDown(KeyCode.D))
         {
-
-            print("Player " + pNum + ": Pressed A");
-
-            //testIndicatorObj.GetComponent<MeshRenderer>().enabled = true;
-            //StartCoroutine(WaitSec(0.5f));
-
             CmdMoveBoat(1);
         }
     }
