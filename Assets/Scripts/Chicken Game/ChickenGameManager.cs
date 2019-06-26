@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class ChickenGameManager : MonoBehaviour
+using UnityEngine.Networking;
+public class ChickenGameManager : NetworkBehaviour
 {
 
     private int gameScore;
@@ -23,7 +24,12 @@ public class ChickenGameManager : MonoBehaviour
         matchTimer = matchDuration;
 
         networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
-        PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
+
+        if (isServer)
+        {
+            PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
+
+        }
     }
 
     // Update is called once per frame
@@ -57,7 +63,20 @@ public class ChickenGameManager : MonoBehaviour
 
     public void GameEnd()
     {
-        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
+        if (isServer)
+        {
+            if (PlayerPrefs.GetInt("GamesPlayed") < PlayerPrefs.GetInt("MaxGames")) //might be <=
+            {
+                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
+
+            }
+            else
+            {
+                //all games played, end game scene or whatever
+                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Menu");
+            }
+
+        }
 
     }
 }

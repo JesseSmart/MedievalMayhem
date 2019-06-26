@@ -21,11 +21,16 @@ public class LobbySceneManager : NetworkBehaviour
     void Start()
     {
         networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
-        RandomizeArray(levelLoadOrder);
-        SetLevelNames();
-        SetLevelOrder();
+        if (isServer)
+        {
+            PlayerPrefs.DeleteAll(); //WARNING< MAKE SURE IT DOES EFFECT MENU PREFABS IF USED IN FUTURE. Might move to menu play press
+            RandomizeArray(levelLoadOrder);
+            SetLevelNames();
+            SetLevelOrder();
+
+        }
         PlayerPrefs.SetInt("GamesPlayed", 0);
-        
+        PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
     }
 
     // Update is called once per frame

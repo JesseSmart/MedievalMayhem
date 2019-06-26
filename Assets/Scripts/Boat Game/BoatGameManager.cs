@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
 
-public class BoatGameManager : MonoBehaviour
+
+public class BoatGameManager : NetworkBehaviour
 {
 
 
@@ -31,8 +33,11 @@ public class BoatGameManager : MonoBehaviour
     void Start()
     {
         networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
-        PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
+        if (isServer)
+        {
+            PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
 
+        }
 
         //boatObj = GameObject.FindGameObjectWithTag("Boat");
         //playerSpawnPoints = boatObj.GetComponent<BoatStats>().spawnPointArray;
@@ -67,7 +72,20 @@ public class BoatGameManager : MonoBehaviour
     private void EndGame()
     {
         //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
-        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
+        if (isServer)
+        {
+            if (PlayerPrefs.GetInt("GamesPlayed") < PlayerPrefs.GetInt("MaxGames")) //might be <=
+            {
+                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
+
+            }
+            else
+            {
+                //all games played, end game scene or whatever
+                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Menu");
+            }
+
+        }
 
     }
 

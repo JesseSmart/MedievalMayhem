@@ -557,6 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 792336338}
   - component: {fileID: 792336337}
+  - component: {fileID: 792336339}
   m_Layer: 0
   m_Name: EGO Potion Game Manager
   m_TagString: MinigameManager
@@ -578,6 +579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cauldronObj: {fileID: 1260691473}
   potionSlider: {fileID: 831716201}
+  gameDuration: 10
 --- !u!4 &792336338
 Transform:
   m_ObjectHideFlags: 0
@@ -592,6 +594,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &792336339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792336336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &831716200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,6 +1530,8 @@ MonoBehaviour:
   failureThreshold: 20
   cauldronColour: {r: 1, g: 0, b: 1, a: 0}
   colorFloat: 0
+  gameDuration: 0
+  minigameManager: {fileID: 0}
 --- !u!1 &1304252629
 GameObject:
   m_ObjectHideFlags: 0
