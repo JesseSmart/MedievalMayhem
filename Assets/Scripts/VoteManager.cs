@@ -35,8 +35,7 @@ public class VoteManager : MonoBehaviour
         tempTimer -= Time.deltaTime;
         if (tempTimer <= 0)
         {
-            networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
-
+            LoadNextGame();
         }
 
     }
@@ -53,6 +52,12 @@ public class VoteManager : MonoBehaviour
     //    print("VOTING COMPLETE");
     //    sabotagerIndicatorArray[Random.Range(0, 3)].enabled = true;
     //}
+    void LoadNextGame()
+    {
+        PlayerPrefs.SetInt("SabPlayer", Random.Range(0, 3));
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+
+    }
 
 
 }

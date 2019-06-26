@@ -27,6 +27,7 @@ public class LobbySceneManager : NetworkBehaviour
             RandomizeArray(levelLoadOrder);
             SetLevelNames();
             SetLevelOrder();
+            PlayerPrefs.SetInt("SabPlayerNumber", Random.Range(0, 3));
 
         }
         PlayerPrefs.SetInt("GamesPlayed", 0);

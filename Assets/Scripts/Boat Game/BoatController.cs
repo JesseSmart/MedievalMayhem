@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 public class BoatController : NetworkBehaviour
 {
     public int playerNum;
@@ -11,7 +12,7 @@ public class BoatController : NetworkBehaviour
 
 
     private GameObject[] networkPlayerObjs;
-    private int netPlayerNum;
+    //private int netPlayerNum;
     private GameObject[] spArray;
     //public GameObject testIndicatorObj;
 
@@ -29,6 +30,7 @@ public class BoatController : NetworkBehaviour
 
     public GameObject playerModelObj;
 
+    private GameObject saboteurIdentifier;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +43,21 @@ public class BoatController : NetworkBehaviour
 
 		playerNum = playerObjs.Length - 1;
 
-		transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
+
+
+        saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
+        if (playerNum == PlayerPrefs.GetInt("SabPlayerNumber"))
+        {
+            saboteurIdentifier.GetComponent<Image>().color = Color.red;
+
+        }
+        else
+        {
+            saboteurIdentifier.GetComponent<Image>().color = Color.green;
+
+        }
+
+        transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
 		transform.localPosition = new Vector3(0, 0, 0);
 
 

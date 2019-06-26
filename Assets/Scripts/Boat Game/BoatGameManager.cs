@@ -29,6 +29,7 @@ public class BoatGameManager : NetworkBehaviour
     private GameObject boatObj;
 
     private GameObject networkManagerObj;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,19 +39,6 @@ public class BoatGameManager : NetworkBehaviour
             PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
 
         }
-
-        //boatObj = GameObject.FindGameObjectWithTag("Boat");
-        //playerSpawnPoints = boatObj.GetComponent<BoatStats>().spawnPointArray;
-
-        //if (PlayerPrefs.GetInt("isOnline") == 1)
-        //{
-        //    OnlineSetter();
-        //}
-        //else
-        //{
-        //    OfflineSetter();
-        //}
-
 
         gameTimer = gameDuration;
     }
