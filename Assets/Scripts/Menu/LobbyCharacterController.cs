@@ -27,6 +27,11 @@ public class LobbyCharacterController : NetworkBehaviour
 
         playerNum = playerObjs.Length - 1;
         readyTexts = sceneManager.GetComponent<LobbySceneManager>().readyTextArray;
+        if (isClient)
+        {
+            PlayerPrefs.SetInt("LocalPlayerNum", playerNum);
+            print(PlayerPrefs.GetInt("LocalPlayerNum"));
+        }
 
 		playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
     }

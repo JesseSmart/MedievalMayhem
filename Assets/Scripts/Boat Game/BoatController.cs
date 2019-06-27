@@ -23,7 +23,7 @@ public class BoatController : NetworkBehaviour
 
     public Animator anim;
 
-	private GameObject[] playerObjs;
+	//private GameObject[] playerObjs;
 	private GameObject sceneManager;
 
     public Material[] playerColours;
@@ -31,7 +31,8 @@ public class BoatController : NetworkBehaviour
     public GameObject playerModelObj;
 
     private GameObject saboteurIdentifier;
-
+    [SyncVar]
+    private int sabPNum;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,14 +40,22 @@ public class BoatController : NetworkBehaviour
         rbody = boatObj.GetComponent<Rigidbody>();
 
 		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
-		playerObjs = GameObject.FindGameObjectsWithTag("Player");
+        //playerObjs = GameObject.FindGameObjectsWithTag("Player");
 
-		playerNum = playerObjs.Length - 1;
+        //playerNum = playerObjs.Length - 1;
 
+        if (isClient)
+        {
+            playerNum = PlayerPrefs.GetInt("LocalPlayerNum");
+        }
 
+        if (isServer)
+        {
+            sabPNum = PlayerPrefs.GetInt("SabPlayerNumber");
+        }
 
         saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
-        if (playerNum == PlayerPrefs.GetInt("SabPlayerNumber"))
+        if (playerNum == sabPNum)
         {
             saboteurIdentifier.GetComponent<Image>().color = Color.red;
 
@@ -81,15 +90,15 @@ public class BoatController : NetworkBehaviour
 
     void InputBoat(int pNum)
     {
-        if (Input.GetButtonDown(leftBumperArray[pNum]))
-        {
-            CmdMoveBoat(-1);
-        }
+        //if (Input.GetButtonDown(leftBumperArray[pNum]))
+        //{
+        //    CmdMoveBoat(-1);
+        //}
 
-        if (Input.GetButtonDown(rightBumperArray[pNum]))
-        {
-            CmdMoveBoat(1);
-        }
+        //if (Input.GetButtonDown(rightBumperArray[pNum]))
+        //{
+        //    CmdMoveBoat(1);
+        //}
 
 
         if (Input.GetKeyDown(KeyCode.A))

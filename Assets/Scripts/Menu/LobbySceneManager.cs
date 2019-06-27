@@ -28,10 +28,12 @@ public class LobbySceneManager : NetworkBehaviour
             SetLevelNames();
             SetLevelOrder();
             PlayerPrefs.SetInt("SabPlayerNumber", Random.Range(0, 3));
+            PlayerPrefs.SetInt("GamesPlayed", 0);
+            PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
 
         }
-        PlayerPrefs.SetInt("GamesPlayed", 0);
-        PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
+        print(PlayerPrefs.GetInt("SabPlayerNumber"));
+
     }
 
     // Update is called once per frame
