@@ -33,7 +33,9 @@ public class LobbyCharacterController : NetworkBehaviour
             print(PlayerPrefs.GetInt("LocalPlayerNum"));
         }
 
-		playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+        RpcSetColour(playerNum);
+        //playerObjs[playerNum].GetComponentInChildren<SkinnedMeshRenderer>().material = playerColours[playerNum];
+
     }
 
     // Update is called once per frame
@@ -95,4 +97,25 @@ public class LobbyCharacterController : NetworkBehaviour
 			}
 		}
 	}
+
+    [ClientRpc]
+    void RpcSetColour(int pNum)
+    {
+        playerObjs[pNum].GetComponentInChildren<SkinnedMeshRenderer>().material = playerColours[pNum];
+
+        //foreach (GameObject player in playerObjs)
+        //{
+        //    player.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColours[pNum];
+
+        //}
+
+        CmdSetAllColours(pNum);
+    }
+
+    [Command]
+    void CmdSetAllColours(int i)
+    {
+        playerObjs[i].GetComponentInChildren<SkinnedMeshRenderer>().material = playerColours[i];
+
+    }
 }
