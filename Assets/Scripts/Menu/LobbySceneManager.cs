@@ -23,9 +23,14 @@ public class LobbySceneManager : NetworkBehaviour
 
 	public Color[] playerColors = new Color[4] { Color.red, Color.blue, Color.green, Color.yellow} ;
 
+	private float lobbyDelay = 5;
+	private float lobbyTimer;
+	int lastPlayers = 0;
+
     void Start()
     {
-        networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+		lobbyTimer = lobbyDelay;
+		networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
         if (isServer)
         {
             PlayerPrefs.DeleteAll(); //WARNING< MAKE SURE IT DOES EFFECT MENU PREFABS IF USED IN FUTURE. Might move to menu play press
@@ -38,31 +43,74 @@ public class LobbySceneManager : NetworkBehaviour
 
         }
 		//print(PlayerPrefs.GetInt("SabPlayerNumber"));
+
+		
+
 		spawnedPlayers = new GameObject[4];
     }
 
     // Update is called once per frame
     void Update()
     {
-		foreach (GameObject obj in spawnedPlayers)
-		{
-			if (obj != null)
-			{
-				Destroy(obj);
-			}
-		}
-
 		PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
-		for (int x = 0; x < players.Length; ++x)
-		{
-			spawnedPlayers[x] = (GameObject)Instantiate(Resources.Load("LobbyPlayerVisual"), Vector3.zero + (Vector3.left * 2) + (Vector3.right * x), Quaternion.identity);
 
-			spawnedPlayers[x].GetComponentInChildren<SkinnedMeshRenderer>().material.color = playerColors[x];
-			
+		if (players.Length != lastPlayers)
+		{
+			foreach (GameObject obj in spawnedPlayers)
+			{
+				if (obj != null)
+				{
+					Destroy(obj);
+				}
+			}
+
+			for (int x = 0; x < players.Length; ++x)
+			{
+					spawnedPlayers[x] = (GameObject)Instantiate(Resources.Load("LobbyPlayerVisual"), Vector3.zero + (Vector3.left * 2) + (Vector3.right * x), Quaternion.identity);
+
+					spawnedPlayers[x].GetComponentInChildren<SkinnedMeshRenderer>().material.color = playerColors[x];
+
+			}
+
+			int tempInd = 0;
+			foreach (PlayerConnectedObject p in players)
+			{
+				if (p.isReadyLobby)
+				{
+					tempInd++;
+				}
+				
+			}
+			if (tempInd == 4)
+			{
+				CmdPlayersHaveReadyUp();
+			}
+			else
+			{
+				tempInd = 0;
+			}
+
 		}
 
+		if (isServer)
+		{
+			if (players.Length == 4)
+			{
+				lobbyTimer -= Time.deltaTime;
+				if (lobbyTimer <= 0)
+				{
+					//CmdPlayersHaveReadyUp();
+				}
+			}
+			else
+			{
+				lobbyTimer = lobbyDelay;
+			}
 
-    }
+		}
+
+		lastPlayers = players.Length;
+	}
 
 	[Command]
     public void CmdPlayersHaveReadyUp()

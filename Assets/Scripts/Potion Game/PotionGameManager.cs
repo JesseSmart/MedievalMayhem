@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class PotionGameManager : NetworkBehaviour
+public class PotionGameManager : MinigameInherit
 {
 
     public GameObject cauldronObj;

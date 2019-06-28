@@ -20,9 +20,15 @@ public class PlayerConnectedObject : NetworkBehaviour
     private int contArrayOffset; //the total of non minigame scenes
 								 // Start is called before the first frame update
 	public bool isMe;
+	public int playerID;
+
+	public bool isReadyLobby;
+	public bool isReadyGame;
 
     void Start()
     {
+		playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
+
 		if (!isLocalPlayer)
 		{
 			return;
@@ -41,8 +47,36 @@ public class PlayerConnectedObject : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (!isLocalPlayer)
+		{
+			return;
+		}
 
-    }
+		//lobby
+		if (!FindObjectOfType<MinigameInherit>())
+		{
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				CmdLobbyReady();
+			}
+		}
+		//minigame
+		//else if(gameStart == false)
+		//{ 
+		//}
+	}
+
+	[Command]
+	void CmdLobbyReady()
+	{
+		RpcLobbyReady();
+	}
+
+	[ClientRpc]
+	void RpcLobbyReady()
+	{
+		isReadyLobby = true;
+	}
 
     [Command]
     void CmdSpawnMyUnit(int charContNum)

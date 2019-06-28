@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.Networking;
 
 
-public class BoatGameManager : NetworkBehaviour
+public class BoatGameManager : MinigameInherit
 {
 
 
