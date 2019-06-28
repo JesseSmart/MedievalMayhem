@@ -22,24 +22,31 @@ public class LobbyCharacterController : NetworkBehaviour
 
 	void Start()
     {
-        sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
-        playerObjs = GameObject.FindGameObjectsWithTag("Player");
+		Invoke("Init", 0.1f);
+        
 
-        playerNum = playerObjs.Length - 1;
-        readyTexts = sceneManager.GetComponent<LobbySceneManager>().readyTextArray;
-        if (isClient)
-        {
-            PlayerPrefs.SetInt("LocalPlayerNum", playerNum);
-            print(PlayerPrefs.GetInt("LocalPlayerNum"));
-        }
-
-        RpcSetColour(playerNum);
+        //RpcSetColour(playerNum);
         //playerObjs[playerNum].GetComponentInChildren<SkinnedMeshRenderer>().material = playerColours[playerNum];
 
     }
 
-    // Update is called once per frame
-    void Update()
+	private void Init()
+	{
+		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
+		playerObjs = GameObject.FindGameObjectsWithTag("Player");
+
+		playerNum = playerObjs.Length - 1;
+		readyTexts = sceneManager.GetComponent<LobbySceneManager>().readyTextArray;
+
+		if (isLocalPlayer)
+		{
+			PlayerPrefs.SetInt("LocalPlayerNum", playerNum);
+			print("localplayer" + PlayerPrefs.GetInt("LocalPlayerNum"));
+		}
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         if (hasAuthority)
         {
@@ -64,9 +71,12 @@ public class LobbyCharacterController : NetworkBehaviour
 				sceneManager.GetComponent<LobbySceneManager>().CmdPlayersHaveReadyUp();
 			}
 		}
-    }
 
-    void InputManager(int pNum)
+		//RpcSetColour(playerNum);
+
+	}
+
+	void InputManager(int pNum)
     {
         if (!hasReadied)
         {

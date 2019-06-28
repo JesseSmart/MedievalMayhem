@@ -17,7 +17,12 @@ public class LobbySceneManager : NetworkBehaviour
     private int totalReadys = 0;
 
     private int[] levelLoadOrder = new int[3] { 0,1,2}; //make sure is length of possible levels loadable. Could maybe make void 
-    // Start is called before the first frame update
+														// Start is called before the first frame update
+
+	GameObject[] spawnedPlayers;
+
+	public Color[] playerColors = new Color[4] { Color.red, Color.blue, Color.green, Color.yellow} ;
+
     void Start()
     {
         networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
@@ -32,13 +37,30 @@ public class LobbySceneManager : NetworkBehaviour
             PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
 
         }
-        print(PlayerPrefs.GetInt("SabPlayerNumber"));
-
+		//print(PlayerPrefs.GetInt("SabPlayerNumber"));
+		spawnedPlayers = new GameObject[4];
     }
 
     // Update is called once per frame
     void Update()
     {
+		foreach (GameObject obj in spawnedPlayers)
+		{
+			if (obj != null)
+			{
+				Destroy(obj);
+			}
+		}
+
+		PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+		for (int x = 0; x < players.Length; ++x)
+		{
+			spawnedPlayers[x] = (GameObject)Instantiate(Resources.Load("LobbyPlayerVisual"), Vector3.zero + (Vector3.left * 2) + (Vector3.right * x), Quaternion.identity);
+
+			spawnedPlayers[x].GetComponentInChildren<SkinnedMeshRenderer>().material.color = playerColors[x];
+			
+		}
+
 
     }
 

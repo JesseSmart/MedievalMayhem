@@ -18,14 +18,21 @@ public class PlayerConnectedObject : NetworkBehaviour
     private GameObject minigameManagerObj;
     public GameObject[] minigameCharacterControllersObjs;
     private int contArrayOffset; //the total of non minigame scenes
-    // Start is called before the first frame update
+								 // Start is called before the first frame update
+	public bool isMe;
+
     void Start()
     {
-		//if (!isLocalPlayer)
-		//{
-		//	return;
-		//}
-        minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
+		if (!isLocalPlayer)
+		{
+			return;
+		}
+
+		isMe = true;
+
+		print("asd");
+		minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
+		transform.position += Vector3.up;
 
         CheckMinigame();
 
@@ -37,16 +44,17 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     }
 
-    [ClientRpc]
-    void RpcSpawnMyUnit(int charContNum)
+    [Command]
+    void CmdSpawnMyUnit(int charContNum)
     {
 
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
         netPlayerNum = networkPlayerObjs.Length - 1; //player 1 = int 0, just so you know
         GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
 
-        NetworkServer.SpawnWithClientAuthority(go, connectionToClient);
-        
+		NetworkServer.SpawnWithClientAuthority(go, gameObject);
+		//CustomNetworkManager.Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
+		//NetworkServer.Spawn(go); 
     }
 
     void CheckMinigame()
@@ -82,18 +90,28 @@ public class PlayerConnectedObject : NetworkBehaviour
     {
 
         spArray = minigameManagerObj.GetComponent<LobbySceneManager>().playerSpawnPoints;
-        RpcSpawnMyUnit(0);
+		//CmdSpawnMyUnit(0);
+		//RpcSpawnMyUnit(0);
 
     }
 
 
     void MGOneSetup()
     {
+		//if client
+		//set me as ready
 
+		//if host - update
+		//find all players
+		//see whos ready
+		//if == total players
+		//rpc - time =1, spawn players, for loop
         spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
-        RpcSpawnMyUnit(1);
+		//CmdSpawnMyUnit(1);
 
-    }
+		//RpcSpawnMyUnit(1);
+
+	}
 
 
 }
