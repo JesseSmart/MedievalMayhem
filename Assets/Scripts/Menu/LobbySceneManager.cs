@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
-
+using UnityEngine.UI;
+using TMPro;
 
 public class LobbySceneManager : NetworkBehaviour
 {
@@ -54,6 +55,26 @@ public class LobbySceneManager : NetworkBehaviour
     {
 		PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
 
+		int tempInt = 0;
+		foreach (PlayerConnectedObject p in players)
+		{
+			if (p.isReadyLobby)
+			{
+				//readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
+				RpcReadyUp(p.playerID);
+				tempInt++;
+			}
+
+		}
+		if (tempInt == 4)
+		{
+			CmdPlayersHaveReadyUp();
+		}
+		else
+		{
+			tempInt = 0;
+		}
+
 		if (players.Length != lastPlayers)
 		{
 			foreach (GameObject obj in spawnedPlayers)
@@ -72,23 +93,7 @@ public class LobbySceneManager : NetworkBehaviour
 
 			}
 
-			int tempInd = 0;
-			foreach (PlayerConnectedObject p in players)
-			{
-				if (p.isReadyLobby)
-				{
-					tempInd++;
-				}
-				
-			}
-			if (tempInd == 4)
-			{
-				CmdPlayersHaveReadyUp();
-			}
-			else
-			{
-				tempInd = 0;
-			}
+
 
 		}
 
@@ -120,6 +125,11 @@ public class LobbySceneManager : NetworkBehaviour
 
     }
 
+	[ClientRpc]
+	void RpcReadyUp(int id)
+	{
+		readyTextArray[id - 1].GetComponent<TextMeshProUGUI>().enabled = true;
+	}
     
 
     void RandomizeArray(int[] array) //randomises load order array

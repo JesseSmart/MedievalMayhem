@@ -76,6 +76,7 @@ public class LobbyCharacterController : NetworkBehaviour
 			{
 				if (cha.hasReadied)
 				{
+
 					readyPlayers++;
 				}
 			}

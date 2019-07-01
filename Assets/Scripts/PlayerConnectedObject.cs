@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerConnectedObject : NetworkBehaviour
 {
@@ -25,9 +26,16 @@ public class PlayerConnectedObject : NetworkBehaviour
 	public bool isReadyLobby;
 	public bool isReadyGame;
 
+	private bool gameHasStarted;
+
     void Start()
     {
-		playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
+		Time.timeScale = 00.1f;
+
+
+		playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
+
+		
 
 		if (!isLocalPlayer)
 		{
@@ -60,6 +68,10 @@ public class PlayerConnectedObject : NetworkBehaviour
 				CmdLobbyReady();
 			}
 		}
+		else if (!gameHasStarted && FindObjectOfType<MinigameInherit>())
+		{
+			CheckMinigame();
+		}
 		//minigame
 		//else if(gameStart == false)
 		//{ 
@@ -79,12 +91,12 @@ public class PlayerConnectedObject : NetworkBehaviour
 	}
 
     [Command]
-    void CmdSpawnMyUnit(int charContNum)
+    void CmdSpawnMyUnit(int charContNum, GameObject[] spawnPoints)
     {
 
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
-        netPlayerNum = networkPlayerObjs.Length - 1; //player 1 = int 0, just so you know
-        GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
+        netPlayerNum = playerID - 1; 
+        GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spawnPoints[netPlayerNum].transform.position, spawnPoints[netPlayerNum].transform.rotation);
 
 		NetworkServer.SpawnWithClientAuthority(go, gameObject);
 		//CustomNetworkManager.Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
@@ -132,19 +144,66 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     void MGOneSetup()
     {
+		spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
+
+		if (isClient)
+		{
+			CmdClientReady();
+		}
 		//if client
 		//set me as ready
 
+		if (isServer)
+		{
+			PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+			int readyInt = 0;
+			foreach (PlayerConnectedObject player in players)
+			{
+				if (player.isReadyGame)
+				{
+					readyInt++;
+					print("Ready Ints" + readyInt);
+
+				}
+			}
+
+			if (readyInt == 4)
+			{
+				print("RPC READY UP");
+
+				RpcReadyUp(1, spArray); //HERE
+			}
+			else
+			{
+				readyInt = 0;
+			}
+
+
+		}
 		//if host - update
 		//find all players
 		//see whos ready
 		//if == total players
 		//rpc - time =1, spawn players, for loop
-        spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
+        
 		//CmdSpawnMyUnit(1);
 
 		//RpcSpawnMyUnit(1);
 
+	}
+
+	[Command]
+	void CmdClientReady()
+	{
+		isReadyGame = true;
+	}
+
+	[ClientRpc]
+	void RpcReadyUp(int gameNum, GameObject[] spawns)
+	{
+		Time.timeScale = 1;
+		CmdSpawnMyUnit(gameNum, spawns);
+		gameHasStarted = true;
 	}
 
 
