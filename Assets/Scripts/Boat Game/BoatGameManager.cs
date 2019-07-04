@@ -77,16 +77,5 @@ public class BoatGameManager : MinigameInherit
 
     }
 
-    //private void OnlineSetter()
-    //{
-    //    identifierImageObject.enabled = false;
-    //}
-
-    //private void OfflineSetter()
-    //{
-    //    identifierImageObject.enabled = true;
-
-
-
-    //}
+  
 }

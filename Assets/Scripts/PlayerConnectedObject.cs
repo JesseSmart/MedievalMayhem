@@ -30,12 +30,12 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     void Start()
     {
-		Time.timeScale = 00.1f;
+		//Time.timeScale = 00.1f;
 
 
-		playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
 
 		
+		playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
 
 		if (!isLocalPlayer)
 		{
@@ -44,9 +44,9 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 		isMe = true;
 
-		print("asd");
+		//print("asd");
 		minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
-		transform.position += Vector3.up;
+		//transform.position += Vector3.up;
 
         CheckMinigame();
 
@@ -70,6 +70,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 		else if (!gameHasStarted && FindObjectOfType<MinigameInherit>())
 		{
+			print("CHECKMINIGAME");
 			CheckMinigame();
 		}
 		//minigame
@@ -93,7 +94,7 @@ public class PlayerConnectedObject : NetworkBehaviour
     [Command]
     void CmdSpawnMyUnit(int charContNum, GameObject[] spawnPoints)
     {
-
+		print("SPAWNMYUNITS");
         networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
         netPlayerNum = playerID - 1; 
         GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spawnPoints[netPlayerNum].transform.position, spawnPoints[netPlayerNum].transform.rotation);
@@ -175,6 +176,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 			}
 			else
 			{
+				print("ELSE readyint= " + readyInt );
 				readyInt = 0;
 			}
 

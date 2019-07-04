@@ -121,6 +121,7 @@ public class LobbySceneManager : NetworkBehaviour
     public void CmdPlayersHaveReadyUp()
     {
 		//networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
+		//*** Maybe this load conobj error
         networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
 
     }
