@@ -28,6 +28,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	private bool gameHasStarted;
 
+	private bool hasSpawned = false;
+
     void Start()
     {
 		//Time.timeScale = 00.1f;
@@ -91,18 +93,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 		isReadyLobby = true;
 	}
 
-    [Command]
-    void CmdSpawnMyUnit(int charContNum, GameObject[] spawnPoints)
-    {
-		print("SPAWNMYUNITS");
-        networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
-        netPlayerNum = playerID - 1; 
-        GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spawnPoints[netPlayerNum].transform.position, spawnPoints[netPlayerNum].transform.rotation);
 
-		NetworkServer.SpawnWithClientAuthority(go, gameObject);
-		//CustomNetworkManager.Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
-		//NetworkServer.Spawn(go); 
-    }
 
     void CheckMinigame()
     {
@@ -135,7 +126,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     void JoinLobbySetup()
     {
-
+		print("RUNNIG LOBBY SHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
         spArray = minigameManagerObj.GetComponent<LobbySceneManager>().playerSpawnPoints;
 		//CmdSpawnMyUnit(0);
 		//RpcSpawnMyUnit(0);
@@ -147,38 +138,42 @@ public class PlayerConnectedObject : NetworkBehaviour
     {
 		spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
 
-		if (isClient)
+		if (isClient && !hasSpawned)
 		{
-			CmdClientReady();
+			CmdClientReady(1);
+			hasSpawned = true;
 		}
 		//if client
 		//set me as ready
 
-		if (isServer)
+		if (isServer) 
 		{
-			PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
-			int readyInt = 0;
-			foreach (PlayerConnectedObject player in players)
+			BoatController[] players = FindObjectsOfType<BoatController>();
+			if (players.Length >= 3) //do better spawning
 			{
-				if (player.isReadyGame)
-				{
-					readyInt++;
-					print("Ready Ints" + readyInt);
-
-				}
+				gameHasStarted = true;
 			}
+			//int readyInt = 0;
+			//foreach (BoatGameManager player in players)
+			//{
+			//	if (players.Length >= 4)
+			//	{
+			//		gameHasStarted = true;
+			//	}
+			//}
 
-			if (readyInt == 4)
-			{
-				print("RPC READY UP");
+			//if (readyInt == 4)
+			//{
+			//	print("RPC READY UP");
+				
 
-				RpcReadyUp(1, spArray); //HERE
-			}
-			else
-			{
-				print("ELSE readyint= " + readyInt );
-				readyInt = 0;
-			}
+			//	//RpcSpawnMyUnit(1); //HERE
+			//}
+			//else
+			//{
+			//	print("ELSE readyint= " + readyInt );
+			//	readyInt = 0;
+			//}
 
 
 		}
@@ -195,18 +190,39 @@ public class PlayerConnectedObject : NetworkBehaviour
 	}
 
 	[Command]
-	void CmdClientReady()
+	void CmdClientReady(int gameNum)
 	{
 		isReadyGame = true;
+		if (isLocalPlayer)
+		{
+			CmdSpawnMyUnit(gameNum);
+		}
 	}
 
-	[ClientRpc]
-	void RpcReadyUp(int gameNum, GameObject[] spawns)
+	//[ClientRpc]
+	//void RpcReadyUp(int gameNum, GameObject[] spawns)
+	//{
+	//	//print("MGOneSetup: " + spArray.Length + " name " + spArray[0].name);
+
+	//	//Time.timeScale = 1;
+	//	RpcSpawnMyUnit(gameNum, spawns);
+	//	gameHasStarted = true;
+	//}
+
+	[Command]
+	void CmdSpawnMyUnit(int charContNum)
 	{
-		Time.timeScale = 1;
-		CmdSpawnMyUnit(gameNum, spawns);
-		gameHasStarted = true;
-	}
+		//gameHasStarted = true;
+		print("SPAWNMYUNITS");
+		networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
+		netPlayerNum = playerID - 1;
+		//print("CharCont " + charContNum + " | sp " + spawnPoints[netPlayerNum].gameObject.name);
+		//GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spawnPoints[netPlayerNum].transform.position, spawnPoints[netPlayerNum].transform.rotation);
+		GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], transform.position, transform.rotation);
 
+		NetworkServer.SpawnWithClientAuthority(go, gameObject);
+		//CustomNetworkManager.Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
+		//NetworkServer.Spawn(go); 
+	}
 
 }
