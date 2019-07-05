@@ -844,8 +844,8 @@ MonoBehaviour:
   - {fileID: 248441108}
   minigameSceneNames:
   - JesseNetworkTestingV2
-  - JesseNetworkTestingV2
-  - JesseNetworkTestingV2
+  - Minigame4
+  - Minigame5
   playerColors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}

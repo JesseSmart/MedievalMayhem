@@ -140,7 +140,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 		if (isClient && !hasSpawned)
 		{
-			CmdClientReady(1);
+			ClientReady(1);
 			hasSpawned = true;
 		}
 		//if client
@@ -189,8 +189,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	}
 
-	[Command]
-	void CmdClientReady(int gameNum)
+	//[Command]
+	void ClientReady(int gameNum)
 	{
 		isReadyGame = true;
 		if (isLocalPlayer)
