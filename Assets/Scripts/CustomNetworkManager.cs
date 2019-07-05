@@ -28,7 +28,7 @@ public class CustomNetworkManager : NetworkManager
 
     void SetPort()
     {
-        //NetworkManager.singleton.networkPort = 7777; //hmm
+        NetworkManager.singleton.networkPort = 7777; //hmm
     }
 
     void OnLevelWasLoaded(int level)
