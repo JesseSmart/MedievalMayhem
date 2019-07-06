@@ -12,18 +12,11 @@ public class BoatController : NetworkBehaviour
 
 
     private GameObject[] networkPlayerObjs;
-    //private int netPlayerNum;
     private GameObject[] spArray;
-    //public GameObject testIndicatorObj;
 
-    private string[] horizontalArray = new string[4] { "P1Horizontal", "P2Horizontal", "P3Horizontal", "P4Horizontal" };
-    private string[] verticalArray = new string[4] { "P1Vertical", "P2Vertical", "P3Vertical", "P4Vertical" };
-    private string[] leftBumperArray = new string[4] { "P1LeftBumper", "P2LeftBumper", "P3LeftBumper", "P4LeftBumper" };
-    private string[] rightBumperArray = new string[4] { "P1RightBumper", "P2RightBumper", "P3RightBumper", "P4RightBumper" };
 
     public Animator anim;
 
-	//private GameObject[] playerObjs;
 	private GameObject sceneManager;
 
     public Material[] playerColours;
@@ -33,6 +26,7 @@ public class BoatController : NetworkBehaviour
     private GameObject saboteurIdentifier;
     [SyncVar]
     private int sabPNum;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,13 +34,11 @@ public class BoatController : NetworkBehaviour
         rbody = boatObj.GetComponent<Rigidbody>();
 
 		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
-        //playerObjs = GameObject.FindGameObjectsWithTag("Player");
 
-        //playerNum = playerObjs.Length - 1;
 
         if (isClient)
         {
-            playerNum = PlayerPrefs.GetInt("LocalPlayerNum");
+            playerNum = PlayerPrefs.GetInt("LocalPlayerNum") - 1;
         }
 
         if (isServer)
@@ -90,16 +82,6 @@ public class BoatController : NetworkBehaviour
 
     void InputBoat(int pNum)
     {
-        //if (Input.GetButtonDown(leftBumperArray[pNum]))
-        //{
-        //    CmdMoveBoat(-1);
-        //}
-
-        //if (Input.GetButtonDown(rightBumperArray[pNum]))
-        //{
-        //    CmdMoveBoat(1);
-        //}
-
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -118,15 +100,5 @@ public class BoatController : NetworkBehaviour
         anim.SetTrigger("Row");
         rbody.AddForce(dir * 10, 0, 0);
     }
-
-
-
-    IEnumerator WaitSec(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        //testIndicatorObj.GetComponent<MeshRenderer>().enabled = false;
-
-    }
-
 
 }

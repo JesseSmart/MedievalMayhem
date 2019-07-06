@@ -7,20 +7,18 @@ using UnityEngine.UI;
 
 public class PlayerConnectedObject : NetworkBehaviour
 {
-    //public static int playerTotal;
     public GameObject playerUnitPrefab;
-    //GameObject myPlayerUnit;
 
     private GameObject boatObj;
     private GameObject[] networkPlayerObjs;
     private int netPlayerNum;
-    private GameObject[] spArray;
 
     private GameObject minigameManagerObj;
     public GameObject[] minigameCharacterControllersObjs;
     private int contArrayOffset; //the total of non minigame scenes
-								 // Start is called before the first frame update
+
 	public bool isMe;
+
 	public int playerID;
 
 	public bool isReadyLobby;
@@ -30,14 +28,58 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	private bool hasSpawned = false;
 
+    // Start is called before the first frame update
     void Start()
-    {		
-		playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
+    {
+        //playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
 
-		if (!isLocalPlayer)
+        PlayerConnectedObject[] pConObjs = FindObjectsOfType<PlayerConnectedObject>();
+        //if lobby
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            //if (isLocalPlayer)
+            //{
+
+
+            //    for (int i = 0; i < pConObjs.Length; i++)
+            //    {
+            //        pConObjs[i].playerID = i + 1;
+            //        PlayerPrefs.SetInt("LocalPlayerNum" + (i + 1), playerID);
+
+            //    }
+            //}
+
+
+            CmdSetPlayerNumber(); //might not be needed
+
+
+        }
+        else
+        {
+
+
+            if (isLocalPlayer)
+            {
+
+                playerID = PlayerPrefs.GetInt("LocalPlayerNum");
+
+                //for (int i = 0; i < pConObjs.Length; i++)
+                //{
+                //    playerID = PlayerPrefs.GetInt("LocalPlayerNum" + (i + 1));
+
+
+                //}
+
+            }
+
+        }
+
+
+        if (!isLocalPlayer)
 		{
 			return;
 		}
+
 
 		isMe = true;
 
@@ -60,7 +102,9 @@ public class PlayerConnectedObject : NetworkBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				CmdLobbyReady();
+
+
+                CmdLobbyReady();
 			}
 		}
 		else if (!gameHasStarted && FindObjectOfType<MinigameInherit>())
@@ -74,7 +118,11 @@ public class PlayerConnectedObject : NetworkBehaviour
 	[Command]
 	void CmdLobbyReady()
 	{
-		RpcLobbyReady();
+        if (isServer) //Is necassary but worked before so maybe cause error in future
+        {
+		    RpcLobbyReady();
+
+        }
 	}
 
 	[ClientRpc]
@@ -96,7 +144,7 @@ public class PlayerConnectedObject : NetworkBehaviour
                 break;
             case 1:
                 //character select
-                JoinLobbySetup();
+                //JoinLobbySetup();
                 break;
             case 2:
                 //minigame 1
@@ -116,14 +164,12 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     void JoinLobbySetup()
     {
-        spArray = minigameManagerObj.GetComponent<LobbySceneManager>().playerSpawnPoints;
-
+        //obselete
     }
 
 
     void MGOneSetup()
     {
-		spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
 
 		if (isClient && !hasSpawned)
 		{
@@ -163,4 +209,16 @@ public class PlayerConnectedObject : NetworkBehaviour
 		NetworkServer.SpawnWithClientAuthority(go, gameObject); 
 	}
 
+
+    [Command]
+    void CmdSetPlayerNumber()
+    {
+        playerID = NetworkServer.connections.Count;
+        if (isLocalPlayer)
+        {
+            PlayerPrefs.SetInt("LocalPlayerNum", playerID);
+
+        }
+        //maybe Rpc for set num aswell so it sets on clients
+    }
 }

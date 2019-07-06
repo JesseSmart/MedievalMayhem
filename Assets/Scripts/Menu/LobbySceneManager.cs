@@ -60,8 +60,12 @@ public class LobbySceneManager : NetworkBehaviour
 		{
 			if (p.isReadyLobby)
 			{
-				//readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
-				RpcReadyUp(p.playerID);
+                //readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
+                if (isServer)
+                {
+				    RpcReadyUp(p.playerID);
+
+                }
 				tempInt++;
 			}
 
