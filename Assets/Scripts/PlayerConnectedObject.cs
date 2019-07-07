@@ -19,6 +19,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	public bool isMe;
 
+    [SyncVar]
 	public int playerID;
 
 	public bool isReadyLobby;
@@ -28,51 +29,40 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	private bool hasSpawned = false;
 
+    //private PlayerConnectedObject[] pConObjs;
     // Start is called before the first frame update
     void Start()
     {
         //playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
 
-        PlayerConnectedObject[] pConObjs = FindObjectsOfType<PlayerConnectedObject>();
-        //if lobby
+        //pConObjs = FindObjectsOfType<PlayerConnectedObject>();
+
+
+
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            //if (isLocalPlayer)
-            //{
-
-
-            //    for (int i = 0; i < pConObjs.Length; i++)
-            //    {
-            //        pConObjs[i].playerID = i + 1;
-            //        PlayerPrefs.SetInt("LocalPlayerNum" + (i + 1), playerID);
-
-            //    }
-            //}
-
-
-            CmdSetPlayerNumber(); //might not be needed
-
-
-        }
-        else
-        {
-
 
             if (isLocalPlayer)
             {
+                playerID = FindObjectsOfType<PlayerConnectedObject>().Length; 
+                PlayerPrefs.SetInt("OrigID", playerID);
+                PlayerPrefs.SetInt("PlayerNum" + PlayerPrefs.GetInt("OrigID"), playerID);
 
-                playerID = PlayerPrefs.GetInt("LocalPlayerNum");
-
-                //for (int i = 0; i < pConObjs.Length; i++)
-                //{
-                //    playerID = PlayerPrefs.GetInt("LocalPlayerNum" + (i + 1));
-
-
-                //}
+                
+                CmdSetPlayerNumber();
+                PlayerPrefs.SetInt("LocalPlayerNum", playerID);
 
             }
-
         }
+        else
+        {
+            if (isLocalPlayer)
+            {
+
+                CmdGameSetPlayerNum();
+            }
+        }
+        print("My Net ID: " + PlayerPrefs.GetInt("OrigID") + " | My PlPr: " + PlayerPrefs.GetInt("PlayerNum" + PlayerPrefs.GetInt("OrigID")));
 
 
         if (!isLocalPlayer)
@@ -206,19 +196,27 @@ public class PlayerConnectedObject : NetworkBehaviour
 		netPlayerNum = playerID - 1;
 		GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], transform.position, transform.rotation);
 
+        //maybe send netword id with a go.getcomp().myNetID = netID
+
 		NetworkServer.SpawnWithClientAuthority(go, gameObject); 
 	}
 
 
     [Command]
-    void CmdSetPlayerNumber()
+    void CmdSetPlayerNumber() //ISSUE IS SOMEWHERE HERE
     {
-        playerID = NetworkServer.connections.Count;
-        if (isLocalPlayer)
-        {
-            PlayerPrefs.SetInt("LocalPlayerNum", playerID);
+        playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
+//        PlayerPrefs.SetInt("PlayerNum"+ PlayerPrefs.GetInt("OrigID"), playerID);
 
-        }
         //maybe Rpc for set num aswell so it sets on clients
     }
+
+    [Command]
+    void CmdGameSetPlayerNum()
+    {
+        playerID = PlayerPrefs.GetInt("PlayerNum" + PlayerPrefs.GetInt("OrigID"));
+        //playerID = PlayerPrefs.GetInt("OrigID");
+    }
+
+    //Clients are all player 4 for some reason
 }

@@ -36,7 +36,7 @@ public class BoatController : NetworkBehaviour
 		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
 
 
-        if (isClient)
+        if (isLocalPlayer)
         {
             playerNum = PlayerPrefs.GetInt("LocalPlayerNum") - 1;
         }
