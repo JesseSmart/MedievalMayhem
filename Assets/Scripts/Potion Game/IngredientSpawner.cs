@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class IngredientSpawner : MonoBehaviour
+using UnityEngine.Networking;
+public class IngredientSpawner : NetworkBehaviour
 {
 
     public float spawnInterval;
@@ -36,7 +36,13 @@ public class IngredientSpawner : MonoBehaviour
     {
         float w = transform.localPosition.x + Random.Range(-zoneWidth, zoneWidth);
         float h = transform.localPosition.z + Random.Range(-zoneHeight, zoneHeight);
-
-        Instantiate(ingredientItems[Random.Range(0, ingredientItems.Length)], new Vector3(w, transform.position.y, h), transform.rotation);
+		RpcSpawn(w, h);
     }
+
+	[ClientRpc]
+	void RpcSpawn(float x, float y)
+	{
+        Instantiate(ingredientItems[Random.Range(0, ingredientItems.Length)], new Vector3(x, transform.position.y, y), transform.rotation);
+
+	}
 }

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PotionCharacterController : MonoBehaviour
+public class PotionCharacterController : NetworkBehaviour
 {
     public Rigidbody rbody;
     public float speed;
@@ -22,10 +23,14 @@ public class PotionCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		ingredientArray = GameObject.FindGameObjectsWithTag("Ingredient");
-		SortArray();
-		PickupCheck();
-        Movement();
+		if (hasAuthority)
+		{
+			ingredientArray = GameObject.FindGameObjectsWithTag("Ingredient");
+			SortArray();
+			PickupCheck();
+			Movement();
+
+		}
     }
 
     private void Movement()

@@ -117,6 +117,8 @@ GameObject:
   - component: {fileID: 3110512034149671979}
   - component: {fileID: 4398246245151871159}
   - component: {fileID: 2763587042419368026}
+  - component: {fileID: 8493116036626988313}
+  - component: {fileID: 1899054104104739646}
   m_Layer: 0
   m_Name: EGO Potion Player
   m_TagString: Player
@@ -133,7 +135,7 @@ Transform:
   m_GameObject: {fileID: 3137213601965512117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 7}
   m_Children:
   - {fileID: 204009290870329121}
   - {fileID: 1982250363775102459}
@@ -187,6 +189,61 @@ MonoBehaviour:
   holdPoint: {fileID: 3518475882720825174}
   ingredientArray: []
   anim: {fileID: 1400837297969352087}
+--- !u!114 &8493116036626988313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137213601965512117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &1899054104104739646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137213601965512117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!1 &3518475882720825174
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,11 +286,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WalkPlayerModel
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 1bcd7db1eb59ffe4690a658adda25682,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 15f8a2aefe4a0cf46b4d0b8310feec53, type: 2}
     - target: {fileID: -4216859302048453862, guid: 1bcd7db1eb59ffe4690a658adda25682,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -304,6 +356,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 1bcd7db1eb59ffe4690a658adda25682,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 15f8a2aefe4a0cf46b4d0b8310feec53, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bcd7db1eb59ffe4690a658adda25682, type: 3}
 --- !u!4 &9077785530749444333 stripped

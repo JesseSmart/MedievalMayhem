@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class IngredientScript : MonoBehaviour
+using UnityEngine.Networking;
+public class IngredientScript : NetworkBehaviour
 {
 
     public float ingredientValue;
@@ -14,17 +14,21 @@ public class IngredientScript : MonoBehaviour
     // Start is called before the first frame update
 
     void Start()
-    {
-		
-        ingredientValue = Random.Range(minValue, maxValue);
+    {//stuff is purple error
 
-		if (ingredientValue >= 0)
+		if (isServer)
 		{
-			potionColourObj.GetComponent<Renderer>().material.color = Color.blue;
-		}
-		else
-		{
-			potionColourObj.GetComponent<Renderer>().material.color = Color.red;
+			ingredientValue = Random.Range(minValue, maxValue);
+			if (ingredientValue >= 0)
+			{
+				potionColourObj.GetComponent<Renderer>().material.color = Color.blue;
+			}
+			else
+			{
+				potionColourObj.GetComponent<Renderer>().material.color = Color.red;
+			}
+			//RpcSetPotion(ingredientValue);
+
 		}
     }
 
@@ -33,4 +37,19 @@ public class IngredientScript : MonoBehaviour
     {
         
     }
+
+	[ClientRpc]
+	void RpcSetPotion(float val)
+	{
+		
+
+		if (val >= 0)
+		{
+			potionColourObj.GetComponent<Renderer>().material.color = Color.blue;
+		}
+		else
+		{
+			potionColourObj.GetComponent<Renderer>().material.color = Color.red;
+		}
+	}
 }
