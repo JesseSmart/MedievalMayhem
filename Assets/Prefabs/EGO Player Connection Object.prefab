@@ -82,3 +82,8 @@ MonoBehaviour:
   minigameCharacterControllersObjs:
   - {fileID: 3137213601965512117, guid: d4f7572551526124cbeda38d8121ed59, type: 3}
   - {fileID: 3137213601965512117, guid: 5ccbbe0167e5fdd438fdf9a859682c8a, type: 3}
+  - {fileID: 3137213601965512117, guid: f3998798f2fc2ed4e9eb35420311b0af, type: 3}
+  isMe: 0
+  playerID: 0
+  isReadyLobby: 0
+  isReadyGame: 0

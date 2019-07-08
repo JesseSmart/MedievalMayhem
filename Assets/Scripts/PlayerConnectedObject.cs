@@ -143,6 +143,7 @@ public class PlayerConnectedObject : NetworkBehaviour
             case 3:
                 break;
             case 4:
+				MGTwoSetup();
                 break;
             case 5:
                 break;
@@ -178,7 +179,25 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 	}
 
+	void MGTwoSetup()
+	{
 
+		if (isClient && !hasSpawned)
+		{
+			ClientReady(2);
+			hasSpawned = true;
+		}
+
+
+		if (isServer)
+		{
+			ChickenPlayerController[] players = FindObjectsOfType<ChickenPlayerController>();
+			if (players.Length >= 3) //do better spawning
+			{
+				gameHasStarted = true;
+			}
+		}
+	}
 
 	void ClientReady(int gameNum)
 	{

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ChickenPlayerController : MonoBehaviour
+public class ChickenPlayerController : NetworkBehaviour
 {
 
     public Rigidbody rbody;
@@ -17,8 +18,11 @@ public class ChickenPlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (hasAuthority)
+		{
+			Movement();
 
-        Movement();
+		}
     }
 
     private void Movement()
