@@ -47,8 +47,8 @@ MonoBehaviour:
   spawnInterval: 3
   zoneWidth: 2
   zoneHeight: 2
-  ingredientItems:
-  - {fileID: 8522129487374342288, guid: 430f7439d61d5d34fba63457fbf17062, type: 3}
+  ingredientItem: {fileID: 8522129487374342288, guid: 430f7439d61d5d34fba63457fbf17062,
+    type: 3}
 --- !u!114 &787086459895827998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,5 +80,5 @@ MonoBehaviour:
     i13: 0
     i14: 0
     i15: 0
-  m_ServerOnly: 0
+  m_ServerOnly: 1
   m_LocalPlayerAuthority: 0

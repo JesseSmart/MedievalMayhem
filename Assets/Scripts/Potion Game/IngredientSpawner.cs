@@ -13,7 +13,7 @@ public class IngredientSpawner : NetworkBehaviour
     public float zoneHeight;
 
 
-    public GameObject[] ingredientItems;
+    public GameObject ingredientItem;
 
     // Start is called before the first frame update
     void Start()
@@ -24,12 +24,15 @@ public class IngredientSpawner : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0)
-        {
-            SpawnIngredient();
-            spawnTimer = spawnInterval;
-        }
+		if (isServer)
+		{
+			spawnTimer -= Time.deltaTime;
+			if (spawnTimer <= 0)
+			{
+				SpawnIngredient();
+				spawnTimer = spawnInterval;
+			}
+		}
     }
 
     private void SpawnIngredient()
@@ -42,7 +45,8 @@ public class IngredientSpawner : NetworkBehaviour
 	[ClientRpc]
 	void RpcSpawn(float x, float y)
 	{
-        Instantiate(ingredientItems[Random.Range(0, ingredientItems.Length)], new Vector3(x, transform.position.y, y), transform.rotation);
+		GameObject vial = Instantiate(ingredientItem, new Vector3(x, transform.position.y, y), transform.rotation);
+		NetworkServer.Spawn(vial);
 
 	}
 }

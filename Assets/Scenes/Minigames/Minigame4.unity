@@ -336,7 +336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.9999847, y: 0}
+  m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &82986645
@@ -1816,8 +1816,8 @@ MonoBehaviour:
   spawnInterval: 4
   zoneWidth: 0.2
   zoneHeight: 0.2
-  ingredientItems:
-  - {fileID: 8522129487374342288, guid: 430f7439d61d5d34fba63457fbf17062, type: 3}
+  ingredientItem: {fileID: 8522129487374342288, guid: 430f7439d61d5d34fba63457fbf17062,
+    type: 3}
 --- !u!4 &969118348
 Transform:
   m_ObjectHideFlags: 0
@@ -1863,7 +1863,7 @@ MonoBehaviour:
     i13: 0
     i14: 0
     i15: 0
-  m_ServerOnly: 0
+  m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
 --- !u!1 &988959966
 GameObject:

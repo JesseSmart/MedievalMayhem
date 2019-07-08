@@ -19,15 +19,16 @@ public class IngredientScript : NetworkBehaviour
 		if (isServer)
 		{
 			ingredientValue = Random.Range(minValue, maxValue);
-			if (ingredientValue >= 0)
-			{
-				potionColourObj.GetComponent<Renderer>().material.color = Color.blue;
-			}
-			else
-			{
-				potionColourObj.GetComponent<Renderer>().material.color = Color.red;
-			}
-			//RpcSetPotion(ingredientValue);
+			//if (ingredientValue >= 0)
+			//{
+			//	potionColourObj.GetComponent<Renderer>().material.color = Color.blue;
+			//}
+			//else
+			//{
+			//	potionColourObj.GetComponent<Renderer>().material.color = Color.red;
+			//}
+			print("Doin Server");
+			RpcSetPotion(ingredientValue);
 
 		}
     }
@@ -41,8 +42,8 @@ public class IngredientScript : NetworkBehaviour
 	[ClientRpc]
 	void RpcSetPotion(float val)
 	{
-		
 
+		print("Doin RPC");
 		if (val >= 0)
 		{
 			potionColourObj.GetComponent<Renderer>().material.color = Color.blue;
