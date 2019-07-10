@@ -80,7 +80,6 @@ public class BoatController : NetworkBehaviour
         transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
         transform.localPosition = new Vector3(0, 0, 0);
         playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
-        RpcBackToClientSetup(id);
     }
 
 	// Update is called once per frame
