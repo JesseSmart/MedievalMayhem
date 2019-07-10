@@ -5,14 +5,43 @@ using UnityEngine.Networking;
 
 public class ChickenPlayerController : NetworkBehaviour
 {
-
+    public int playerNum;
     public Rigidbody rbody;
     public float speed;
 	public Animator anim;
+
+
+    public Material[] playerColours;
+
+    public GameObject playerModelObj;
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (hasAuthority)
+        {
+            playerNum = FindObjectOfType<IDSaver>().savedID;
+            playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+            CmdServerCharSetup(playerNum);
+
+        }
+    }
+
+    [Command]
+    void CmdServerCharSetup(int id)
+    {
+        playerNum = id;
+        playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[id];
+        RpcBackToClientSetup(id);
+    }
+
+    [ClientRpc]
+    void RpcBackToClientSetup(int id)
+    {
+        playerNum = id;
+        playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[id];
+
     }
 
     // Update is called once per frame
@@ -22,7 +51,10 @@ public class ChickenPlayerController : NetworkBehaviour
 		{
 			Movement();
 
-		}
+
+
+
+        }
     }
 
     private void Movement()

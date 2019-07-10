@@ -36,36 +36,52 @@ public class BoatController : NetworkBehaviour
 		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
 
 
-        if (isLocalPlayer)
+        if (hasAuthority)
         {
-            playerNum = PlayerPrefs.GetInt("LocalPlayerNum") - 1;
-        }
+            playerNum = FindObjectOfType<IDSaver>().savedID;
+            CmdCharacterSetup(playerNum);
 
-        if (isServer)
-        {
+
+
+            //SAB Stuff
             sabPNum = PlayerPrefs.GetInt("SabPlayerNumber");
+            saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
+            if (playerNum == sabPNum)
+            {
+                saboteurIdentifier.GetComponent<Image>().color = Color.red;
+
+            }
+            else
+            {
+                saboteurIdentifier.GetComponent<Image>().color = Color.green;
+
+            }
+
         }
-
-        saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
-        if (playerNum == sabPNum)
-        {
-            saboteurIdentifier.GetComponent<Image>().color = Color.red;
-
-        }
-        else
-        {
-            saboteurIdentifier.GetComponent<Image>().color = Color.green;
-
-        }
-
-        transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
-		transform.localPosition = new Vector3(0, 0, 0);
-
-
-		playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+        
 
 
 	}
+
+    [Command]
+    void CmdCharacterSetup(int id) //this needs to be sent back to all clients (RPC)
+    {
+        playerNum = id;
+        transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
+        transform.localPosition = new Vector3(0, 0, 0);
+        playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+        RpcBackToClientSetup(id);
+    }
+
+    [ClientRpc]
+    void RpcBackToClientSetup(int id)
+    {
+        playerNum = id;
+        transform.SetParent(boatObj.GetComponent<BoatStats>().spawnPointArray[playerNum].transform);
+        transform.localPosition = new Vector3(0, 0, 0);
+        playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+        RpcBackToClientSetup(id);
+    }
 
 	// Update is called once per frame
 	void Update()

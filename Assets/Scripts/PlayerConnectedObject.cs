@@ -33,36 +33,28 @@ public class PlayerConnectedObject : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
-
-        //pConObjs = FindObjectsOfType<PlayerConnectedObject>();
-
-
 
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
 
             if (isLocalPlayer)
             {
-                playerID = FindObjectsOfType<PlayerConnectedObject>().Length; 
-                PlayerPrefs.SetInt("OrigID", playerID);
-                PlayerPrefs.SetInt("PlayerNum" + PlayerPrefs.GetInt("OrigID"), playerID);
+                playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
+                FindObjectOfType<IDSaver>().savedID = playerID;
 
                 
-                CmdSetPlayerNumber();
+                CmdSetPlayerNumber(playerID);
                 PlayerPrefs.SetInt("LocalPlayerNum", playerID);
-
             }
         }
         else
         {
-            if (isLocalPlayer)
+            if (isServer)
             {
-
-                CmdGameSetPlayerNum();
+                RpcGameSetPlayerNum();
             }
         }
-        print("My Net ID: " + PlayerPrefs.GetInt("OrigID") + " | My PlPr: " + PlayerPrefs.GetInt("PlayerNum" + PlayerPrefs.GetInt("OrigID")));
+
 
 
         if (!isLocalPlayer)
@@ -163,7 +155,7 @@ public class PlayerConnectedObject : NetworkBehaviour
     void MGOneSetup()
     {
 
-		if (isClient && !hasSpawned)
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
 		{
 			ClientReady(1);
 			hasSpawned = true;
@@ -182,8 +174,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	void MGTwoSetup()
 	{
-		if (isClient && !hasSpawned)
-		{
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
 			ClientReady(2);
 			hasSpawned = true;
 		}
@@ -202,8 +194,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 	void MGThreeSetup()
 	{
 
-		if (isClient && !hasSpawned)
-		{
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
 			ClientReady(3);
 			hasSpawned = true;
 		}
@@ -228,34 +220,28 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 	}
 
-	[Command]
+	[Command] //Spawning error could be coming from here. Needs to be delayed, or check whe nall spawned
 	void CmdSpawnMyUnit(int charContNum)
 	{
 		networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
 		netPlayerNum = playerID - 1;
 		GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], transform.position, transform.rotation);
 
-        //maybe send netword id with a go.getcomp().myNetID = netID
-
 		NetworkServer.SpawnWithClientAuthority(go, gameObject); 
 	}
 
 
     [Command]
-    void CmdSetPlayerNumber() //ISSUE IS SOMEWHERE HERE
+    void CmdSetPlayerNumber(int id) 
     {
-        playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
-//        PlayerPrefs.SetInt("PlayerNum"+ PlayerPrefs.GetInt("OrigID"), playerID);
-
-        //maybe Rpc for set num aswell so it sets on clients
+        playerID = id;
     }
 
-    [Command]
-    void CmdGameSetPlayerNum()
+    [ClientRpc]
+    void RpcGameSetPlayerNum()
     {
-        playerID = PlayerPrefs.GetInt("PlayerNum" + PlayerPrefs.GetInt("OrigID"));
-        //playerID = PlayerPrefs.GetInt("OrigID");
+        playerID = FindObjectOfType<IDSaver>().savedID;
+        CmdSetPlayerNumber(playerID);
     }
 
-    //Clients are all player 4 for some reason
 }
