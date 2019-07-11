@@ -139,6 +139,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 				MGThreeSetup();
                 break;
             case 5:
+                VotingSceneSetup();
                 break;
             case 6:
                 break;
@@ -210,6 +211,28 @@ public class PlayerConnectedObject : NetworkBehaviour
 			}
 		}
 	}
+
+
+    void VotingSceneSetup()
+    {
+        if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
+            ClientReady(4);
+            hasSpawned = true;
+        }
+
+
+        if (isServer)
+        {
+            VoteInputer[] players = FindObjectsOfType<VoteInputer>();
+            if (players.Length >= 3) //do better spawning
+            {
+                gameHasStarted = true;
+            }
+        }
+    }
+
+
 
 	void ClientReady(int gameNum)
 	{

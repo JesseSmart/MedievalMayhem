@@ -102,9 +102,9 @@ GameObject:
   - component: {fileID: 1371577083452961752}
   - component: {fileID: 8839661353007717943}
   - component: {fileID: 4613636338864234136}
-  - component: {fileID: 6381064037068768102}
   - component: {fileID: 7834720104887133699}
   - component: {fileID: 1107287415130809282}
+  - component: {fileID: 4990626452867320058}
   m_Layer: 0
   m_Name: EGO Ingredient
   m_TagString: Ingredient
@@ -160,19 +160,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6381064037068768102
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8522129487374342288}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &7834720104887133699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +215,19 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!135 &4990626452867320058
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522129487374342288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &7206892347465627287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -315,12 +315,19 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 4726645693439306398, guid: 405ecba4456911f4a9d00495158ca4d5,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4726645693266389295, guid: 405ecba4456911f4a9d00495158ca4d5,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3699980561936406570, guid: 405ecba4456911f4a9d00495158ca4d5, type: 3}
+    - {fileID: 4726645693439306398, guid: 405ecba4456911f4a9d00495158ca4d5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 405ecba4456911f4a9d00495158ca4d5, type: 3}
 --- !u!4 &6982507491908045371 stripped
 Transform:

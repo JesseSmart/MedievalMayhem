@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class BoatStats : MonoBehaviour
+public class BoatStats : NetworkBehaviour
 {
     public GameObject WaterObj;
     public float scrollSpeed = 1f;
@@ -45,9 +45,13 @@ public class BoatStats : MonoBehaviour
 
     public void ConstantForce() //look at this and the MovingWater script on the plane
     {
-        float offset = Time.time * scrollSpeed;
-        WaterObj.GetComponent<MovingWater>().offset = offset;
-        rbody.AddForce(Mathf.Cos(offset) * constantForceBase , 0, 0);
+        if (isServer)
+        {
+            float offset = Time.time * scrollSpeed;
+            WaterObj.GetComponent<MovingWater>().offset = offset;
+            rbody.AddForce(Mathf.Cos(offset) * constantForceBase , 0, 0);
+
+        }
         //print(scrollSpeed + " | " + Mathf.Cos(offset));
 
 
