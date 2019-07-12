@@ -5,8 +5,10 @@ using UnityEngine;
 public class IDSaver : MonoBehaviour
 {
     public int savedID;
-    // Start is called before the first frame update
-    void Start()
+	public int points;
+
+	// Start is called before the first frame update
+	void Start()
     {
         Object.DontDestroyOnLoad(gameObject);
         
