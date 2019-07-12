@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-
+using TMPro;
 public class PotionGameManager : MinigameInherit
 {
 
     public GameObject cauldronObj;
 
     public Slider potionSlider;
+    public TextMeshProUGUI tmpTimerText;
 
     private GameObject networkManagerObj;
 
@@ -36,6 +37,7 @@ public class PotionGameManager : MinigameInherit
 
 
         gameTimer -= Time.deltaTime;
+        tmpTimerText.text = gameTimer.ToString("00:00");
         if (gameTimer <= 0)
         {
             //win

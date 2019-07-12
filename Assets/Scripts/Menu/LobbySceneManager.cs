@@ -24,28 +24,33 @@ public class LobbySceneManager : NetworkBehaviour
 
 	public Color[] playerColors = new Color[4] { Color.red, Color.blue, Color.green, Color.yellow} ;
 
-	private float lobbyDelay = 5;
-	private float lobbyTimer;
+	//private float lobbyDelay = 5;
+	//private float lobbyTimer;
 	int lastPlayers = 0;
+
+    [SyncVar]
+    private string loadSceneString;
 
     void Start()
     {
-		lobbyTimer = lobbyDelay;
+		//lobbyTimer = lobbyDelay;
 		networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+        PlayerPrefs.DeleteAll(); //WARNING< MAKE SURE IT DOES EFFECT MENU PREFABS IF USED IN FUTURE. Might move to menu play press
         if (isServer)
         {
-            PlayerPrefs.DeleteAll(); //WARNING< MAKE SURE IT DOES EFFECT MENU PREFABS IF USED IN FUTURE. Might move to menu play press
+
             RandomizeArray(levelLoadOrder);
             SetLevelNames();
             SetLevelOrder();
-            PlayerPrefs.SetInt("SabPlayerNumber", Random.Range(0, 3));
+
+            int rndInd = Random.Range(0, 3);
+            //Might need to be sent to rpc so all clients know
+            PlayerPrefs.SetInt("SabPlayerNumber", rndInd);
             PlayerPrefs.SetInt("GamesPlayed", 0);
             PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
 
-        }
-		//print(PlayerPrefs.GetInt("SabPlayerNumber"));
-
-		
+            RpcTellClientsPrefs(rndInd);
+        }	
 
 		spawnedPlayers = new GameObject[4];
     }
@@ -53,6 +58,7 @@ public class LobbySceneManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        
 		PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
 
 		int tempInt = 0;
@@ -60,15 +66,27 @@ public class LobbySceneManager : NetworkBehaviour
 		{
 			if (p.isReadyLobby)
 			{
-				//readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
-				RpcReadyUp(p.playerID);
+                //readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
+                if (isServer)
+                {
+				    RpcReadyUp(p.playerID);
+
+                }
 				tempInt++;
 			}
 
 		}
 		if (tempInt == 4)
 		{
-			CmdPlayersHaveReadyUp();
+            if (isServer)
+            {
+                //loadSceneString = PlayerPrefs.GetString(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+                //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
+
+                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+                //CmdPlayersHaveReadyUp();
+
+            }
 		}
 		else
 		{
@@ -91,25 +109,6 @@ public class LobbySceneManager : NetworkBehaviour
 
 					spawnedPlayers[x].GetComponentInChildren<SkinnedMeshRenderer>().material.color = playerColors[x];
 
-			}
-
-
-
-		}
-
-		if (isServer)
-		{
-			if (players.Length == 4)
-			{
-				lobbyTimer -= Time.deltaTime;
-				if (lobbyTimer <= 0)
-				{
-					//CmdPlayersHaveReadyUp();
-				}
-			}
-			else
-			{
-				lobbyTimer = lobbyDelay;
 			}
 
 		}
@@ -158,5 +157,14 @@ public class LobbySceneManager : NetworkBehaviour
         {
             PlayerPrefs.SetInt("LevelLoad" + i, levelLoadOrder[i]);
         }
+    }
+
+
+    [ClientRpc]
+    void RpcTellClientsPrefs(int rnd)
+    {
+        PlayerPrefs.SetInt("SabPlayerNumber", rnd);
+        PlayerPrefs.SetInt("GamesPlayed", 0);
+        PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
     }
 }

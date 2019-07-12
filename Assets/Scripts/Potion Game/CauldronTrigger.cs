@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class CauldronTrigger : MonoBehaviour
+using UnityEngine.Networking;
+public class CauldronTrigger : NetworkBehaviour
 {
-
+    [SyncVar]
     public float liquidValue;
 
     public float failureThreshold;
@@ -42,16 +42,28 @@ public class CauldronTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ingredient"))
         {
-            IngredientAdd(other.gameObject.GetComponent<IngredientScript>().ingredientValue);
-            Destroy(other.gameObject);
+            print("EAT POTION");
+            if (isServer)
+            {
+                RpcIngredientAdd(other.gameObject.GetComponent<IngredientScript>().ingredientValue, other.gameObject);
+
+            }
+            //Destroy(other.gameObject);
+        }
+        else
+        {
+            print("NOOOOOOOOOOOOOOOOOOOOOOOOOO Object = " + other.gameObject.name);
+            
         }
 
             
     }
 
-    public void IngredientAdd(float pVal)
+    [ClientRpc]
+    void RpcIngredientAdd(float pVal, GameObject obj)
     {
         liquidValue += pVal;
+        Destroy(obj);
     }
 
     

@@ -7,20 +7,19 @@ using UnityEngine.UI;
 
 public class PlayerConnectedObject : NetworkBehaviour
 {
-    //public static int playerTotal;
     public GameObject playerUnitPrefab;
-    //GameObject myPlayerUnit;
 
     private GameObject boatObj;
     private GameObject[] networkPlayerObjs;
     private int netPlayerNum;
-    private GameObject[] spArray;
 
     private GameObject minigameManagerObj;
     public GameObject[] minigameCharacterControllersObjs;
     private int contArrayOffset; //the total of non minigame scenes
-								 // Start is called before the first frame update
+
 	public bool isMe;
+
+    [SyncVar]
 	public int playerID;
 
 	public bool isReadyLobby;
@@ -30,25 +29,43 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	private bool hasSpawned = false;
 
+    //private PlayerConnectedObject[] pConObjs;
+    // Start is called before the first frame update
     void Start()
     {
-		//Time.timeScale = 00.1f;
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+
+            if (isLocalPlayer)
+            {
+                playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
+                FindObjectOfType<IDSaver>().savedID = playerID;
+
+                
+                CmdSetPlayerNumber(playerID);
+                PlayerPrefs.SetInt("LocalPlayerNum", playerID);
+            }
+        }
+        else
+        {
+            if (isServer)
+            {
+                RpcGameSetPlayerNum();
+            }
+        }
 
 
 
-		
-		playerID = FindObjectsOfType<PlayerConnectedObject>().Length; //ERROR: Makes multiple conobjs same id
-
-		if (!isLocalPlayer)
+        if (!isLocalPlayer)
 		{
 			return;
 		}
 
+
 		isMe = true;
 
-		//print("asd");
 		minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
-		//transform.position += Vector3.up;
 
         CheckMinigame();
 
@@ -67,7 +84,9 @@ public class PlayerConnectedObject : NetworkBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				CmdLobbyReady();
+
+
+                CmdLobbyReady();
 			}
 		}
 		else if (!gameHasStarted && FindObjectOfType<MinigameInherit>())
@@ -75,16 +94,17 @@ public class PlayerConnectedObject : NetworkBehaviour
 			print("CHECKMINIGAME");
 			CheckMinigame();
 		}
-		//minigame
-		//else if(gameStart == false)
-		//{ 
-		//}
+
 	}
 
 	[Command]
 	void CmdLobbyReady()
 	{
-		RpcLobbyReady();
+        if (isServer) //Is necassary but worked before so maybe cause error in future
+        {
+		    RpcLobbyReady();
+
+        }
 	}
 
 	[ClientRpc]
@@ -106,17 +126,20 @@ public class PlayerConnectedObject : NetworkBehaviour
                 break;
             case 1:
                 //character select
-                JoinLobbySetup();
+                //JoinLobbySetup();
                 break;
             case 2:
                 //minigame 1
                 MGOneSetup();
                 break;
             case 3:
+				MGTwoSetup();
                 break;
             case 4:
+				MGThreeSetup();
                 break;
             case 5:
+                VotingSceneSetup();
                 break;
             case 6:
                 break;
@@ -126,25 +149,19 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     void JoinLobbySetup()
     {
-		print("RUNNIG LOBBY SHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-        spArray = minigameManagerObj.GetComponent<LobbySceneManager>().playerSpawnPoints;
-		//CmdSpawnMyUnit(0);
-		//RpcSpawnMyUnit(0);
-
+        //obselete
     }
 
 
     void MGOneSetup()
     {
-		spArray = minigameManagerObj.GetComponent<BoatGameManager>().playerSpawnPoints;
 
-		if (isClient && !hasSpawned)
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
 		{
 			ClientReady(1);
 			hasSpawned = true;
 		}
-		//if client
-		//set me as ready
+
 
 		if (isServer) 
 		{
@@ -153,43 +170,70 @@ public class PlayerConnectedObject : NetworkBehaviour
 			{
 				gameHasStarted = true;
 			}
-			//int readyInt = 0;
-			//foreach (BoatGameManager player in players)
-			//{
-			//	if (players.Length >= 4)
-			//	{
-			//		gameHasStarted = true;
-			//	}
-			//}
-
-			//if (readyInt == 4)
-			//{
-			//	print("RPC READY UP");
-				
-
-			//	//RpcSpawnMyUnit(1); //HERE
-			//}
-			//else
-			//{
-			//	print("ELSE readyint= " + readyInt );
-			//	readyInt = 0;
-			//}
-
-
 		}
-		//if host - update
-		//find all players
-		//see whos ready
-		//if == total players
-		//rpc - time =1, spawn players, for loop
-        
-		//CmdSpawnMyUnit(1);
-
-		//RpcSpawnMyUnit(1);
-
 	}
 
-	//[Command]
+	void MGTwoSetup()
+	{
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
+			ClientReady(2);
+			hasSpawned = true;
+		}
+
+
+		if (isServer)
+		{
+			PotionCharacterController[] players = FindObjectsOfType<PotionCharacterController>();
+			if (players.Length >= 3) //do better spawning
+			{
+				gameHasStarted = true;
+			}
+		}
+	}
+
+	void MGThreeSetup()
+	{
+
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
+			ClientReady(3);
+			hasSpawned = true;
+		}
+
+
+		if (isServer)
+		{
+			ChickenPlayerController[] players = FindObjectsOfType<ChickenPlayerController>();
+			if (players.Length >= 3) //do better spawning
+			{
+				gameHasStarted = true;
+			}
+		}
+	}
+
+
+    void VotingSceneSetup()
+    {
+        if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
+            ClientReady(4);
+            hasSpawned = true;
+        }
+
+
+        if (isServer)
+        {
+            VoteInputer[] players = FindObjectsOfType<VoteInputer>();
+            if (players.Length >= 3) //do better spawning
+            {
+                gameHasStarted = true;
+            }
+        }
+    }
+
+
+
 	void ClientReady(int gameNum)
 	{
 		isReadyGame = true;
@@ -199,30 +243,28 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 	}
 
-	//[ClientRpc]
-	//void RpcReadyUp(int gameNum, GameObject[] spawns)
-	//{
-	//	//print("MGOneSetup: " + spArray.Length + " name " + spArray[0].name);
-
-	//	//Time.timeScale = 1;
-	//	RpcSpawnMyUnit(gameNum, spawns);
-	//	gameHasStarted = true;
-	//}
-
-	[Command]
+	[Command] //Spawning error could be coming from here. Needs to be delayed, or check whe nall spawned
 	void CmdSpawnMyUnit(int charContNum)
 	{
-		//gameHasStarted = true;
-		print("SPAWNMYUNITS");
 		networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
 		netPlayerNum = playerID - 1;
-		//print("CharCont " + charContNum + " | sp " + spawnPoints[netPlayerNum].gameObject.name);
-		//GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], spawnPoints[netPlayerNum].transform.position, spawnPoints[netPlayerNum].transform.rotation);
 		GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], transform.position, transform.rotation);
 
-		NetworkServer.SpawnWithClientAuthority(go, gameObject);
-		//CustomNetworkManager.Instantiate(minigameCharacterControllersObjs[charContNum], spArray[netPlayerNum].transform.position, spArray[netPlayerNum].transform.rotation);
-		//NetworkServer.Spawn(go); 
+		NetworkServer.SpawnWithClientAuthority(go, gameObject); 
 	}
+
+
+    [Command]
+    void CmdSetPlayerNumber(int id) 
+    {
+        playerID = id;
+    }
+
+    [ClientRpc]
+    void RpcGameSetPlayerNum()
+    {
+        playerID = FindObjectOfType<IDSaver>().savedID;
+        CmdSetPlayerNumber(playerID);
+    }
 
 }

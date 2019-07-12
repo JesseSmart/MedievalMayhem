@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7219500244487875460}
   - component: {fileID: 3110512034149671979}
   - component: {fileID: 4398246245151871159}
+  - component: {fileID: 5708627634573709297}
+  - component: {fileID: 8010689024945642915}
   m_Layer: 0
   m_Name: EGO Chicken Player
   m_TagString: Player
@@ -28,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3137213601965512117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 7}
   m_Children:
   - {fileID: 6798710508015396148}
   m_Father: {fileID: 0}
@@ -46,9 +48,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bb02f69f4679c348bc115071c772d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNum: 0
   rbody: {fileID: 3110512034149671979}
   speed: 10
   anim: {fileID: 3518398649588353102}
+  playerColours:
+  - {fileID: 2100000, guid: 8131188a418223843844bdce12a1ec6c, type: 2}
+  - {fileID: 2100000, guid: 4cc20909f6d0e014b88c4629427b9ea7, type: 2}
+  - {fileID: 2100000, guid: 5eb4d49dfdfd21947933568d5fa4d2b2, type: 2}
+  - {fileID: 2100000, guid: 419c5225150c2044f9401d58a6ec5b82, type: 2}
+  playerModelObj: {fileID: 5676913073425538801}
 --- !u!54 &3110512034149671979
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -78,6 +87,61 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.5, z: 0.2}
   m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!114 &5708627634573709297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137213601965512117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &8010689024945642915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137213601965512117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!1001 &1955525277746499118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,11 +149,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7423384932658308811}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 1bcd7db1eb59ffe4690a658adda25682,
-        type: 3}
-      propertyPath: m_Name
-      value: WalkPlayerModel
-      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 1bcd7db1eb59ffe4690a658adda25682,
         type: 3}
       propertyPath: m_Controller
@@ -165,6 +224,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 1bcd7db1eb59ffe4690a658adda25682,
+        type: 3}
+      propertyPath: m_Name
+      value: WalkPlayerModel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bcd7db1eb59ffe4690a658adda25682, type: 3}
 --- !u!4 &6798710508015396148 stripped
@@ -176,6 +240,12 @@ Transform:
 --- !u!95 &3518398649588353102 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 1bcd7db1eb59ffe4690a658adda25682,
+    type: 3}
+  m_PrefabInstance: {fileID: 1955525277746499118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5676913073425538801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3032301621289922337, guid: 1bcd7db1eb59ffe4690a658adda25682,
     type: 3}
   m_PrefabInstance: {fileID: 1955525277746499118}
   m_PrefabAsset: {fileID: 0}

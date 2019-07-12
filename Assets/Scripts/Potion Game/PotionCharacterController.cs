@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PotionCharacterController : MonoBehaviour
+public class PotionCharacterController : NetworkBehaviour
 {
     public Rigidbody rbody;
     public float speed;
 
-	private bool hasPickedUp;
+	private bool isHolding;
 
 	public GameObject holdPoint;
 	private GameObject myObject;
@@ -22,10 +23,14 @@ public class PotionCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		ingredientArray = GameObject.FindGameObjectsWithTag("Ingredient");
-		SortArray();
-		PickupCheck();
-        Movement();
+		if (hasAuthority)
+		{
+			ingredientArray = GameObject.FindGameObjectsWithTag("Ingredient");
+			SortArray();
+			PickupCheck();
+			Movement();
+
+		}
     }
 
     private void Movement()
@@ -59,6 +64,7 @@ public class PotionCharacterController : MonoBehaviour
 
 	public void PickupCheck()
 	{
+
 		if (ingredientArray.Length > 0)
 		{
 			float dist = Vector3.Distance(transform.position, ingredientArray[0].transform.position);
@@ -67,19 +73,24 @@ public class PotionCharacterController : MonoBehaviour
 			{
 				if (Input.GetKey(KeyCode.Space))
 				{
+                    if (!isHolding)
+                    {
+                        myObject = ingredientArray[0];
+                        isHolding = true;
+                    }
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
-					ingredientArray[0].GetComponent<Rigidbody>().useGravity = false;
-					ingredientArray[0].transform.position = holdPoint.transform.position;
+					myObject.GetComponent<Rigidbody>().useGravity = false;
+					myObject.transform.position = holdPoint.transform.position;
 				}
 
 				if (Input.GetKeyUp(KeyCode.Space))
 				{
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
-					ingredientArray[0].GetComponent<Rigidbody>().useGravity = true;
-
-					ingredientArray[0].transform.position = holdPoint.transform.position;
+					myObject.GetComponent<Rigidbody>().useGravity = true;
+                    isHolding = false;
+					//ingredientArray[0].transform.position = holdPoint.transform.position;
 				}
 
 
@@ -89,8 +100,6 @@ public class PotionCharacterController : MonoBehaviour
 
 
 
-				
-		
 
 	}
 
