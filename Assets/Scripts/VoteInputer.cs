@@ -9,7 +9,7 @@ public class VoteInputer : NetworkBehaviour
 	public bool hasInputted;
 	public GameObject minigameManager;
 	private int myVote;
-
+	private int gainedPoints;
 
 
 
@@ -142,11 +142,11 @@ public class VoteInputer : NetworkBehaviour
 	}
 
 
-	public void RecieveWholeTeamBonus(int p, int sabNum)
+	public void RecieveWholeTeamBonus(int p, int sabNum) //hasAuthority?
 	{
 		if (FindObjectOfType<IDSaver>().savedID != (sabNum - 1))
 		{
-			FindObjectOfType<IDSaver>().points += p;
+			gainedPoints += p;
 
 		}
 	}
@@ -155,7 +155,7 @@ public class VoteInputer : NetworkBehaviour
 	{
 		if (FindObjectOfType<IDSaver>().savedID == (sabNum - 1))
 		{
-			FindObjectOfType<IDSaver>().points += p;
+			gainedPoints += p;
 
 		}
 	}
@@ -164,7 +164,7 @@ public class VoteInputer : NetworkBehaviour
 	{
 		if (myVote == (sabNum - 1))
 		{
-			FindObjectOfType<IDSaver>().points += p;
+			gainedPoints += p;
 		}
 
 
@@ -174,10 +174,14 @@ public class VoteInputer : NetworkBehaviour
 	{
 		if (FindObjectOfType<IDSaver>().savedID == (sabNum - 1))
 		{
-			FindObjectOfType<IDSaver>().points += p;
+			gainedPoints += p;
 		}
 	}
 
-
+	public void SetTotalPoints()
+	{
+		FindObjectOfType<IDSaver>().points += gainedPoints;
+		minigameManager.GetComponent<VoteManager>().CmdDisplayPoints(FindObjectOfType<IDSaver>().savedID, gainedPoints, FindObjectOfType<IDSaver>().points);
+	}
 
 }

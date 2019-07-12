@@ -7,21 +7,35 @@ using UnityEngine.Networking;
 
 public class VoteManager : MinigameInherit
 {
+	public GameObject votePanel;
+	public GameObject scorePanel;
 
 	public TextMeshProUGUI[] voteText;
+	public TextMeshProUGUI[] currentPoints;
+	public TextMeshProUGUI[] gainedPoints;
 	public int[] voteTotalArray = new int[4] { 0, 0, 0, 0 };
 	private int totalInputs;
 
 	public Image[] sabotagerIndicatorArray;
 
 	private float tempTimer = 5; //debug
+	private float tempSecondTimer = 5;
 	private GameObject networkManagerObj;
+
 	private bool votingComplete;
 	private bool voteDoneRunBool;
+	private bool uiChangedBool;
+
+	private int sabPlayerNum;
+	
 	// Start is called before the first frame update
 	void Start()
 	{
 		networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
+		if (isServer)
+		{
+			sabPlayerNum = PlayerPrefs.GetInt("SabPlayerNumber");
+		}
 
 
 	}
@@ -42,7 +56,23 @@ public class VoteManager : MinigameInherit
 		if (votingComplete)
 		{
 			tempTimer -= Time.deltaTime;
-			if (tempTimer <= 0)
+			if (tempTimer <= 0 && !uiChangedBool)
+			{
+				UIChange();
+
+				foreach(VoteInputer inp in FindObjectsOfType<VoteInputer>())
+				{
+					inp.SetTotalPoints();
+				}
+
+				uiChangedBool = true;
+			}
+		}
+
+		if (uiChangedBool)
+		{
+			tempSecondTimer -= Time.deltaTime;
+			if (tempSecondTimer <= 0)
 			{
 				LoadNextGame();
 			}
@@ -77,7 +107,7 @@ public class VoteManager : MinigameInherit
 	private void VotingComplete()
 	{
 		print("VOTING COMPLETE");
-		sabotagerIndicatorArray[PlayerPrefs.GetInt("SabPlayerNumber")].enabled = true;
+		sabotagerIndicatorArray[sabPlayerNum].enabled = true;
 		PointCalculate();
 		votingComplete = true;
 	}
@@ -90,12 +120,19 @@ public class VoteManager : MinigameInherit
 
 	}
 
+	void UIChange()
+	{
+		votePanel.gameObject.SetActive(false);
+		scorePanel.gameObject.SetActive(true);
+
+	}
+
 
 	//rpc maybe
 	void PointCalculate()
 	{
 		VoteInputer[] inputers = FindObjectsOfType<VoteInputer>();
-		int sabPlayerNum = PlayerPrefs.GetInt("SabPlayerNumber");
+		
 
 		if (voteTotalArray[sabPlayerNum] == 3) //Whole Team Correct
 		{
@@ -104,7 +141,7 @@ public class VoteManager : MinigameInherit
 				inp.RecieveWholeTeamBonus(1, sabPlayerNum);
 			}
 		}
-		else if (voteTotalArray[PlayerPrefs.GetInt("SabPlayerNumber")] == 0) //No One Correct
+		else if (voteTotalArray[sabPlayerNum] == 0) //No One Correct
 		{
 			foreach (VoteInputer inp in inputers)
 			{
@@ -139,6 +176,21 @@ public class VoteManager : MinigameInherit
 		//if lose
 
 	}
+
+	[Command]
+	public void CmdDisplayPoints(int pNum, int totalPoint, int gainPoint)
+	{
+		RpcSendDisplayPoints(pNum, totalPoint, gainPoint);
+
+	}
+
+	[ClientRpc]
+	void RpcSendDisplayPoints(int pNum, int totalPoint, int gainPoint)
+	{
+		currentPoints[pNum].text = totalPoint.ToString();
+		gainedPoints[pNum].text = gainPoint.ToString();
+	}
+
 
 
 
