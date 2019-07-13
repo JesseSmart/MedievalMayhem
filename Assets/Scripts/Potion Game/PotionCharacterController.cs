@@ -14,10 +14,21 @@ public class PotionCharacterController : NetworkBehaviour
 	private GameObject myObject;
 	public GameObject[] ingredientArray;
 	public Animator anim;
-	// Start is called before the first frame update
-	void Start()
-    {
 
+    public Material[] playerColours;
+
+    public GameObject playerModelObj;
+    public int playerNum;
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (hasAuthority)
+        {
+            playerNum = FindObjectOfType<IDSaver>().savedID;
+            playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
+            CmdServerCharSetup(playerNum);
+
+        }
     }
 
     // Update is called once per frame
@@ -99,8 +110,6 @@ public class PotionCharacterController : NetworkBehaviour
 		}
 
 
-
-
 	}
 
 	void SortArray()
@@ -123,4 +132,21 @@ public class PotionCharacterController : NetworkBehaviour
 			}
 		}
 	}
+
+
+    [Command]
+    void CmdServerCharSetup(int id)
+    {
+        playerNum = id;
+        playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[id];
+        RpcBackToClientSetup(id);
+    }
+
+    [ClientRpc]
+    void RpcBackToClientSetup(int id)
+    {
+        playerNum = id;
+        playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[id];
+
+    }
 }

@@ -69,27 +69,29 @@ public class LobbySceneManager : NetworkBehaviour
 			if (p.isReadyLobby)
 			{
                 //readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
-                if (isServer)
-                {
-				    RpcReadyUp(p.playerID);
+                //if (isServer)
+                //{
+				    CmdSendReadyUp(p.playerID);
 
-                }
+                //}
 				tempInt++;
 			}
 
 		}
 		if (tempInt == 4)
 		{
+
+            //CmdChangeScene();
             if (isServer)
             {
-                //loadSceneString = PlayerPrefs.GetString(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+                loadSceneString = PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed")));
                 //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
-
-                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+                print(loadSceneString);
+                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
                 //CmdPlayersHaveReadyUp();
 
             }
-		}
+        }
 		else
 		{
 			tempInt = 0;
@@ -118,21 +120,29 @@ public class LobbySceneManager : NetworkBehaviour
 		lastPlayers = players.Length;
 	}
 
-	[Command]
-    public void CmdPlayersHaveReadyUp()
-    {
-		//networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(minigameSceneNames[0]);
-		//*** Maybe this load conobj error
-        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+	
 
+    [Command]
+    void CmdSendReadyUp(int id)
+    {
+        readyTextArray[id - 1].GetComponent<TextMeshProUGUI>().enabled = true;
+        RpcReadyUp(id);
     }
 
-	[ClientRpc]
+    [ClientRpc]
 	void RpcReadyUp(int id)
 	{
 		readyTextArray[id - 1].GetComponent<TextMeshProUGUI>().enabled = true;
 	}
-    
+
+    [Command]
+    void CmdChangeScene()
+    {
+        loadSceneString = PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed")));
+        print(loadSceneString);
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
+    }
+
 
     void RandomizeArray(int[] array) //randomises load order array
     {
@@ -143,6 +153,7 @@ public class LobbySceneManager : NetworkBehaviour
             array[i] = array[rnd];
             array[rnd] = temp;
         }
+        levelLoadOrder = array;
     }
 
     void SetLevelNames() //converts list of level names into playerpref

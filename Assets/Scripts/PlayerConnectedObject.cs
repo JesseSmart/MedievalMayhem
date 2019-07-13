@@ -10,8 +10,7 @@ public class PlayerConnectedObject : NetworkBehaviour
     public GameObject playerUnitPrefab;
 
     private GameObject boatObj;
-    private GameObject[] networkPlayerObjs;
-    private int netPlayerNum;
+    //private GameObject[] networkPlayerObjs;
 
     private GameObject minigameManagerObj;
     public GameObject[] minigameCharacterControllersObjs;
@@ -56,6 +55,7 @@ public class PlayerConnectedObject : NetworkBehaviour
         }
 
 
+		minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
 
         if (!isLocalPlayer)
 		{
@@ -65,9 +65,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 		isMe = true;
 
-		minigameManagerObj = GameObject.FindGameObjectWithTag("MinigameManager");
 
-        CheckMinigame();
+        //CheckMinigame();
 
     }
 
@@ -85,7 +84,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
 
-
+                isReadyLobby = true;
                 CmdLobbyReady();
 			}
 		}
@@ -100,6 +99,8 @@ public class PlayerConnectedObject : NetworkBehaviour
 	[Command]
 	void CmdLobbyReady()
 	{
+        isReadyLobby = true;
+
         if (isServer) //Is necassary but worked before so maybe cause error in future
         {
 		    RpcLobbyReady();
@@ -247,8 +248,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 	[Command] //Spawning error could be coming from here. Needs to be delayed, or check whe nall spawned
 	void CmdSpawnMyUnit(int charContNum)
 	{
-		networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
-		netPlayerNum = playerID - 1;
+		//networkPlayerObjs = GameObject.FindGameObjectsWithTag("NetworkPlayerObject");
 		GameObject go = Instantiate(minigameCharacterControllersObjs[charContNum], transform.position, transform.rotation);
 
 		NetworkServer.SpawnWithClientAuthority(go, gameObject); 

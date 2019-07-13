@@ -84,7 +84,7 @@ public class LobbyCharacterController : NetworkBehaviour
 			//if (readyPlayers == playersInLobby.Length && readyPlayers == 4) //if 4
 			if (readyPlayers == playersInLobby.Length)
 			{
-				sceneManager.GetComponent<LobbySceneManager>().CmdPlayersHaveReadyUp();
+				//sceneManager.GetComponent<LobbySceneManager>().CmdPlayersHaveReadyUp();
 			}
 		}
 		

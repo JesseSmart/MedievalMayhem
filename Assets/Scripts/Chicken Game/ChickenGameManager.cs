@@ -48,6 +48,7 @@ public class ChickenGameManager : MinigameInherit
         {
             //game lost
             GameEnd();
+            //matchTimer = 100;
         }
         else
         {
