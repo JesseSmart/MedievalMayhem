@@ -44,7 +44,7 @@ public class BoatController : NetworkBehaviour
 
 
             //SAB Stuff
-            sabPNum = PlayerPrefs.GetInt("SabPlayerNumber");
+            sabPNum = FindObjectOfType<IDSaver>().sabNum;
             saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
             if (playerNum == sabPNum)
             {

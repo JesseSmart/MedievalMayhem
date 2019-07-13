@@ -6,7 +6,7 @@ public class IDSaver : MonoBehaviour
 {
     public int savedID;
 	public int points;
-
+    public int sabNum;
 	// Start is called before the first frame update
 	void Start()
     {

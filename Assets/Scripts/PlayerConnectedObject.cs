@@ -237,6 +237,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 	void ClientReady(int gameNum)
 	{
 		isReadyGame = true;
+        CmdSendGameReady();
 		if (isLocalPlayer)
 		{
 			CmdSpawnMyUnit(gameNum);
@@ -265,6 +266,20 @@ public class PlayerConnectedObject : NetworkBehaviour
     {
         playerID = FindObjectOfType<IDSaver>().savedID;
         CmdSetPlayerNumber(playerID);
+    }
+
+
+    [Command]
+    void CmdSendGameReady()
+    {
+        isReadyGame = true;
+    }
+
+    [ClientRpc]
+    void RpcSendOutGameReady()
+    {
+        isReadyGame = true;
+
     }
 
 }

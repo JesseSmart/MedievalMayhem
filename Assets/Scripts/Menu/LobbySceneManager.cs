@@ -45,6 +45,8 @@ public class LobbySceneManager : NetworkBehaviour
 
             int rndInd = Random.Range(0, 3);
             //Might need to be sent to rpc so all clients know
+            FindObjectOfType<IDSaver>().sabNum = rndInd;
+
             PlayerPrefs.SetInt("SabPlayerNumber", rndInd);
             PlayerPrefs.SetInt("GamesPlayed", 0);
             PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
@@ -163,6 +165,12 @@ public class LobbySceneManager : NetworkBehaviour
     [ClientRpc]
     void RpcTellClientsPrefs(int rnd)
     {
+        SetPrefs(rnd);
+    }
+
+    void SetPrefs(int rnd)
+    {
+        FindObjectOfType<IDSaver>().sabNum = rnd;
         PlayerPrefs.SetInt("SabPlayerNumber", rnd);
         PlayerPrefs.SetInt("GamesPlayed", 0);
         PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);

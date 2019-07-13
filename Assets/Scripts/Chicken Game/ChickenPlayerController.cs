@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.UI;
 public class ChickenPlayerController : NetworkBehaviour
 {
     public int playerNum;
@@ -15,7 +15,8 @@ public class ChickenPlayerController : NetworkBehaviour
 
     public GameObject playerModelObj;
     
-
+    private int sabPNum;
+    private GameObject saboteurIdentifier;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,20 @@ public class ChickenPlayerController : NetworkBehaviour
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
             CmdServerCharSetup(playerNum);
 
+
+            //SAB Stuff
+            sabPNum = FindObjectOfType<IDSaver>().sabNum;
+            saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
+            if (playerNum == sabPNum)
+            {
+                saboteurIdentifier.GetComponent<Image>().color = Color.red;
+
+            }
+            else
+            {
+                saboteurIdentifier.GetComponent<Image>().color = Color.green;
+
+            }
         }
     }
 

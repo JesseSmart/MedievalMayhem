@@ -30,6 +30,8 @@ public class ChickenGameManager : MinigameInherit
             PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
 
         }
+
+
     }
 
     // Update is called once per frame
