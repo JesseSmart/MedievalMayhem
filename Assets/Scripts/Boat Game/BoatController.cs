@@ -106,6 +106,14 @@ public class BoatController : NetworkBehaviour
     {
         anim.SetTrigger("Row");
         rbody.AddForce(dir * 10, 0, 0);
+		RpcSendAnimOut();
     }
+
+	[ClientRpc]
+	void RpcSendAnimOut()
+	{
+		anim.SetTrigger("Row");
+
+	}
 
 }

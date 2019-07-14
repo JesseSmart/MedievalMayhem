@@ -75,10 +75,22 @@ public class PotionCharacterController : NetworkBehaviour
         //transform.Translate(newPos);
         rbody.MovePosition(newPos);
 		anim.SetFloat("mySpeed", Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
-
+		CmdRecieveAnim(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 	}
 
-    private void RotationChar()
+	[Command]
+	void CmdRecieveAnim(float hor, float ver)
+	{
+		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+		RpcSendOutAnim(hor, ver);
+	}
+	[ClientRpc]
+	void RpcSendOutAnim(float hor, float ver)
+	{
+		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+	}
+
+	private void RotationChar()
     {
         Vector3 currentPos = rbody.position;
         float horizontalInput = Input.GetAxis("LookHorizontal");
