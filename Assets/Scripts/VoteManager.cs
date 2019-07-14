@@ -25,16 +25,18 @@ public class VoteManager : MinigameInherit
     private bool votingComplete;
     private bool voteDoneRunBool;
     private bool uiChangedBool;
+    private bool loadNextHasRun;
 
     private int sabPlayerNum;
-
+    private IDSaver saver;
     // Start is called before the first frame update
     void Start()
     {
         networkManagerObj = GameObject.FindGameObjectWithTag("NetworkManager");
         if (isServer)
         {
-            sabPlayerNum = FindObjectOfType<IDSaver>().sabNum;
+            saver = FindObjectOfType<IDSaver>();
+            sabPlayerNum = saver.sabNum;
         }
         sabPlayerNum = FindObjectOfType<IDSaver>().sabNum;
 
@@ -71,10 +73,14 @@ public class VoteManager : MinigameInherit
 
             if (uiChangedBool)
             {
-                tempSecondTimer -= Time.deltaTime;
-                if (tempSecondTimer <= 0)
+                if (!loadNextHasRun)
                 {
-                    LoadNextGame();
+                    tempSecondTimer -= Time.deltaTime;
+                    if (tempSecondTimer <= 0)
+                    {
+                        LoadNextGame();
+                        loadNextHasRun = true;
+                    }
                 }
             }
         }
@@ -118,10 +124,15 @@ public class VoteManager : MinigameInherit
     void LoadNextGame()
     {
         int rnd = Random.Range(0, 3);
-        PlayerPrefs.SetInt("SabPlayerNumber", rnd);
+       // PlayerPrefs.SetInt("SabPlayerNumber", rnd);
         RpcSendNewSabNum(rnd);
-        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
+        Invoke("DoLoad", 1);
+        //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]]);
 
+    }
+    void DoLoad()
+    {
+        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]]);
     }
 
     [ClientRpc]
@@ -201,7 +212,7 @@ public class VoteManager : MinigameInherit
     void RpcSendNewSabNum(int num)
     {
         FindObjectOfType<IDSaver>().sabNum = num;
-        PlayerPrefs.SetInt("SabPlayerNumber", num);
+        //PlayerPrefs.SetInt("SabPlayerNumber", num);
 
     }
 

@@ -18,6 +18,7 @@ public class ChickenGameManager : MinigameInherit
 
     private GameObject networkManagerObj;
 
+    private IDSaver saver;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +28,9 @@ public class ChickenGameManager : MinigameInherit
 
         if (isServer)
         {
+            saver = FindObjectOfType<IDSaver>();
             PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
-
+            saver.gamesPlayed++;
         }
 
 
@@ -68,7 +70,7 @@ public class ChickenGameManager : MinigameInherit
     {
         if (isServer)
         {
-            if (PlayerPrefs.GetInt("GamesPlayed") < PlayerPrefs.GetInt("MaxGames")) //might be <=
+            if (saver.gamesPlayed < saver.maxGames) //might be <=
             {
                 networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
 

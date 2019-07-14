@@ -30,6 +30,9 @@ public class BoatGameManager : MinigameInherit
 
     private GameObject networkManagerObj;
 
+    private IDSaver saver;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +40,8 @@ public class BoatGameManager : MinigameInherit
         if (isServer)
         {
             PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
+            saver = FindObjectOfType<IDSaver>();
+            saver.gamesPlayed++;
 
         }
 
@@ -62,7 +67,7 @@ public class BoatGameManager : MinigameInherit
         //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
         if (isServer)
         {
-            if (PlayerPrefs.GetInt("GamesPlayed") < PlayerPrefs.GetInt("MaxGames")) //might be <=
+            if (saver.gamesPlayed < saver.maxGames)//might be <=
             {
                 networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
 

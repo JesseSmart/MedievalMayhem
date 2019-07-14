@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.UI;
 public class PotionCharacterController : NetworkBehaviour
 {
     public Rigidbody rbody;
@@ -19,15 +19,31 @@ public class PotionCharacterController : NetworkBehaviour
 
     public GameObject playerModelObj;
     public int playerNum;
+
+    private int sabPNum;
+    private GameObject saboteurIdentifier;
     // Start is called before the first frame update
     void Start()
     {
         if (hasAuthority)
         {
-            playerNum = FindObjectOfType<IDSaver>().savedID;
+            playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
             CmdServerCharSetup(playerNum);
 
+            //SAB Stuff
+            sabPNum = FindObjectOfType<IDSaver>().sabNum;
+            saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
+            if (playerNum == sabPNum)
+            {
+                saboteurIdentifier.GetComponent<Image>().color = Color.red;
+
+            }
+            else
+            {
+                saboteurIdentifier.GetComponent<Image>().color = Color.green;
+
+            }
         }
     }
 
@@ -40,7 +56,7 @@ public class PotionCharacterController : NetworkBehaviour
 			SortArray();
 			PickupCheck();
 			Movement();
-
+            RotationChar();
 		}
     }
 
@@ -60,17 +76,28 @@ public class PotionCharacterController : NetworkBehaviour
         rbody.MovePosition(newPos);
 		anim.SetFloat("mySpeed", Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
 
-		Vector3 rot = transform.eulerAngles;
-		rot.y = 180;//mathf.lerop from y > targetangflr
-		transform.eulerAngles = rot;
-
-
-		//transform.rotation = Quaternion.AngleAxis(90, Vector3.forward) * inputVector.normalized;
-		//transform.rotation = Quaternion.Euler((0, 90, 0) * (new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"))));
-		//transform.rotation = Quaternion.Lerp(transform.rotation, )
-		//transform.rotation.y = Rotate(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 90);
 	}
 
+    private void RotationChar()
+    {
+        Vector3 currentPos = rbody.position;
+        float horizontalInput = Input.GetAxis("LookHorizontal");
+        float verticalInput = Input.GetAxis("LookVertical");
+
+
+        Vector3 inputVector = new Vector3(horizontalInput, 0, verticalInput);
+        Vector3 lookPos = currentPos + inputVector;
+
+        if (lookPos != Vector3.zero)
+        {
+            transform.LookAt(lookPos);
+
+        }
+
+
+
+
+    }
 
 
 	public void PickupCheck()
@@ -82,7 +109,7 @@ public class PotionCharacterController : NetworkBehaviour
 
 			if (dist < 5)
 			{
-				if (Input.GetKey(KeyCode.Space))
+				if (Input.GetKey(KeyCode.Space) || Input.GetButton("P1AButton"))
 				{
                     if (!isHolding)
                     {
@@ -95,7 +122,7 @@ public class PotionCharacterController : NetworkBehaviour
 					myObject.transform.position = holdPoint.transform.position;
 				}
 
-				if (Input.GetKeyUp(KeyCode.Space))
+				if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("P1AButton"))
 				{
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;

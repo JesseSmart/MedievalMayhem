@@ -28,8 +28,12 @@ public class LobbySceneManager : NetworkBehaviour
 	//private float lobbyTimer;
 	int lastPlayers = 0;
 
+    private IDSaver saver;
+    private bool hasDoneLoad;
     [SyncVar]
     private string loadSceneString;
+    private float loadDelay = 1;
+    private bool startTimerLoad;
 
     void Start()
     {
@@ -38,20 +42,15 @@ public class LobbySceneManager : NetworkBehaviour
         PlayerPrefs.DeleteAll(); //WARNING< MAKE SURE IT DOES EFFECT MENU PREFABS IF USED IN FUTURE. Might move to menu play press
         if (isServer)
         {
-
+            saver = FindObjectOfType<IDSaver>();
+            saver.levelNames = minigameSceneNames;
             RandomizeArray(levelLoadOrder);
             SetLevelNames();
             SetLevelOrder();
 
-            int rndInd = Random.Range(0, 3);
-            //Might need to be sent to rpc so all clients know
-            FindObjectOfType<IDSaver>().sabNum = rndInd;
-
-            PlayerPrefs.SetInt("SabPlayerNumber", rndInd);
-            PlayerPrefs.SetInt("GamesPlayed", 0);
-            PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
-
-            RpcTellClientsPrefs(rndInd);
+            //int rndSab = Random.Range(0, 3);
+            //saver.sabNum = rndSab;
+            //RpcTellClientsPrefs(rndSab, saver.levelLoadArray, saver.levelNames, minigameSceneNames.Length); //maybe make all things set in this saver first then send througgh
         }	
 
 		spawnedPlayers = new GameObject[4];
@@ -62,42 +61,66 @@ public class LobbySceneManager : NetworkBehaviour
     {
         
 		PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+        if (isServer)
+        {
+		    int tempInt = 0;
+		    foreach (PlayerConnectedObject p in players)
+		    {
+			    if (p.isReadyLobby)
+			    {
+                    //readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
+                    //if (isServer)
+                    //{
+				        CmdSendReadyUp(p.playerID);
 
-		int tempInt = 0;
-		foreach (PlayerConnectedObject p in players)
-		{
-			if (p.isReadyLobby)
-			{
-                //readyTextArray[p.playerID - 1].GetComponent<TextMeshProUGUI>().enabled = true;
-                //if (isServer)
-                //{
-				    CmdSendReadyUp(p.playerID);
+                    //}
+				    tempInt++;
+			    }
 
-                //}
-				tempInt++;
-			}
+		    }
+		    if (tempInt == 4)
+		    {
+                if (!hasDoneLoad)
+                {
+                    loadSceneString = saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]];
+                    RpcTellSceneName(loadSceneString);
+                    hasDoneLoad = true;
 
-		}
-		if (tempInt == 4)
-		{
+                    int rndSab = Random.Range(0, 3);
+                    saver.sabNum = rndSab;
+                    RpcTellClientsPrefs(rndSab, saver.levelLoadArray, saver.levelNames, minigameSceneNames.Length);
+                    //Invoke("DoLoad", 1f);
+                    startTimerLoad = true;
 
-            //CmdChangeScene();
-            if (isServer)
-            {
-                loadSceneString = PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed")));
-                //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
-                print(loadSceneString);
-                networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
-                //CmdPlayersHaveReadyUp();
+                }
+                else if (startTimerLoad == true)
+                {
+                    loadDelay -= Time.deltaTime;
+                    if (loadDelay <= 0)
+                    {
+                        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
+
+                    }
+                }
+
+
 
             }
-        }
-		else
-		{
-			tempInt = 0;
-		}
+		    else
+		    {
+                RpcDebugText("tempInt = 0");
+                tempInt = 0;
+		    }
 
-		if (players.Length != lastPlayers)
+        }
+
+        void DoLoad()
+        {
+            networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
+
+        }
+
+        if (players.Length != lastPlayers)
 		{
 			foreach (GameObject obj in spawnedPlayers)
 			{
@@ -135,13 +158,13 @@ public class LobbySceneManager : NetworkBehaviour
 		readyTextArray[id - 1].GetComponent<TextMeshProUGUI>().enabled = true;
 	}
 
-    [Command]
-    void CmdChangeScene()
-    {
-        loadSceneString = PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed")));
-        print(loadSceneString);
-        networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
-    }
+    //[Command]
+    //void CmdChangeScene()
+    //{
+    //    loadSceneString = PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed")));
+    //    print(loadSceneString);
+    //    networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
+    //}
 
 
     void RandomizeArray(int[] array) //randomises load order array
@@ -154,13 +177,15 @@ public class LobbySceneManager : NetworkBehaviour
             array[rnd] = temp;
         }
         levelLoadOrder = array;
+        saver.levelLoadArray = array;
     }
 
     void SetLevelNames() //converts list of level names into playerpref
     {
         for (int i = 0; i < minigameSceneNames.Length; i++)
         {
-            PlayerPrefs.SetString("LevelName" + i, minigameSceneNames[i]);
+            //PlayerPrefs.SetString("LevelName" + i, minigameSceneNames[i]);
+            saver.levelNames[i] = minigameSceneNames[i];
         }
     }
 
@@ -168,22 +193,45 @@ public class LobbySceneManager : NetworkBehaviour
     {
         for (int i = 0; i < levelLoadOrder.Length; i++)
         {
-            PlayerPrefs.SetInt("LevelLoad" + i, levelLoadOrder[i]);
+            //PlayerPrefs.SetInt("LevelLoad" + i, levelLoadOrder[i]);
+            saver.levelLoadArray[i] = levelLoadOrder[i];
         }
     }
 
 
     [ClientRpc]
-    void RpcTellClientsPrefs(int rnd)
+    void RpcTellClientsPrefs(int sab, int[] loadOrd, string[] lvlNames, int maxGam) 
     {
-        SetPrefs(rnd);
+        //SetPrefs(rnd);
+        IDSaver mySaver = FindObjectOfType<IDSaver>();
+        mySaver.sabNum = sab;
+        mySaver.levelLoadArray = loadOrd;
+        mySaver.levelNames = lvlNames;
+        mySaver.maxGames = maxGam;
+
+
+
+        //PlayerPrefs.SetInt("SabPlayerNumber", sab);
+        //PlayerPrefs.SetInt("GamesPlayed", 0);
+        //PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
     }
 
-    void SetPrefs(int rnd)
+    void SetPrefs(int sab, int[] loadOrd, string[] lvlNames, int maxGam)
     {
-        FindObjectOfType<IDSaver>().sabNum = rnd;
-        PlayerPrefs.SetInt("SabPlayerNumber", rnd);
-        PlayerPrefs.SetInt("GamesPlayed", 0);
-        PlayerPrefs.SetInt("MaxGames", minigameSceneNames.Length);
+ 
+    }
+
+
+    [ClientRpc]
+    void RpcDebugText(string s)
+    {
+        print(s);
+    }
+
+    [ClientRpc]
+    void RpcTellSceneName(string name)
+    {
+        loadSceneString = name;
+
     }
 }

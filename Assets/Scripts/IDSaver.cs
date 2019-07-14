@@ -7,6 +7,10 @@ public class IDSaver : MonoBehaviour
     public int savedID;
 	public int points;
     public int sabNum;
+    public int[] levelLoadArray;
+    public string[] levelNames;
+    public int gamesPlayed;
+    public int maxGames;
 	// Start is called before the first frame update
 	void Start()
     {

@@ -53,37 +53,37 @@ public class VoteInputer : NetworkBehaviour
 
 	void InputManage(int pNum)
 	{
-		#region //PC Controls
-		if (Input.GetKeyDown(KeyCode.Alpha1) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 1)
+
+        float horizontalInput = Input.GetAxis("DPadHorizontal");
+        float verticalInput = Input.GetAxis("DPadVertical");
+
+        #region //PC Controls
+        if ((Input.GetKeyDown(KeyCode.Alpha1) || verticalInput > 0) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 1)
 		{
-			print("Player " + pNum + ": Pressed 1");
 			hasInputted = true;
 			myVote = 0;
 			CmdSendReady(0);
 
 		}
 
-		if (Input.GetKeyDown(KeyCode.Alpha2) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 2)
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || horizontalInput > 0) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 2)
 		{
-			print("Player " + pNum + ": Pressed 2");
 			hasInputted = true;
 			myVote = 1;
 			CmdSendReady(1);
 
 		}
-		if (Input.GetKeyDown(KeyCode.Alpha3) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 3)
+		if ((Input.GetKeyDown(KeyCode.Alpha3) || verticalInput < 0) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 3)
 		{
 
-			print("Player " + pNum + ": Pressed 3");
 			hasInputted = true;
 			myVote = 2;
 			CmdSendReady(2);
 
 		}
 
-		if (Input.GetKeyDown(KeyCode.Alpha4) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 4)
+		if ((Input.GetKeyDown(KeyCode.Alpha4) || horizontalInput < 0) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 4)
 		{
-			print("Player " + pNum + ": Pressed 4");
 			hasInputted = true;
 			myVote = 3;
 			CmdSendReady(3);
@@ -91,41 +91,6 @@ public class VoteInputer : NetworkBehaviour
 		#endregion
 
 
-
-		//if (Input.GetButtonDown(aButtonArray[pNum]) && hasInputted[pNum] == false)
-		//{
-		//    print("Player " + pNum + ": Pressed A");
-		//    parentObject.GetComponent<VoteManager>().VoteAdd(0);
-		//    hasInputted[pNum] = true;
-
-		//}
-
-		//if (Input.GetButtonDown(xButtonArray[pNum]) && hasInputted[pNum] == false)
-		//{
-		//    print("Player " + pNum + ": Pressed X");
-		//    parentObject.GetComponent<VoteManager>().VoteAdd(1);
-		//    hasInputted[pNum] = true;
-
-
-		//}
-
-		//if (Input.GetButtonDown(yButtonArray[pNum]) && hasInputted[pNum] == false)
-		//{
-		//    print("Player " + pNum + ": Pressed Y");
-		//    parentObject.GetComponent<VoteManager>().VoteAdd(2);
-		//    hasInputted[pNum] = true;
-
-
-		//}
-
-		//if (Input.GetButtonDown(bButtonArray[pNum]) && hasInputted[pNum] == false)
-		//{
-		//    print("Player " + pNum + ": Pressed B");
-		//    parentObject.GetComponent<VoteManager>().VoteAdd(3);
-		//    hasInputted[pNum] = true;
-
-
-		//}
 	}
 
     //could have void which calls all voids to do with score. Would have to change alot

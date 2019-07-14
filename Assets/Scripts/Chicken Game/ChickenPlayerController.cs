@@ -22,7 +22,7 @@ public class ChickenPlayerController : NetworkBehaviour
     {
         if (hasAuthority)
         {
-            playerNum = FindObjectOfType<IDSaver>().savedID;
+            playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
             CmdServerCharSetup(playerNum);
 
@@ -65,7 +65,7 @@ public class ChickenPlayerController : NetworkBehaviour
 		if (hasAuthority)
 		{
 			Movement();
-
+            RotationChar();
 
 
 
@@ -90,4 +90,24 @@ public class ChickenPlayerController : NetworkBehaviour
     }
 
 
+    private void RotationChar()
+    {
+        Vector3 currentPos = rbody.position;
+        float horizontalInput = Input.GetAxis("LookHorizontal");
+        float verticalInput = Input.GetAxis("LookVertical");
+
+
+
+        Vector3 inputVector = new Vector3(horizontalInput, 0, verticalInput);
+        Vector3 lookPos = currentPos + inputVector;
+
+
+        if (inputVector != lookPos)
+        {
+            transform.LookAt(lookPos);
+
+        }
+
+
+    }
 }

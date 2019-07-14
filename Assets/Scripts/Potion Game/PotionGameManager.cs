@@ -16,6 +16,8 @@ public class PotionGameManager : MinigameInherit
 
     public float gameDuration;
     private float gameTimer;
+    private IDSaver saver;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,8 @@ public class PotionGameManager : MinigameInherit
         if (isServer)
         {
             PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
+            saver = FindObjectOfType<IDSaver>();
+            saver.gamesPlayed++;
 
         }
 
@@ -49,7 +53,7 @@ public class PotionGameManager : MinigameInherit
     {
         if (isServer)
         {
-            if (PlayerPrefs.GetInt("GamesPlayed") < PlayerPrefs.GetInt("MaxGames")) //might be <=
+            if (saver.gamesPlayed < saver.maxGames) //might be <=
             {
                 networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
 

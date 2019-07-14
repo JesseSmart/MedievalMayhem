@@ -30,15 +30,14 @@ public class BoatController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        boatObj = GameObject.FindGameObjectWithTag("Boat");
-        rbody = boatObj.GetComponent<Rigidbody>();
+            boatObj = GameObject.FindGameObjectWithTag("Boat");
+            rbody = boatObj.GetComponent<Rigidbody>();
 
-		sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
-
-
+            sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
         if (hasAuthority)
         {
-            playerNum = FindObjectOfType<IDSaver>().savedID;
+
+            playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             CmdCharacterSetup(playerNum);
 
 
@@ -58,9 +57,6 @@ public class BoatController : NetworkBehaviour
             }
 
         }
-        
-
-
 	}
 
     [Command]
@@ -89,21 +85,17 @@ public class BoatController : NetworkBehaviour
         {
             InputBoat(playerNum);
         }
-        else
-        {
-            print("aint local");
-        }
     }
 
     void InputBoat(int pNum)
     {
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetButtonDown("P1LeftBumper"))
         {
             CmdMoveBoat(-1);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetButtonDown("P1RightBumper"))
         {
             CmdMoveBoat(1);
         }

@@ -39,11 +39,8 @@ public class PlayerConnectedObject : NetworkBehaviour
             if (isLocalPlayer)
             {
                 playerID = FindObjectsOfType<PlayerConnectedObject>().Length;
-                FindObjectOfType<IDSaver>().savedID = playerID;
-
-                
+                FindObjectOfType<IDSaver>().savedID = playerID;                
                 CmdSetPlayerNumber(playerID);
-                PlayerPrefs.SetInt("LocalPlayerNum", playerID);
             }
         }
         else
@@ -81,7 +78,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 		//lobby
 		if (!FindObjectOfType<MinigameInherit>())
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
+			if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonUp("P1AButton"))
 			{
 
                 isReadyLobby = true;
@@ -257,6 +254,13 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     [Command]
     void CmdSetPlayerNumber(int id) 
+    {
+        playerID = id;
+        RpcSendOutMyNum(id);
+    }
+
+    [ClientRpc] 
+    void RpcSendOutMyNum(int id) //this may be entirley unneccassary becoz it worked fine prior to this
     {
         playerID = id;
     }
