@@ -111,10 +111,10 @@ MonoBehaviour:
     y: 30
     width: 1279
     height: 1300
-  m_MinSize: {x: 679, y: 494}
+  m_MinSize: {x: 681, y: 494}
   m_MaxSize: {x: 14002, y: 14044}
   vertical: 0
-  controlID: 120
+  controlID: 118
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -136,10 +136,10 @@ MonoBehaviour:
     y: 0
     width: 909
     height: 1300
-  m_MinSize: {x: 404, y: 494}
+  m_MinSize: {x: 406, y: 494}
   m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 84
+  controlID: 43
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -161,10 +161,10 @@ MonoBehaviour:
     y: 0
     width: 909
     height: 780
-  m_MinSize: {x: 404, y: 222}
-  m_MaxSize: {x: 8004, y: 4022}
+  m_MinSize: {x: 406, y: 222}
+  m_MaxSize: {x: 8006, y: 4022}
   vertical: 0
-  controlID: 62
+  controlID: 44
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -184,8 +184,8 @@ MonoBehaviour:
     y: 0
     width: 302
     height: 780
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 222}
+  m_MaxSize: {x: 4002, y: 4022}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -412,9 +412,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 9a2e0000
-      m_LastClickedID: 0
-      m_ExpandedIDs: c433fffff233ffff1036ffff6c37ffff3e38ffff7e38ffffca39ffffd839fffff855ffff2656ffff4458ffffa059ffff725affffb25afffffe5bffff0c5cffff5278ffff8078ffff9e7afffffa7bffffcc7cffff0c7dffff587effff667effffda8dffff088effff2690ffff8291ffff5492ffff9492ffffe093ffffee93ffff8aafffffb8afffffdab1ffff3ab3ffff10b4ffff54b4ffffa4b5ffffb6b5ffff2ef3ffff5cf3ffff76f5ffffd2f6ffffa4f7ffffe2f7ffff2cf9ffff3af9ffff4efaffff
+      m_SelectedIDs: 6ca90100
+      m_LastClickedID: 108908
+      m_ExpandedIDs: 2aa4feff58a4feff76a6feffd2a7feffa4a8feffe4a8feff30aafeff3eaafeff42c7feff70c7feff8ec9feffeacafeffbccbfefffccbfeff48cdfeff56cdfeff6cd3feff78e1feffa6e1feffc4e3feff20e5fefff2e5feff32e6feff7ee7feff8ce7feff9eeefeffe0fcfeff0efdfeff2cfffeff8800ffff5a01ffff9a01ffffe602fffff402ffffe813ffff1614ffff3416ffff9017ffff6218ffffa218ffffee19fffffc19ffff382bffff662bffff842dffffe02effffb22ffffff22fffff3e31ffff4c31ffff8c40ffffba40ffffd842ffff3444ffff0645ffff4645ffff9246ffffa046ffff3a48ffff7456ffffa256ffffc058ffff1c5affffee5affff2e5bffff7a5cffff885cffff8a63ffff5484ffff8284ffffa086fffffc87ffffce88ffff0e89ffff5a8affff688affffb2a0ffffe0a0fffffea2ffff5aa4ffff2ca5ffff6ca5ffffb8a6ffffc6a6ffff7cbdffffaabdffffc8bfffff24c1fffff6c1ffff36c2ffff82c3ffff90c3ffff3ed8ffff6cd8ffff8adaffffe6dbffffb8dcfffff8dcffff44deffff52deffff3cf2ffff6af2ffff8cf4ffffecf5ffffc2f6ffff06f7ffff56f8ffff68f8ffffa0fafffff2faffff8efbfffff4ffffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -711,20 +711,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\jsmart6\Documents\GitHub\MedievalMayhem
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 139}
-    m_SelectedIDs: 9a2e0000
-    m_LastClickedID: 11930
-    m_ExpandedIDs: 00000000fc2d00009a2e0000d22f000040300000423000007c300000ac31000000ca9a3b
+    scrollPos: {x: 0, y: 79}
+    m_SelectedIDs: d62c0000
+    m_LastClickedID: 11478
+    m_ExpandedIDs: 00000000d62c0000742d0000bc2e00002a2f00002c2f0000682f00009c30000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -752,7 +752,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000fc2d00009a2e0000d22f000040300000423000007c300000ac310000
+    m_ExpandedIDs: 00000000d62c0000742d0000bc2e00002a2f00002c2f0000682f00009c300000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -861,7 +861,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 159686
+  m_LastSelectedObjectID: 98406
 --- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52

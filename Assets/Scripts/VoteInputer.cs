@@ -12,7 +12,10 @@ public class VoteInputer : NetworkBehaviour
 	private int gainedPoints;
 
     private int sabNum;
+	public bool hasRunPoints;
 
+	public IDSaver mySaver;
+	public bool pointsSent;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -20,9 +23,11 @@ public class VoteInputer : NetworkBehaviour
 
 		if (hasAuthority)
 		{
-			playerNum = FindObjectOfType<IDSaver>().savedID - 1;
+			mySaver = FindObjectOfType<IDSaver>();
+			playerNum = mySaver.savedID - 1;
 			CmdServerCharSetup(playerNum);
-            sabNum = FindObjectOfType<IDSaver>().sabNum;
+            sabNum = mySaver.sabNum;
+			
 		}
 	}
 
@@ -47,6 +52,7 @@ public class VoteInputer : NetworkBehaviour
 		if (hasAuthority)
 		{
 			InputManage(playerNum);
+			CheckIfPointReady();
 		}
 
 	}
@@ -110,65 +116,130 @@ public class VoteInputer : NetworkBehaviour
 	}
 
 
-    
-	public void RecieveWholeTeamBonus(int p) //hasAuthority?
+	void CheckIfPointReady()
 	{
-        if (hasAuthority)
-        {
-		    if (FindObjectOfType<IDSaver>().savedID != (sabNum - 1))
-		    {
-			    gainedPoints += p;
-		    }
-        }
-	}
-
-	public void RecieveGreatSabBonus(int p)
-	{
-        if (hasAuthority)
-        {
-		    if (FindObjectOfType<IDSaver>().savedID == (sabNum - 1))
-		    {
-			    gainedPoints += p;
-
-		    }
-
-        }
-	}
-
-	public void RecieveBasePoints(int p)
-	{
-        if (hasAuthority)
-        {
-            if (myVote == (sabNum - 1))
-		    {
-			    gainedPoints += p;
-		    }
-
-        }
+		if (FindObjectOfType<VoteManager>().readyToRecievePoints)
+		{
+			if (!hasRunPoints)
+			{
+				CalcPoints();
+				hasRunPoints = true;
+			}
+		}
 
 
 	}
 
-	public void RecieveSabPoints(int p)
+	void CalcPoints()
 	{
-        if (hasAuthority)
-        {
-            if (FindObjectOfType<IDSaver>().savedID == (sabNum - 1))
-		    {
-			    gainedPoints += p;
-		    }
+		gainedPoints = 0;
+		VoteManager mang = FindObjectOfType<VoteManager>();
+		if (playerNum != sabNum) //not sab
+		{
+			if (myVote == sabNum)
+			{
+				gainedPoints++;
+			}
+			if (mang.wholeTeamCorrect)
+			{
+				gainedPoints++;
+			}
+		}
+		else //is sab
+		{
+			if (mang.wholeTeamWrong)
+			{
+				gainedPoints++;
+			}
 
-        }
+			gainedPoints += mang.sabPointGain;
+		}
+		CmdSendPointGain(gainedPoints);
+		pointsSent = true;
+		FindObjectOfType<IDSaver>().points += gainedPoints; //BIG issues with mySaver in this area
+		FindObjectOfType<VoteManager>().CmdDisplayPoints(playerNum, gainedPoints, FindObjectOfType<IDSaver>().points);
+		
 	}
 
-	public void SetTotalPoints()
+	[Command]
+	void CmdSendPointGain(int p)
 	{
-        if (hasAuthority)
-        {
-		    FindObjectOfType<IDSaver>().points += gainedPoints;
-		    minigameManager.GetComponent<VoteManager>().CmdDisplayPoints(playerNum, gainedPoints, FindObjectOfType<IDSaver>().points);
-
-        }
+		gainedPoints = p;
+		pointsSent = true;
+		RpcSendOutPointGain(p);
 	}
+
+	[ClientRpc]
+	void RpcSendOutPointGain(int p)
+	{
+		gainedPoints = p;
+		pointsSent = true;
+
+	}
+
+
+
+
+
+
+	//public void RecieveWholeTeamBonus(int p) //hasAuthority?
+	//{
+	//       if (hasAuthority)
+	//       {
+	//	    if (FindObjectOfType<IDSaver>().savedID != (sabNum - 1))
+	//	    {
+	//		    gainedPoints += p;
+	//	    }
+	//       }
+	//}
+
+	//public void RecieveGreatSabBonus(int p)
+	//{
+	//       if (hasAuthority)
+	//       {
+	//	    if (FindObjectOfType<IDSaver>().savedID == (sabNum - 1))
+	//	    {
+	//		    gainedPoints += p;
+
+	//	    }
+
+	//       }
+	//}
+
+	//public void RecieveBasePoints(int p)
+	//{
+	//       if (hasAuthority)
+	//       {
+	//           if (myVote == (sabNum - 1))
+	//	    {
+	//		    gainedPoints += p;
+	//	    }
+
+	//       }
+
+
+	//}
+
+	//public void RecieveSabPoints(int p)
+	//{
+	//       if (hasAuthority)
+	//       {
+	//           if (FindObjectOfType<IDSaver>().savedID == (sabNum - 1))
+	//	    {
+	//		    gainedPoints += p;
+	//	    }
+
+	//       }
+	//}
+
+	//public void SetTotalPoints()
+	//{
+	//	if (hasAuthority)
+	//	{
+	//		FindObjectOfType<IDSaver>().points += gainedPoints;
+	//		minigameManager.GetComponent<VoteManager>().CmdDisplayPoints(playerNum, gainedPoints, FindObjectOfType<IDSaver>().points);
+
+	//	}
+	//}
 
 }
