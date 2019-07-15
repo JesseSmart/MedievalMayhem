@@ -208,7 +208,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 32.45
+  m_fontSize: 50.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7906,7 +7906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1221105861}
   m_LocalRotation: {x: -0.5119158, y: -0, z: -0, w: -0.8590357}
-  m_LocalPosition: {x: 0, y: 14.37, z: -9.28}
+  m_LocalPosition: {x: 0, y: 16.09, z: -9.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
