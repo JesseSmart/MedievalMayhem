@@ -46,6 +46,7 @@ public class PotionGameManager : MinigameInherit
         {
             //win
             GameEnd();
+            gameTimer = 100;
         }
     }
 

@@ -58,6 +58,7 @@ public class BoatGameManager : MinigameInherit
         if (gameTimer <= 0)
         {
             EndGame();
+            gameTimer = 100;
         }
 
     }

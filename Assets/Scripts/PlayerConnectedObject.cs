@@ -161,14 +161,14 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 
 
-		if (isServer) 
-		{
+		//if (isServer) THIS SEEMS LIKE BIG CHANGE BUT PROGRAM SEEMS INDIFERENT BUT KEEP EYE ON IT
+		//{
 			BoatController[] players = FindObjectsOfType<BoatController>();
 			if (players.Length >= 3) //do better spawning
 			{
 				gameHasStarted = true;
 			}
-		}
+		//}
 	}
 
 	void MGTwoSetup()
@@ -180,14 +180,14 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 
 
-		if (isServer)
-		{
+		//if (isServer)
+		//{
 			PotionCharacterController[] players = FindObjectsOfType<PotionCharacterController>();
 			if (players.Length >= 3) //do better spawning
 			{
 				gameHasStarted = true;
 			}
-		}
+		//}
 	}
 
 	void MGThreeSetup()
@@ -200,14 +200,14 @@ public class PlayerConnectedObject : NetworkBehaviour
 		}
 
 
-		if (isServer)
-		{
+		//if (isServer)
+		//{
 			ChickenPlayerController[] players = FindObjectsOfType<ChickenPlayerController>();
 			if (players.Length >= 3) //do better spawning
 			{
 				gameHasStarted = true;
 			}
-		}
+		//}
 	}
 
 
@@ -220,14 +220,14 @@ public class PlayerConnectedObject : NetworkBehaviour
         }
 
 
-        if (isServer)
-        {
+       // if (isServer)
+        //{
             VoteInputer[] players = FindObjectsOfType<VoteInputer>();
             if (players.Length >= 3) //do better spawning
             {
                 gameHasStarted = true;
             }
-        }
+        //}
     }
 
 

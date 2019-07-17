@@ -31,6 +31,7 @@ public class VoteManager : MinigameInherit
 	private IDSaver saver;
 
 	//SCORE STUFF
+    [SyncVar]
 	public bool readyToRecievePoints;
 	public bool wholeTeamCorrect;
 	public bool wholeTeamWrong;
@@ -169,7 +170,7 @@ public class VoteManager : MinigameInherit
 			sabPointGain += point;
 		}
 
-		sabPointGain -= voteTotalArray[sabPlayerNum];
+		sabPointGain -= voteTotalArray[sabPlayerNum] + 1; //the + 1 gets rid of the sab player's vote
 
 		RpcSendPointStats(wholeTeamCorrect, wholeTeamWrong, sabPointGain);
 		readyToRecievePoints = true;
@@ -188,18 +189,25 @@ public class VoteManager : MinigameInherit
 
     }
 
+    public void DisplayPoints(int pNum, int gainPoint, int totalPoint)
+    {
+        CmdDisplayPoints(pNum, gainPoint, totalPoint);
+    }
     [Command]
-    public void CmdDisplayPoints(int pNum, int totalPoint, int gainPoint) //this called from inputer, maybe do it other way
+    public void CmdDisplayPoints(int pNum, int gainPoint, int totalPoint) //this called from inputer, maybe do it other way //make void then call cmd
     {
 		currentPoints[pNum].text = totalPoint.ToString();
 		gainedPoints[pNum].text = gainPoint.ToString();
-		RpcSendDisplayPoints(pNum, totalPoint, gainPoint);
+        print("TP: " + totalPoint + "GP: " + gainPoint);
+		RpcSendDisplayPoints(pNum, gainPoint, totalPoint);
 
     }
 
     [ClientRpc]
-    void RpcSendDisplayPoints(int pNum, int totalPoint, int gainPoint)
+    void RpcSendDisplayPoints(int pNum, int gainPoint, int totalPoint) 
     {
+        print("TP: " + totalPoint + "GP: " + gainPoint);
+
         currentPoints[pNum].text = totalPoint.ToString();
         gainedPoints[pNum].text = gainPoint.ToString();
     }
