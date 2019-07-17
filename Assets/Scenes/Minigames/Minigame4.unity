@@ -208,7 +208,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50.05
+  m_fontSize: 32.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -847,6 +847,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1126622981}
     m_Modifications:
+    - target: {fileID: 3655100050055581375, guid: 405ecba4456911f4a9d00495158ca4d5,
+        type: 3}
+      propertyPath: m_Name
+      value: Potion (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 352089984272284844, guid: 405ecba4456911f4a9d00495158ca4d5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -916,11 +921,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.13811
-      objectReference: {fileID: 0}
-    - target: {fileID: 3655100050055581375, guid: 405ecba4456911f4a9d00495158ca4d5,
-        type: 3}
-      propertyPath: m_Name
-      value: Potion (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 405ecba4456911f4a9d00495158ca4d5, type: 3}
@@ -1104,6 +1104,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1126622981}
     m_Modifications:
+    - target: {fileID: 3655100050055581375, guid: 405ecba4456911f4a9d00495158ca4d5,
+        type: 3}
+      propertyPath: m_Name
+      value: Potion
+      objectReference: {fileID: 0}
     - target: {fileID: 352089984272284844, guid: 405ecba4456911f4a9d00495158ca4d5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1173,11 +1178,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.13811
-      objectReference: {fileID: 0}
-    - target: {fileID: 3655100050055581375, guid: 405ecba4456911f4a9d00495158ca4d5,
-        type: 3}
-      propertyPath: m_Name
-      value: Potion
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 405ecba4456911f4a9d00495158ca4d5, type: 3}
@@ -1379,7 +1379,7 @@ MonoBehaviour:
   cauldronObj: {fileID: 1260691473}
   potionSlider: {fileID: 831716201}
   tmpTimerText: {fileID: 18909872}
-  gameDuration: 10
+  gameDuration: 20
 --- !u!4 &792336338
 Transform:
   m_ObjectHideFlags: 0

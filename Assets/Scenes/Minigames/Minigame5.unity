@@ -6766,7 +6766,7 @@ MonoBehaviour:
   tmpCurrentScore: {fileID: 1315074259}
   tmpTargetScore: {fileID: 1563833306}
   tmpTimerText: {fileID: 479927059}
-  matchDuration: 20
+  matchDuration: 10
 --- !u!4 &2023352540
 Transform:
   m_ObjectHideFlags: 0

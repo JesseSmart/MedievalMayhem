@@ -21,9 +21,9 @@ public class VoteInputer : NetworkBehaviour
     {
         minigameManager = GameObject.FindGameObjectWithTag("MinigameManager");
 
-        if (hasAuthority)
+        if (hasAuthority || FindObjectsOfType<PlayerConnectedObject>().Length == 1)
         {
-            mySaver = FindObjectOfType<IDSaver>(); //server doesnt seem to run this, and maybe all of the stuff. check if it just start or if it the hasAuthority the ting fuggin up
+            mySaver = FindObjectOfType<IDSaver>(); 
             playerNum = mySaver.savedID - 1;
             print("playerNum = " + playerNum);
             CmdServerCharSetup(playerNum);
