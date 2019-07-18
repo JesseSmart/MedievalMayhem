@@ -36,7 +36,7 @@ public class VoteManager : MinigameInherit
 	public bool wholeTeamCorrect;
 	public bool wholeTeamWrong;
 	public int sabPointGain;
-
+    public bool teamDidWin;
 
 	// Start is called before the first frame update
 	void Start()
@@ -132,11 +132,20 @@ public class VoteManager : MinigameInherit
 
 	void LoadNextGame()
 	{
-		int rnd = Random.Range(0, 3);
-		// PlayerPrefs.SetInt("SabPlayerNumber", rnd);
-		RpcSendNewSabNum(rnd);
-		Invoke("DoLoad", 1);
-		//networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]]);
+        if (saver.gamesPlayed < saver.maxGames)//is < in votemanager because otherwise it would load another game
+        {
+
+            int rnd = Random.Range(0, 3);
+            RpcSendNewSabNum(rnd);
+            Invoke("DoLoad", 1);
+            //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]]);
+
+        }
+        else
+        {
+            //HERE GOES "FINAL SCREEN" Load. From there, go to menu
+            networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Menu");
+        }
 
 	}
 	void DoLoad()
@@ -172,17 +181,24 @@ public class VoteManager : MinigameInherit
 
 		sabPointGain -= voteTotalArray[sabPlayerNum] + 1; //the + 1 gets rid of the sab player's vote
 
-		RpcSendPointStats(wholeTeamCorrect, wholeTeamWrong, sabPointGain);
-		readyToRecievePoints = true;
+        teamDidWin = false;
+        if (FindObjectOfType<IDSaver>().lastGameTeamWon)
+        {
+            teamDidWin = true;
+        }
+
+		RpcSendPointStats(wholeTeamCorrect, wholeTeamWrong, sabPointGain, teamDidWin);
+		//readyToRecievePoints = true;
 	}
 
     //rpc maybe
     [ClientRpc]
-    void RpcSendPointStats(bool cor, bool wrong, int sabPoint)
+    void RpcSendPointStats(bool cor, bool wrong, int sabPoint, bool winBool)
     {
 		wholeTeamCorrect = cor;
 		wholeTeamWrong = wrong;
 		sabPointGain = sabPoint;
+        teamDidWin = winBool;
 		readyToRecievePoints = true;
 
 		//if win lose
@@ -196,9 +212,9 @@ public class VoteManager : MinigameInherit
     [Command]
     public void CmdDisplayPoints(int pNum, int gainPoint, int totalPoint) //this called from inputer, maybe do it other way //make void then call cmd
     {
-		currentPoints[pNum].text = totalPoint.ToString();
-		gainedPoints[pNum].text = gainPoint.ToString();
-        print("TP: " + totalPoint + "GP: " + gainPoint);
+		//currentPoints[pNum].text = totalPoint.ToString();
+		//gainedPoints[pNum].text = gainPoint.ToString();
+        //print("TP: " + totalPoint + "GP: " + gainPoint);
 		RpcSendDisplayPoints(pNum, gainPoint, totalPoint);
 
     }

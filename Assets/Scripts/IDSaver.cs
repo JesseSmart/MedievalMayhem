@@ -11,6 +11,7 @@ public class IDSaver : MonoBehaviour
     public string[] levelNames;
     public int gamesPlayed;
     public int maxGames;
+    public bool lastGameTeamWon;
 	// Start is called before the first frame update
 	void Start()
     {

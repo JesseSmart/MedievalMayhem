@@ -17,7 +17,7 @@ public class ChickenGameManager : MinigameInherit
     private float matchTimer;
 
     private GameObject networkManagerObj;
-
+    private bool wonRun;
     private IDSaver saver;
     // Start is called before the first frame update
     void Start()
@@ -42,13 +42,20 @@ public class ChickenGameManager : MinigameInherit
         if (gameScore >= targetScore)
         {
             //win game
-            GameEnd();
+            if (!wonRun)
+            {
+                CmdSetWinState(true);
+                GameEnd();
+                wonRun = true;
+            }
         }
 
         matchTimer -= Time.deltaTime;
         if (matchTimer <= 0)
         {
             //game lost
+            CmdSetWinState(false);
+
             GameEnd();
             matchTimer = 100;
         }
@@ -70,7 +77,7 @@ public class ChickenGameManager : MinigameInherit
     {
         if (isServer)
         {
-            if (saver.gamesPlayed < saver.maxGames) //might be <=
+            if (saver.gamesPlayed <= saver.maxGames) //might be <=
             {
                 networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
 
@@ -83,5 +90,18 @@ public class ChickenGameManager : MinigameInherit
 
         }
 
+    }
+
+
+    [Command]
+    void CmdSetWinState(bool b)
+    {
+        RpcSendOutWinState(b);
+    }
+
+    [ClientRpc]
+    void RpcSendOutWinState(bool b)
+    {
+        FindObjectOfType<IDSaver>().lastGameTeamWon = b;
     }
 }

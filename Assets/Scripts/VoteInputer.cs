@@ -107,7 +107,7 @@ public class VoteInputer : NetworkBehaviour
     [Command]
     void CmdSendReady(int i)
     {
-        hasInputted = true;
+        //hasInputted = true;
         minigameManager.GetComponent<VoteManager>().VoteRecieved(i); //maybe make a findobjectoftype
         RpcBackToClientSendReady();
     }
@@ -141,9 +141,16 @@ public class VoteInputer : NetworkBehaviour
     {
         gainedPoints = 0;
         VoteManager mang = FindObjectOfType<VoteManager>();
+
+        print("Team Did Win: " + mang.teamDidWin);
         if (playerNum != sabNum) //not sab
         {
             print("AM GOOD POINTS");
+
+            if (mang.teamDidWin)
+            {
+                gainedPoints++;
+            }
 
             if (myVote == sabNum)
             {
@@ -158,6 +165,12 @@ public class VoteInputer : NetworkBehaviour
         else if (playerNum == sabNum) //is sab
         {
             print("AM SAB POINTS");
+
+            if (!(mang.teamDidWin))
+            {
+                gainedPoints++;
+            }
+
             if (mang.wholeTeamWrong)
             {
                 gainedPoints++;
@@ -170,7 +183,7 @@ public class VoteInputer : NetworkBehaviour
             print("NOT SAB NOR PLAYER");
         }
         CmdSendPointGain(gainedPoints);
-        pointsSent = true;
+        //pointsSent = true;
         FindObjectOfType<IDSaver>().points += gainedPoints; //BIG issues with mySaver in this area
         int tP = FindObjectOfType<IDSaver>().points;
 
@@ -181,8 +194,8 @@ public class VoteInputer : NetworkBehaviour
     [Command]
     void CmdSendPointGain(int p)
     {
-        gainedPoints = p;
-        pointsSent = true;
+        //gainedPoints = p;
+        //pointsSent = true;
         RpcSendOutPointGain(p);
     }
 

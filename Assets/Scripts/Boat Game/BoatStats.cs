@@ -38,6 +38,10 @@ public class BoatStats : NetworkBehaviour
         if (health <= 0)
         {
             print("DEAD");
+            if (isServer)
+            {
+                FindObjectOfType<BoatGameManager>().BoatBroke();
+            }
             Destroy(gameObject);
                 
         }
