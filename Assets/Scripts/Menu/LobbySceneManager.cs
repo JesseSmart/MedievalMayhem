@@ -108,7 +108,6 @@ public class LobbySceneManager : NetworkBehaviour
             }
 		    else
 		    {
-                RpcDebugText("tempInt = 0");
                 tempInt = 0;
 		    }
 

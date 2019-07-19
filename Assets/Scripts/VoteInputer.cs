@@ -8,6 +8,8 @@ public class VoteInputer : NetworkBehaviour
     public int playerNum;
     public bool hasInputted;
     public GameObject minigameManager;
+	
+
     private int myVote;
     private int gainedPoints;
 
@@ -129,12 +131,6 @@ public class VoteInputer : NetworkBehaviour
                 hasRunPoints = true;
             }
         }
-        else
-        {
-            print("Manger Not Ready");
-        }
-
-
     }
 
     void CalcPoints()
@@ -182,31 +178,45 @@ public class VoteInputer : NetworkBehaviour
         {
             print("NOT SAB NOR PLAYER");
         }
-        CmdSendPointGain(gainedPoints);
         //pointsSent = true;
         FindObjectOfType<IDSaver>().points += gainedPoints; //BIG issues with mySaver in this area
         int tP = FindObjectOfType<IDSaver>().points;
 
-        FindObjectOfType<VoteManager>().DisplayPoints(playerNum, gainedPoints, tP);
+        //FindObjectOfType<VoteManager>().DisplayPoints(playerNum, gainedPoints, tP);
 
-    }
+		FindObjectOfType<VoteManager>().currentPoints[playerNum].text = tP.ToString();
+		FindObjectOfType<VoteManager>().gainedPoints[playerNum].text = gainedPoints.ToString();
+		CmdSendPointGain(gainedPoints, gainedPoints, tP);
+	}
 
     [Command]
-    void CmdSendPointGain(int p)
+    void CmdSendPointGain(int p, int gained, int total)
     {
         //gainedPoints = p;
         //pointsSent = true;
-        RpcSendOutPointGain(p);
+
+
+
+        RpcSendOutPointGain(p, gained, total);
     }
 
     [ClientRpc]
-    void RpcSendOutPointGain(int p)
+    void RpcSendOutPointGain(int p, int gained, int total)
     {
-        gainedPoints = p;
+
+		FindObjectOfType<VoteManager>().currentPoints[playerNum].text = total.ToString();
+		FindObjectOfType<VoteManager>().gainedPoints[playerNum].text = gained.ToString();
+
+		gainedPoints = p;
         pointsSent = true;
 
     }
 
+	[Command]
+	void CmdDebug(string s)
+	{
+		print(s);
+	}
 
     [ClientRpc]
     void RpcDebugPrint(string s)

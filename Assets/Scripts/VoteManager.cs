@@ -125,6 +125,9 @@ public class VoteManager : MinigameInherit
 	{
 		print("VOTING COMPLETE");
 		sabotagerIndicatorArray[sabPlayerNum].enabled = true;
+
+		
+
 		votingComplete = true;
 		voteDoneRunBool = true;
 	}
@@ -138,13 +141,12 @@ public class VoteManager : MinigameInherit
             int rnd = Random.Range(0, 3);
             RpcSendNewSabNum(rnd);
             Invoke("DoLoad", 1);
-            //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]]);
 
         }
         else
         {
             //HERE GOES "FINAL SCREEN" Load. From there, go to menu
-            networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Menu");
+            networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Winner Scene");
         }
 
 	}
@@ -212,9 +214,8 @@ public class VoteManager : MinigameInherit
     [Command]
     public void CmdDisplayPoints(int pNum, int gainPoint, int totalPoint) //this called from inputer, maybe do it other way //make void then call cmd
     {
-		//currentPoints[pNum].text = totalPoint.ToString();
-		//gainedPoints[pNum].text = gainPoint.ToString();
-        //print("TP: " + totalPoint + "GP: " + gainPoint);
+		//RpcDebugText("Run DisplayPoints for pNum = " + pNum);
+		print("Run DisplayPoints for pNum = " + pNum);
 		RpcSendDisplayPoints(pNum, gainPoint, totalPoint);
 
     }
@@ -232,18 +233,17 @@ public class VoteManager : MinigameInherit
     void RpcSendNewSabNum(int num)
     {
         FindObjectOfType<IDSaver>().sabNum = num;
-        //PlayerPrefs.SetInt("SabPlayerNumber", num);
-
     }
 
     [ClientRpc]
     void RpcSendSetFinalScores()
     {
-        //foreach (VoteInputer inp in FindObjectsOfType<VoteInputer>())
-        //{
-        //    inp.SetTotalPoints();
-        //}
         uiChangedBool = true;
     }
 
+	[ClientRpc]
+	void RpcDebugText(string s)
+	{
+		print(s);
+	}
 }

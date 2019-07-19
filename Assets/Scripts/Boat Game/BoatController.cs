@@ -34,10 +34,8 @@ public class BoatController : NetworkBehaviour
             rbody = boatObj.GetComponent<Rigidbody>();
 
             sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
-        print("START HAS RUN");
         if (hasAuthority || FindObjectsOfType<PlayerConnectedObject>().Length == 1 )
         {
-            print("AUTHORITY RUNNING");
             playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             CmdCharacterSetup(playerNum);
 
@@ -56,7 +54,6 @@ public class BoatController : NetworkBehaviour
                 saboteurIdentifier.GetComponent<Image>().color = Color.green;
 
             }
-            print("AUTHORITY  HAS RUN");
         }
 	}
 
@@ -84,7 +81,6 @@ public class BoatController : NetworkBehaviour
     {
         if (hasAuthority)
         {
-            print("IS  BE UPDATE AUTHORITY");
             InputBoat(playerNum);
         }
     }

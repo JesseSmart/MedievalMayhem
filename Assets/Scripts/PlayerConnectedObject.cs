@@ -140,6 +140,7 @@ public class PlayerConnectedObject : NetworkBehaviour
                 VotingSceneSetup();
                 break;
             case 6:
+				WinnerSceneSetup();
                 break;
 
         }
@@ -306,6 +307,37 @@ public class PlayerConnectedObject : NetworkBehaviour
         //}
     }
 
+
+	void WinnerSceneSetup()
+	{
+		if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+		{
+			ClientReady(5);
+			hasSpawned = true;
+			CmdSendSpawned();
+
+		}
+
+		PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+		int ind = 0;
+		for (int i = 0; i < players.Length; i++)
+		{
+			if (players[i].hasSpawned)
+			{
+				ind++;
+			}
+		}
+
+		if (ind >= 4)
+		{
+			gameHasStarted = true;
+		}
+		else
+		{
+			ind = 0;
+		}
+
+	}
 
 
 	void ClientReady(int gameNum)
