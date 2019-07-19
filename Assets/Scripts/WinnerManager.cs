@@ -9,15 +9,15 @@ public class WinnerManager : MinigameInherit
 
 	public TextMeshProUGUI[] winnerNumTexts;
 	public TextMeshProUGUI[] playerPointsText;
-	public int[] playerPoints = new int[4];
+	public int[] playerPoints = new int[4] { 0,0,0,0};
 	public int[] pWinOrder = new int[4] { 1, 2, 3, 4};
 
 
 	private GameObject networkManagerObj;
 
 	private bool tempHasRun;
-
-	public float sceneTimer = 5;
+    private bool playerCheckComplete;
+	public float sceneTimer = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +35,7 @@ public class WinnerManager : MinigameInherit
     {
 		if (isServer)
 		{
+            
 			WinnerCharacterController[] players = FindObjectsOfType<WinnerCharacterController>();
 			int tempInt = 0;
 			for (int i = 0; i < players.Length; i++)
@@ -53,13 +54,9 @@ public class WinnerManager : MinigameInherit
 
 					for (int i = 0; i < players.Length; i++)
 					{
-						winnerNumTexts[i].text = pWinOrder[i].ToString();
-						playerPointsText[i].text = playerPoints[i].ToString();
+                        RpcSetArrays(i);
+
 					}
-
-					//Rpc to make text objects set to same thing as server
-
-
 					tempHasRun = true;
 				}
 			}
@@ -68,10 +65,10 @@ public class WinnerManager : MinigameInherit
 				tempInt =  0;
 			}
 
-			//if all players have PointSet = true
-				//Sort playerPoints[]
-				// Rearrange pWinOrder[] in same order
-				//Displayer the two arrays in their corresponding text arrays
+            //if all players have PointSet = true
+            //Sort playerPoints[]
+            // Rearrange pWinOrder[] in same order
+            //Displayer the two arrays in their corresponding text arrays
 
 
 
@@ -79,13 +76,16 @@ public class WinnerManager : MinigameInherit
 
 
 
+            if (tempHasRun)
+            {
+			    sceneTimer -= Time.deltaTime;
+			    if (sceneTimer <= 0)
+			    {
+				    networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Menu");
+				    sceneTimer = 100;
+			    }
 
-			sceneTimer -= Time.deltaTime;
-			if (sceneTimer <= 0)
-			{
-				networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Winner Scene");
-				sceneTimer = 100;
-			}
+            }
 		}
     }
 
@@ -96,21 +96,28 @@ public class WinnerManager : MinigameInherit
 		{
 			for (int i = 0; i < playerPoints.Length - j - 1; i++)
 			{
-				if (playerPoints[i] > playerPoints[i + 1]) //was <
+				if (playerPoints[i] < playerPoints[i + 1]) //was <
 				{
 					int tempInt;
-					tempInt = playerPoints[i];
-					playerPoints[i] = playerPoints[i + 1];
-					playerPoints[i + 1] = tempInt;
+					tempInt = playerPoints[i + 1];
+					playerPoints[i + 1] = playerPoints[i];
+					playerPoints[i] = tempInt;
 
 
 					//Change player number order in array to match point arrangement
 					int otherInt;
-					otherInt = pWinOrder[i];
-					pWinOrder[i] = pWinOrder[i + 1];
-					pWinOrder[i + 1] = otherInt;
+					otherInt = pWinOrder[i + 1];
+					pWinOrder[i + 1] = pWinOrder[i];
+					pWinOrder[i] = otherInt;
 				}
 			}
 		}
 	}
+
+    [ClientRpc]
+    void RpcSetArrays(int index)
+    {
+        winnerNumTexts[index].text = "Player " + pWinOrder[index].ToString();
+        playerPointsText[index].text = playerPoints[index].ToString() + "P";
+    }
 }

@@ -717,10 +717,14 @@ MonoBehaviour:
   - {fileID: 1687365508}
   - {fileID: 2041352049}
   - {fileID: 985313184}
-  playerPointsText: []
-  playerPoints: 
-  pWinOrder: 00000000000000000000000000000000
-  sceneTimer: 5
+  playerPointsText:
+  - {fileID: 858573315}
+  - {fileID: 271943076}
+  - {fileID: 364665774}
+  - {fileID: 1678285617}
+  playerPoints: 00000000000000000000000000000000
+  pWinOrder: 01000000020000000300000004000000
+  sceneTimer: 10
 --- !u!114 &406054414
 MonoBehaviour:
   m_ObjectHideFlags: 0

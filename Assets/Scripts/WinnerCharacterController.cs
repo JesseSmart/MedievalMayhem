@@ -37,16 +37,19 @@ public class WinnerCharacterController : NetworkBehaviour
 	[Command]
 	void CmdSendPointTotal(int pNum, int point)
 	{
-		minigameManager.GetComponent<WinnerManager>().playerPoints[pNum] = point;
-		//minigameManager.GetComponent<WinnerManager>().winnerNumTexts[pNum].text = (pNum + 1).ToString();
-		//minigameManager.GetComponent<WinnerManager>().playerPointsText[pNum].text = point.ToString();
-		RpcSendOutPoint(pNum, point);
+        print("my num = " + pNum);
+        minigameManager.GetComponent<WinnerManager>().playerPoints[pNum] = point;
+        //minigameManager.GetComponent<WinnerManager>().playerPoints[pNum] = point;
+        //minigameManager.GetComponent<WinnerManager>().winnerNumTexts[pNum].text = (pNum + 1).ToString();
+        //minigameManager.GetComponent<WinnerManager>().playerPointsText[pNum].text = point.ToString();
+        RpcSendOutPoint(pNum, point);
 	}
 
 	[ClientRpc]
 	void RpcSendOutPoint(int pNum, int point)
 	{
-		minigameManager.GetComponent<WinnerManager>().playerPoints[pNum] = point;
+  //      print("my num = " + pNum);
+		//minigameManager.GetComponent<WinnerManager>().playerPoints[pNum] = point;
 		//minigameManager.GetComponent<WinnerManager>().winnerNumTexts[pNum].text = (pNum + 1).ToString();
 		//minigameManager.GetComponent<WinnerManager>().playerPointsText[pNum].text = point.ToString();
 		pointSent = true;

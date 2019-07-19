@@ -85,7 +85,9 @@ MonoBehaviour:
   - {fileID: 3137213601965512117, guid: 516823429805520439a61450468962cf, type: 3}
   - {fileID: 3137213601965512117, guid: f3998798f2fc2ed4e9eb35420311b0af, type: 3}
   - {fileID: 3065529436949242173, guid: 398fb58b75cd25e46a11e184174ac828, type: 3}
+  - {fileID: 8893312119879522869, guid: 27c70f5d2ff6cf24e83cb561e3ef5573, type: 3}
   isMe: 0
   playerID: 0
   isReadyLobby: 0
   isReadyGame: 0
+  hasSpawned: 0
