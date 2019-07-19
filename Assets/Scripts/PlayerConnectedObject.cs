@@ -26,7 +26,7 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	private bool gameHasStarted;
 
-	private bool hasSpawned = false;
+	public bool hasSpawned = false;
 
     //private PlayerConnectedObject[] pConObjs;
     // Start is called before the first frame update
@@ -158,18 +158,37 @@ public class PlayerConnectedObject : NetworkBehaviour
 		{
 			ClientReady(1);
 			hasSpawned = true;
+            CmdSendSpawned();
 		}
 
 
-		if (isServer) 
-		{
-			BoatController[] players = FindObjectsOfType<BoatController>();
-			if (players.Length >= 3) //do better spawning
-			{
-				gameHasStarted = true;
-			}
-		}
-	}
+        //if (isServer) THIS SEEMS LIKE BIG CHANGE BUT PROGRAM SEEMS INDIFERENT BUT KEEP EYE ON IT
+        //{
+        PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+        int ind = 0;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].hasSpawned)
+            {
+                ind++;
+            }
+        }
+
+        if (ind >= 4)
+        {
+            gameHasStarted = true;
+        }
+        else
+        {
+            ind = 0;
+        }
+
+        //if (players.Length >= 3) //do better spawning
+        //{
+        //	gameHasStarted = true;
+        //}
+        //}
+    }
 
 	void MGTwoSetup()
 	{
@@ -177,18 +196,37 @@ public class PlayerConnectedObject : NetworkBehaviour
         {
 			ClientReady(2);
 			hasSpawned = true;
-		}
+            CmdSendSpawned();
 
+        }
 
-		if (isServer)
-		{
-			PotionCharacterController[] players = FindObjectsOfType<PotionCharacterController>();
-			if (players.Length >= 3) //do better spawning
-			{
-				gameHasStarted = true;
-			}
-		}
-	}
+        PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+        int ind = 0;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].hasSpawned)
+            {
+                ind++;
+            }
+        }
+
+        if (ind >= 4)
+        {
+            gameHasStarted = true;
+        }
+        else
+        {
+            ind = 0;
+        }
+        //if (isServer)
+        //{
+        //PotionCharacterController[] players = FindObjectsOfType<PotionCharacterController>();
+        //if (players.Length >= 3) //do better spawning
+        //{
+        //	gameHasStarted = true;
+        //}
+        //}
+    }
 
 	void MGThreeSetup()
 	{
@@ -197,18 +235,37 @@ public class PlayerConnectedObject : NetworkBehaviour
         {
 			ClientReady(3);
 			hasSpawned = true;
-		}
+            CmdSendSpawned();
 
+        }
 
-		if (isServer)
-		{
-			ChickenPlayerController[] players = FindObjectsOfType<ChickenPlayerController>();
-			if (players.Length >= 3) //do better spawning
-			{
-				gameHasStarted = true;
-			}
-		}
-	}
+        PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+        int ind = 0;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].hasSpawned)
+            {
+                ind++;
+            }
+        }
+
+        if (ind >= 4)
+        {
+            gameHasStarted = true;
+        }
+        else
+        {
+            ind = 0;
+        }
+        //if (isServer)
+        ////{
+        //	ChickenPlayerController[] players = FindObjectsOfType<ChickenPlayerController>();
+        //	if (players.Length >= 3) //do better spawning
+        //	{
+        //		gameHasStarted = true;
+        //	}
+        //}
+    }
 
 
     void VotingSceneSetup()
@@ -217,17 +274,36 @@ public class PlayerConnectedObject : NetworkBehaviour
         {
             ClientReady(4);
             hasSpawned = true;
+            CmdSendSpawned();
+
         }
 
-
-        if (isServer)
+        PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+        int ind = 0;
+        for (int i = 0; i < players.Length; i++)
         {
-            VoteInputer[] players = FindObjectsOfType<VoteInputer>();
-            if (players.Length >= 3) //do better spawning
+            if (players[i].hasSpawned)
             {
-                gameHasStarted = true;
+                ind++;
             }
         }
+
+        if (ind >= 4)
+        {
+            gameHasStarted = true;
+        }
+        else
+        {
+            ind = 0;
+        }
+        // if (isServer)
+        ////{
+        //    VoteInputer[] players = FindObjectsOfType<VoteInputer>();
+        //    if (players.Length >= 3) //do better spawning
+        //    {
+        //        gameHasStarted = true;
+        //    }
+        //}
     }
 
 
@@ -286,4 +362,18 @@ public class PlayerConnectedObject : NetworkBehaviour
 
     }
 
+
+    [Command]
+    void CmdSendSpawned()
+    {
+        hasSpawned = true;
+        RpcSendOutSpawned();
+    }
+
+    [ClientRpc]
+    void RpcSendOutSpawned()
+    {
+        hasSpawned = true;
+
+    }
 }

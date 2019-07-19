@@ -57,9 +57,15 @@ public class BoatGameManager : MinigameInherit
         gameTimer -= Time.deltaTime;
         if (gameTimer <= 0)
         {
+            CmdSetWinState(true);
             EndGame();
+            gameTimer = 100;
         }
 
+    }
+    public void BoatBroke() //make sure this is only caalled once
+    {
+        CmdSetWinState(false);
     }
 
     private void EndGame()
@@ -67,7 +73,7 @@ public class BoatGameManager : MinigameInherit
         //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
         if (isServer)
         {
-            if (saver.gamesPlayed < saver.maxGames)//might be <=
+            if (saver.gamesPlayed <= saver.maxGames)//might be <=
             {
                 networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
 
@@ -82,5 +88,16 @@ public class BoatGameManager : MinigameInherit
 
     }
 
+    [Command]
+    void CmdSetWinState(bool b)
+    {
+        RpcSendOutWinState(b);
+    }
+
+    [ClientRpc]
+    void RpcSendOutWinState(bool b)
+    {
+        FindObjectOfType<IDSaver>().lastGameTeamWon = b;
+    }
   
 }

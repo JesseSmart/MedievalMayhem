@@ -25,7 +25,7 @@ public class PotionCharacterController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (hasAuthority)
+        if (hasAuthority || FindObjectsOfType<PlayerConnectedObject>().Length == 1)
         {
             playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
@@ -75,10 +75,22 @@ public class PotionCharacterController : NetworkBehaviour
         //transform.Translate(newPos);
         rbody.MovePosition(newPos);
 		anim.SetFloat("mySpeed", Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
-
+		CmdRecieveAnim(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 	}
 
-    private void RotationChar()
+	[Command]
+	void CmdRecieveAnim(float hor, float ver)
+	{
+		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+		RpcSendOutAnim(hor, ver);
+	}
+	[ClientRpc]
+	void RpcSendOutAnim(float hor, float ver)
+	{
+		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+	}
+
+	private void RotationChar()
     {
         Vector3 currentPos = rbody.position;
         float horizontalInput = Input.GetAxis("LookHorizontal");
@@ -119,6 +131,7 @@ public class PotionCharacterController : NetworkBehaviour
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
 					myObject.GetComponent<Rigidbody>().useGravity = false;
+                    CmdSetGravityState(false);
 					myObject.transform.position = holdPoint.transform.position;
 				}
 
@@ -127,6 +140,8 @@ public class PotionCharacterController : NetworkBehaviour
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
 					myObject.GetComponent<Rigidbody>().useGravity = true;
+                    CmdSetGravityState(false);
+
                     isHolding = false;
 					//ingredientArray[0].transform.position = holdPoint.transform.position;
 				}
@@ -175,5 +190,18 @@ public class PotionCharacterController : NetworkBehaviour
         playerNum = id;
         playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[id];
 
+    }
+
+    [Command]
+    void CmdSetGravityState(bool b)
+    {
+        myObject.GetComponent<Rigidbody>().useGravity = b;
+        RpcSendOutGravity(b);
+    }
+
+    [ClientRpc]
+    void RpcSendOutGravity(bool b)
+    {
+        myObject.GetComponent<Rigidbody>().useGravity = b;
     }
 }

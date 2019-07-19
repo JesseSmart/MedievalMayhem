@@ -45,15 +45,23 @@ public class PotionGameManager : MinigameInherit
         if (gameTimer <= 0)
         {
             //win
+            CmdSetWinState(true);
             GameEnd();
+            gameTimer = 100;
         }
+    }
+
+    public void CauldronBlew() //make sure only runs once
+    {
+        CmdSetWinState(false);
+        GameEnd();
     }
 
     public void GameEnd()
     {
         if (isServer)
         {
-            if (saver.gamesPlayed < saver.maxGames) //might be <=
+            if (saver.gamesPlayed <= saver.maxGames) //might be <=
             {
                 networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene("Voting Scene");
 
@@ -66,5 +74,17 @@ public class PotionGameManager : MinigameInherit
 
         }
 
+    }
+
+    [Command]
+    void CmdSetWinState(bool b)
+    {
+        RpcSendOutWinState(b);
+    }
+
+    [ClientRpc]
+    void RpcSendOutWinState(bool b)
+    {
+        FindObjectOfType<IDSaver>().lastGameTeamWon = b;
     }
 }

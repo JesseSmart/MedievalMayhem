@@ -99,7 +99,7 @@ public class LobbySceneManager : NetworkBehaviour
                     if (loadDelay <= 0)
                     {
                         networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(loadSceneString);
-
+						loadDelay = 10;
                     }
                 }
 

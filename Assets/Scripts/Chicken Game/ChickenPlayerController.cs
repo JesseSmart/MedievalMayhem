@@ -20,7 +20,7 @@ public class ChickenPlayerController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (hasAuthority)
+        if (hasAuthority || FindObjectsOfType<PlayerConnectedObject>().Length == 1)
         {
             playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
@@ -87,7 +87,20 @@ public class ChickenPlayerController : NetworkBehaviour
         //transform.Translate(newPos);
         rbody.MovePosition(newPos);
 		anim.SetFloat("mySpeed", Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
+		CmdRecieveAnim(Input.GetAxis("Horizontal"), Input.GetAxis("Horizontal"));
     }
+
+	[Command]
+	void CmdRecieveAnim(float hor, float ver)
+	{
+		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+		RpcSendOutAnim(hor, ver);
+	}
+	[ClientRpc]
+	void RpcSendOutAnim(float hor, float ver)
+	{
+		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+	}
 
 
     private void RotationChar()
