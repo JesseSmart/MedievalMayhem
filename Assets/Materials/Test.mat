@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Red
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: Test
+  m_Shader: {fileID: 4800000, guid: fbb558ef92066d94186c0a88154ffeb8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -74,6 +74,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 0, g: 0.075618744, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 0.03579378, g: 0, b: 1, a: 1}
+    - _TintColor: {r: 0, g: 0, b: 1, a: 1}
+    - _myColour: {r: 0, g: 0.7264151, b: 0.16146116, a: 1}
+    - _myEmission: {r: 0.5283019, g: 0.38252047, b: 0.23673905, a: 1}
+    - _myGloss: {r: 0, g: 0, b: 0, a: 1}
