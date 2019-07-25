@@ -16,54 +16,49 @@ public class CauldronTrigger : NetworkBehaviour
     private float gameTimer;
     private bool cauldHasBlown;
     public GameObject minigameManager;
+    private Renderer myRen;
     // Start is called before the first frame update
     void Start()
     {
         minigameManager = GameObject.FindGameObjectWithTag("MinigameManager");
-
+        myRen = gameObject.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (liquidValue >= failureThreshold || liquidValue <= -failureThreshold)
+        if (isServer)
         {
-            if (!cauldHasBlown)
+            if ((2 * liquidValue) >= failureThreshold || (2 * liquidValue) <= -failureThreshold)
             {
-                //fail
-                if (isServer)
+                if (!cauldHasBlown)
                 {
+                    //fail
 
-                    minigameManager.GetComponent<PotionGameManager>().CauldronBlew();
+                        minigameManager.GetComponent<PotionGameManager>().CauldronBlew();
+
+                    cauldHasBlown = true;
 
                 }
-                cauldHasBlown = true;
-
             }
+            colorFloat = (liquidValue + (failureThreshold / 2)) / failureThreshold;
+            cauldronColour = Color.Lerp(Color.red, Color.blue, colorFloat);
+            RpcColorThePot(cauldronColour);
         }
-        colorFloat = (liquidValue + (failureThreshold / 2)) / failureThreshold;
-        cauldronColour = Color.Lerp(Color.red, Color.blue, colorFloat);
-        gameObject.GetComponent<Renderer>().material.color = cauldronColour;
+
+        //myRen.material.color = cauldronColour;
 
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Ingredient"))
+        if (isServer) //maybe make this for everyone, then send cmd that does rpc
         {
-            print("EAT POTION");
-            if (isServer)
+            if (other.gameObject.CompareTag("Ingredient"))
             {
-                RpcIngredientAdd(other.gameObject.GetComponent<IngredientScript>().ingredientValue, other.gameObject);
-
+                   RpcIngredientAdd(other.gameObject.GetComponent<IngredientScript>().ingredientValue, other.gameObject);
             }
-            //Destroy(other.gameObject);
-        }
-        else
-        {
-            print("NOOOOOOOOOOOOOOOOOOOOOOOOOO Object = " + other.gameObject.name);
-            
         }
 
             
@@ -74,6 +69,12 @@ public class CauldronTrigger : NetworkBehaviour
     {
         liquidValue += pVal;
         Destroy(obj);
+    }
+
+    [ClientRpc]
+    void RpcColorThePot(Color colour)
+    {
+        myRen.material.color = colour;
     }
 
     

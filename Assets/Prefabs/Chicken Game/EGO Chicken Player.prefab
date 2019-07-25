@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
-  m_InterpolateRotation: 1
+  m_InterpolateRotation: 5
   m_InterpolateMovement: 1
 --- !u!1001 &1955525277746499118
 PrefabInstance:
@@ -149,6 +149,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7423384932658308811}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 1bcd7db1eb59ffe4690a658adda25682,
+        type: 3}
+      propertyPath: m_Name
+      value: WalkPlayerModel
+      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 1bcd7db1eb59ffe4690a658adda25682,
         type: 3}
       propertyPath: m_Controller
@@ -223,11 +228,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 1bcd7db1eb59ffe4690a658adda25682,
-        type: 3}
-      propertyPath: m_Name
-      value: WalkPlayerModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bcd7db1eb59ffe4690a658adda25682, type: 3}

@@ -128,19 +128,24 @@ public class PlayerConnectedObject : NetworkBehaviour
                 break;
             case 2:
                 //minigame 1
-                MGOneSetup();
+                //MGOneSetup();
+                GeneralGameSetup(1);
                 break;
             case 3:
-				MGTwoSetup();
+				//MGTwoSetup();
+                GeneralGameSetup(2);
                 break;
             case 4:
-				MGThreeSetup();
+				//MGThreeSetup();
+                GeneralGameSetup(3);
                 break;
             case 5:
-                VotingSceneSetup();
+                //VotingSceneSetup();
+                GeneralGameSetup(4);
                 break;
             case 6:
-				WinnerSceneSetup();
+				//WinnerSceneSetup();
+                GeneralGameSetup(5);
                 break;
 
         }
@@ -339,8 +344,39 @@ public class PlayerConnectedObject : NetworkBehaviour
 
 	}
 
+    void GeneralGameSetup(int gNum)
+    {
+        if (isLocalPlayer && !hasSpawned) //used to be isClient, have not yet check for errors
+        {
+            ClientReady(gNum);
+            hasSpawned = true;
+            CmdSendSpawned();
 
-	void ClientReady(int gameNum)
+        }
+
+        PlayerConnectedObject[] players = FindObjectsOfType<PlayerConnectedObject>();
+        int ind = 0;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].hasSpawned)
+            {
+                ind++;
+            }
+        }
+
+        if (ind >= 4)
+        {
+            gameHasStarted = true;
+        }
+        else
+        {
+            ind = 0;
+        }
+
+    }
+
+
+    void ClientReady(int gameNum)
 	{
 		isReadyGame = true;
         CmdSendGameReady();

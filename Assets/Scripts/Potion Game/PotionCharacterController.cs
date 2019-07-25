@@ -119,7 +119,7 @@ public class PotionCharacterController : NetworkBehaviour
 		{
 			float dist = Vector3.Distance(transform.position, ingredientArray[0].transform.position);
 
-			if (dist < 5)
+			if (dist < 3)
 			{
 				if (Input.GetKey(KeyCode.Space) || Input.GetButton("P1AButton"))
 				{
@@ -131,8 +131,10 @@ public class PotionCharacterController : NetworkBehaviour
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
 					myObject.GetComponent<Rigidbody>().useGravity = false;
-                    CmdSetGravityState(false);
-					myObject.transform.position = holdPoint.transform.position;
+                    CmdSetGravityState(myObject, false);
+                    print(holdPoint);
+                    CmdSetPotionPos(myObject, holdPoint);
+					//myObject.transform.position = holdPoint.transform.position;
 				}
 
 				if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("P1AButton"))
@@ -140,8 +142,9 @@ public class PotionCharacterController : NetworkBehaviour
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
 					myObject.GetComponent<Rigidbody>().useGravity = true;
-                    CmdSetGravityState(false);
+                    CmdSetGravityState(myObject, true);
 
+                    myObject = null;
                     isHolding = false;
 					//ingredientArray[0].transform.position = holdPoint.transform.position;
 				}
@@ -193,15 +196,34 @@ public class PotionCharacterController : NetworkBehaviour
     }
 
     [Command]
-    void CmdSetGravityState(bool b)
+    void CmdSetGravityState(GameObject item, bool b)
     {
-        myObject.GetComponent<Rigidbody>().useGravity = b;
-        RpcSendOutGravity(b);
+        item.GetComponent<Rigidbody>().useGravity = b;
+        RpcSendOutGravity(item, b);
     }
 
     [ClientRpc]
-    void RpcSendOutGravity(bool b)
+    void RpcSendOutGravity(GameObject item, bool b)
     {
-        myObject.GetComponent<Rigidbody>().useGravity = b;
+        item.GetComponent<Rigidbody>().useGravity = b;
     }
+
+    [Command]
+    void CmdSetPotionPos(GameObject item, GameObject holderEgo)
+    {
+        print(item.name);
+        print(holdPoint.name);
+        item.transform.position = holdPoint.transform.position;
+        //RpcSendOutPos(item, holderEgo);
+
+    }
+
+
+    //[ClientRpc]
+    //void RpcSendOutPos(GameObject item, GameObject holderEgo)
+    //{
+    //    print(item.name);
+    //    print(holdPoint.name);
+    //    //item.transform.position = holdPoint.transform.position;
+    //}
 }
