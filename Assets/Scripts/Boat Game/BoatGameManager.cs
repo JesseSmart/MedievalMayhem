@@ -66,6 +66,7 @@ public class BoatGameManager : MinigameInherit
     public void BoatBroke() //make sure this is only caalled once
     {
         CmdSetWinState(false);
+		EndGame();
     }
 
     private void EndGame()
