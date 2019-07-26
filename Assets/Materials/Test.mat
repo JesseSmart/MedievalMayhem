@@ -43,6 +43,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: bafac3016999f8a4cb9e6e11a708a849, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -53,6 +57,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _myCube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _myTex:
+        m_Texture: {fileID: 2800000, guid: 6af6e698582050c47841d781a0419548, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -67,16 +79,22 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Range: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Transperency: 0.25
     - _UVSec: 0
     - _ZWrite: 1
+    - _myERange: 0
+    - _myFloat: 0.5
+    - _myTRange: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.075618744, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0.9041023, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _TintColor: {r: 0, g: 0, b: 1, a: 1}
-    - _myColour: {r: 0, g: 0.7264151, b: 0.16146116, a: 1}
-    - _myEmission: {r: 0.5283019, g: 0.38252047, b: 0.23673905, a: 1}
+    - _myColor: {r: 1, g: 1, b: 1, a: 1}
+    - _myColour: {r: 0.08009968, g: 0.2274788, b: 0.23584908, a: 1}
+    - _myEmission: {r: 0.6226415, g: 0.40215203, b: 0.064613745, a: 1}
     - _myGloss: {r: 0, g: 0, b: 0, a: 1}
+    - _myVector: {r: 0.5, g: 1, b: 1, a: 1}

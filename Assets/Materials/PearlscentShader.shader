@@ -2,30 +2,45 @@
 {
 	Properties
 	{
-		_myColour ("Example Color", Color) = (1, 1, 1, 1)
-		_myEmission ("Example Emission", Color) = (1, 1, 1, 1)
+		_MainTexture("Texture", 2D) = "white"{}
+		//_Color ("Color", Color) = (1, 1, 1, 1)
+		_myColour("Example Color", Color) = (1, 1, 1, 1)
+		_myEmission("Example Emission", Color) = (1, 1, 1, 1)
+		_Range("Range",  Range(0, 10)) = 1
 
 	}
 
 		SubShader{
-		CGPROGRAM
-#pragma surface surf Lambert
 
-		struct Input {
-		float2 uvMainTex;
-};
+			CGPROGRAM
+			#pragma surface surf Lambert
 
-	fixed4 _myColour;
-	fixed4 _myEmission;
+
+			sampler2D _MainTexture;
+			fixed4 _myColour;
+			fixed4 _myEmission;
+			half _Range;
+
+
+			struct Input
+			{
+				float2 uv_MainTexture;
+			};
+
+
+			void surf(Input IN, inout SurfaceOutput o) 
+			{
 	
-	void surf(Input IN, inout SurfaceOutput o) {
-	
-		o.Albedo = _myColour.rgb;
-		o.Emission = _myEmission.rgb;
-	}
-	ENDCG
+				o.Albedo = (tex2D(_MainTexture, IN.uv_MainTexture) * _Range + _myColour.rgb).rgb;
 
-	}
+				o.Emission = _myEmission.rgb;
+			}
+
+
+			ENDCG
+
+
+		}
 
 		FallBack "Diffuse"
 
