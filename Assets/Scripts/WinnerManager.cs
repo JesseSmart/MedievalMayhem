@@ -50,12 +50,21 @@ public class WinnerManager : MinigameInherit
 			{
 				if (!tempHasRun)
 				{
+					for (int i = 0; i < players.Length; i++)
+					{
+						RpcSetPointArray(playerPoints[i], i);
+					}
+
 					SortArray();
 
 					for (int i = 0; i < players.Length; i++)
 					{
-                        RpcSetArrays(i);
+						RpcSetNumArrays(i, playerPoints[i], pWinOrder[i]);
+					}
 
+					for (int i = 0; i < players.Length; i++)
+					{
+                        RpcSetTextArrays(i);
 					}
 					tempHasRun = true;
 				}
@@ -64,17 +73,6 @@ public class WinnerManager : MinigameInherit
 			{
 				tempInt =  0;
 			}
-
-            //if all players have PointSet = true
-            //Sort playerPoints[]
-            // Rearrange pWinOrder[] in same order
-            //Displayer the two arrays in their corresponding text arrays
-
-
-
-
-
-
 
             if (tempHasRun)
             {
@@ -98,6 +96,7 @@ public class WinnerManager : MinigameInherit
 			{
 				if (playerPoints[i] < playerPoints[i + 1]) //was <
 				{
+					//RpcSwap(i);
 					int tempInt;
 					tempInt = playerPoints[i + 1];
 					playerPoints[i + 1] = playerPoints[i];
@@ -114,8 +113,50 @@ public class WinnerManager : MinigameInherit
 		}
 	}
 
-    [ClientRpc]
-    void RpcSetArrays(int index)
+	[ClientRpc]
+	void RpcSetPointArray(int point, int ind)
+	{
+		playerPoints[ind] = point;
+	}
+
+	[ClientRpc]
+	void RpcSwap(int ind)
+	{
+		int tempInt;
+		tempInt = playerPoints[ind + 1];
+		playerPoints[ind + 1] = playerPoints[ind];
+		playerPoints[ind] = tempInt;
+
+
+		//Change player number order in array to match point arrangement
+		int otherInt;
+		otherInt = pWinOrder[ind + 1];
+		pWinOrder[ind + 1] = pWinOrder[ind];
+		pWinOrder[ind] = otherInt;
+
+		//int tempInt;
+		//tempInt = playerPoints[ind];
+		//playerPoints[ind] = playerPoints[ind + 1];
+		//playerPoints[ind + 1] = tempInt;
+
+
+		////Change player number order in array to match point arrangement
+		//int otherInt;
+		//otherInt = pWinOrder[ind];
+		//pWinOrder[ind] = pWinOrder[ind + 1];
+		//pWinOrder[ind + 1] = otherInt;
+	}
+
+	[ClientRpc]
+	void RpcSetNumArrays(int index, int pPoint, int wOrd)
+	{
+		playerPoints[index] = pPoint;
+		pWinOrder[index] = wOrd;
+	}
+
+
+	[ClientRpc]
+    void RpcSetTextArrays(int index)
     {
         winnerNumTexts[index].text = "Player " + pWinOrder[index].ToString();
         playerPointsText[index].text = playerPoints[index].ToString() + "P";

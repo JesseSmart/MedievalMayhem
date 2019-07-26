@@ -41,9 +41,10 @@ public class CauldronTrigger : NetworkBehaviour
 
                 }
             }
+
             colorFloat = (liquidValue + (failureThreshold / 2)) / failureThreshold;
             cauldronColour = Color.Lerp(Color.red, Color.blue, colorFloat);
-            RpcColorThePot(cauldronColour);
+            RpcColorThePot(colorFloat, cauldronColour);
         }
 
         //myRen.material.color = cauldronColour;
@@ -72,8 +73,9 @@ public class CauldronTrigger : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcColorThePot(Color colour)
+    void RpcColorThePot(float cfloat, Color colour)
     {
+		colorFloat = cfloat;
         myRen.material.color = colour;
     }
 
