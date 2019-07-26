@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoneWidth: 4
   zoneHeight: 4
-  spawnInterval: 3
+  spawnInterval: 5
   chickenObj: {fileID: 8365667542367988763, guid: 72bf0da0b48d4134093599dd83a154bf,
     type: 3}
 --- !u!114 &2602916472688976952
