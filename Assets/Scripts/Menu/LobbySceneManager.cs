@@ -86,7 +86,7 @@ public class LobbySceneManager : NetworkBehaviour
                     RpcTellSceneName(loadSceneString);
                     hasDoneLoad = true;
 
-                    int rndSab = Random.Range(0, 3);
+                    int rndSab = Random.Range(0, 4);
                     saver.sabNum = rndSab;
                     RpcTellClientsPrefs(rndSab, saver.levelLoadArray, saver.levelNames, minigameSceneNames.Length);
                     //Invoke("DoLoad", 1f);

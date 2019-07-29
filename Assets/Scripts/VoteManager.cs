@@ -138,7 +138,7 @@ public class VoteManager : MinigameInherit
         if (saver.gamesPlayed < saver.maxGames)//is < in votemanager because otherwise it would load another game
         {
 
-            int rnd = Random.Range(0, 3);
+            int rnd = Random.Range(0, 4);
             RpcSendNewSabNum(rnd);
             Invoke("DoLoad", 1);
 

@@ -13,4 +13,11 @@ public class PlayerData
 		totalWins = winner.totalWins;
 		totalLosses = winner.totalLosses;
 	}
+
+	public PlayerData()
+	{
+		totalWins = 0;
+		totalLosses = 0;
+	}
+
 }

@@ -73,8 +73,8 @@ public class WinnerManager : MinigameInherit
 					}
 
 					//
-					LoadPlayer();
-					SavePlayer();
+					RpcLoadPlayer();
+					RpcSavePlayer();
 
 					tempHasRun = true;
 				}
@@ -172,8 +172,8 @@ public class WinnerManager : MinigameInherit
         playerPointsText[index].text = playerPoints[index].ToString() + "P";
     }
 
-	//[ClientRpc]
-	void SavePlayer()
+	[ClientRpc]
+	void RpcSavePlayer()
 	{
 		if (FindObjectOfType<IDSaver>().savedID - 1 == pWinOrder[0])
 		{
@@ -187,10 +187,16 @@ public class WinnerManager : MinigameInherit
 		SaveSystem.SavePlayer(this);
 	}
 
-	//[ClientRpc]
-	void LoadPlayer()
+	[ClientRpc]
+	void RpcLoadPlayer()
 	{
 		PlayerData data = SaveSystem.LoadPlayer();
+		if (data == null)
+		{
+			data = new PlayerData();
+		}
+
+		
 		totalWins = data.totalWins;
 		totalLosses = data.totalLosses;
 		print("Loaded Wins: " + totalWins + " || Loaded Losses: " + totalLosses);
