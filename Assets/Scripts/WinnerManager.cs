@@ -18,6 +18,11 @@ public class WinnerManager : MinigameInherit
 	private bool tempHasRun;
     private bool playerCheckComplete;
 	public float sceneTimer = 10;
+
+	//save data
+	public int totalWins;
+	public int totalLosses;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +71,11 @@ public class WinnerManager : MinigameInherit
 					{
                         RpcSetTextArrays(i);
 					}
+
+					//
+					LoadPlayer();
+					SavePlayer();
+
 					tempHasRun = true;
 				}
 			}
@@ -161,4 +171,29 @@ public class WinnerManager : MinigameInherit
         winnerNumTexts[index].text = "Player " + pWinOrder[index].ToString();
         playerPointsText[index].text = playerPoints[index].ToString() + "P";
     }
+
+	//[ClientRpc]
+	void SavePlayer()
+	{
+		if (FindObjectOfType<IDSaver>().savedID - 1 == pWinOrder[0])
+		{
+			totalWins++;
+		}
+		else
+		{
+			totalLosses--;
+		}
+		print("Total Wins: " + totalWins + " || Total Losses: " + totalLosses);
+		SaveSystem.SavePlayer(this);
+	}
+
+	//[ClientRpc]
+	void LoadPlayer()
+	{
+		PlayerData data = SaveSystem.LoadPlayer();
+		totalWins = data.totalWins;
+		totalLosses = data.totalLosses;
+		print("Loaded Wins: " + totalWins + " || Loaded Losses: " + totalLosses);
+
+	}
 }
