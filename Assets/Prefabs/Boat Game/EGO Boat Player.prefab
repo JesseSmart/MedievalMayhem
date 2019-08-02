@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7808567306415146450}
   - component: {fileID: 8335322725198136293}
   - component: {fileID: 5375089606101548033}
+  - component: {fileID: 7667031032657388043}
   m_Layer: 0
   m_Name: EGO Boat Player
   m_TagString: Player
@@ -88,6 +89,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5eb4d49dfdfd21947933568d5fa4d2b2, type: 2}
   - {fileID: 2100000, guid: 419c5225150c2044f9401d58a6ec5b82, type: 2}
   playerModelObj: {fileID: 6553058737789879029}
+  playerCustom: {fileID: 7667031032657388043}
 --- !u!114 &5375089606101548033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +112,20 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &7667031032657388043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137213601965512117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dbc95d1ce4442b4484a3db7bb365d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  custom1Unlocked: 0
+  custom2Unlocked: 0
 --- !u!1001 &1088249940344312362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,6 +138,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerModel-Amimated
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f1dd95c345fb0f84389e7927d96b83ac, type: 2}
     - target: {fileID: -4216859302048453862, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -192,11 +213,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.15
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 0da8d3e6d600cad4da06d8d44b36bf65,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: f1dd95c345fb0f84389e7927d96b83ac, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0da8d3e6d600cad4da06d8d44b36bf65, type: 3}
 --- !u!4 &5359434466966747440 stripped

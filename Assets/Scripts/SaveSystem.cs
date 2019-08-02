@@ -7,10 +7,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class SaveSystem 
 {
 
-	public static void SavePlayer(WinnerManager player)
+	public static void SavePlayer(PlayerCustoms player)
 	{
 		BinaryFormatter formatter = new BinaryFormatter();
-		string path = Application.persistentDataPath + "/player.fun";
+		string path = Application.persistentDataPath + "/playerCustoms.fun";
 		FileStream stream = new FileStream(path, FileMode.Create);
 
 		PlayerData data = new PlayerData(player);
@@ -21,7 +21,7 @@ public static class SaveSystem
 
 	public static PlayerData LoadPlayer()
 	{
-		string path = Application.persistentDataPath + "/player.fun";
+		string path = Application.persistentDataPath + "/playerCustoms.fun";
 
 		if (File.Exists(path))
 		{

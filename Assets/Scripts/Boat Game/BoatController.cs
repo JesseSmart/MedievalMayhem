@@ -27,6 +27,8 @@ public class BoatController : NetworkBehaviour
     [SyncVar]
     private int sabPNum;
 
+	public PlayerCustoms playerCustom;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,10 +56,30 @@ public class BoatController : NetworkBehaviour
                 saboteurIdentifier.GetComponent<Image>().color = Color.green;
 
             }
+
+			doTheLoad();
         }
 	}
 
-    [Command]
+	private void doTheLoad()
+	{
+		PlayerData data = SaveSystem.LoadPlayer();
+		if (data == null)
+		{
+			data = new PlayerData();
+		}
+
+		playerCustom.custom1Unlocked = data.cust1Unlocked;
+		playerCustom.custom2Unlocked = data.cust2Unlocked;
+
+
+		print("Loaded Cust1: " + playerCustom.custom1Unlocked + " || Loaded Cust2: " + playerCustom.custom2Unlocked);
+		//cmd set item active
+		//rpc set item active
+
+	}
+
+	[Command]
     void CmdCharacterSetup(int id) //this needs to be sent back to all clients (RPC)
     {
         playerNum = id;

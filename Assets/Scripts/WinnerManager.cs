@@ -73,8 +73,8 @@ public class WinnerManager : MinigameInherit
 					}
 
 					//
-					RpcLoadPlayer();
-					RpcSavePlayer();
+					//RpcLoadPlayer();
+					//RpcSavePlayer();
 
 					tempHasRun = true;
 				}
@@ -172,34 +172,34 @@ public class WinnerManager : MinigameInherit
         playerPointsText[index].text = playerPoints[index].ToString() + "P";
     }
 
-	[ClientRpc]
-	void RpcSavePlayer()
-	{
-		if (FindObjectOfType<IDSaver>().savedID - 1 == pWinOrder[0])
-		{
-			totalWins++;
-		}
-		else
-		{
-			totalLosses--;
-		}
-		print("Total Wins: " + totalWins + " || Total Losses: " + totalLosses);
-		SaveSystem.SavePlayer(this);
-	}
+	//[ClientRpc]
+	//void RpcSavePlayer()
+	//{
+	//	if (FindObjectOfType<IDSaver>().savedID - 1 == pWinOrder[0])
+	//	{
+	//		totalWins++;
+	//	}
+	//	else
+	//	{
+	//		totalLosses--;
+	//	}
+	//	print("Total Wins: " + totalWins + " || Total Losses: " + totalLosses);
+	//	SaveSystem.SavePlayer(this);
+	//}
 
-	[ClientRpc]
-	void RpcLoadPlayer()
-	{
-		PlayerData data = SaveSystem.LoadPlayer();
-		if (data == null)
-		{
-			data = new PlayerData();
-		}
+	//[ClientRpc]
+	//void RpcLoadPlayer()
+	//{
+	//	PlayerData data = SaveSystem.LoadPlayer();
+	//	if (data == null)
+	//	{
+	//		data = new PlayerData();
+	//	}
 
 		
-		totalWins = data.totalWins;
-		totalLosses = data.totalLosses;
-		print("Loaded Wins: " + totalWins + " || Loaded Losses: " + totalLosses);
+	//	totalWins = data.totalWins;
+	//	totalLosses = data.totalLosses;
+	//	print("Loaded Wins: " + totalWins + " || Loaded Losses: " + totalLosses);
 
-	}
+	//}
 }
