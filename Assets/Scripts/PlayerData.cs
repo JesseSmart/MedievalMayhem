@@ -28,6 +28,7 @@ public class PlayerData
 
 		cust1Unlocked = false;
 		cust2Unlocked = false;
+		Debug.Log("PLAYER DATA BLANK");
 	}
 
 }

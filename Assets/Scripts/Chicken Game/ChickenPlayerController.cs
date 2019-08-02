@@ -17,6 +17,8 @@ public class ChickenPlayerController : NetworkBehaviour
     
     private int sabPNum;
     private GameObject saboteurIdentifier;
+
+	public PlayerCustoms playerCustom;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,10 +42,47 @@ public class ChickenPlayerController : NetworkBehaviour
                 saboteurIdentifier.GetComponent<Image>().color = Color.green;
 
             }
+
+			doTheLoad();
         }
     }
 
-    [Command]
+	private void doTheLoad()
+	{
+		PlayerData data = SaveSystem.LoadPlayer();
+		if (data == null)
+		{
+			data = new PlayerData();
+		}
+
+		//playerCustom.custom1Unlocked = data.cust1Unlocked;
+		//playerCustom.custom2Unlocked = data.cust2Unlocked;
+
+		//playerCustom.SetCos1(playerCustom.custom1Unlocked);
+		//playerCustom.SetCos2(playerCustom.custom2Unlocked);
+
+		//print("Loaded Cust1: " + playerCustom.custom1Unlocked + " || Loaded Cust2: " + playerCustom.custom2Unlocked);
+
+		//CmdLoadCos(playerCustom.custom1Unlocked, playerCustom.custom2Unlocked);
+		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked);
+
+	}
+
+	[Command]
+	void CmdLoadCos(bool b1, bool b2)
+	{
+		RpcLoadCos(b1, b2);
+	}
+
+	[ClientRpc]
+	void RpcLoadCos(bool b1, bool b2)
+	{
+		playerCustom.custom1Unlocked = b1;
+		playerCustom.custom2Unlocked = b2;
+	}
+
+
+	[Command]
     void CmdServerCharSetup(int id)
     {
         playerNum = id;

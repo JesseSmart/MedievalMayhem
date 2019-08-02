@@ -69,15 +69,32 @@ public class BoatController : NetworkBehaviour
 			data = new PlayerData();
 		}
 
-		playerCustom.custom1Unlocked = data.cust1Unlocked;
-		playerCustom.custom2Unlocked = data.cust2Unlocked;
+		//playerCustom.custom1Unlocked = data.cust1Unlocked;
+		//playerCustom.custom2Unlocked = data.cust2Unlocked;
 
+		//playerCustom.SetCos1(playerCustom.custom1Unlocked);
+		//playerCustom.SetCos2(playerCustom.custom2Unlocked);
 
-		print("Loaded Cust1: " + playerCustom.custom1Unlocked + " || Loaded Cust2: " + playerCustom.custom2Unlocked);
-		//cmd set item active
-		//rpc set item active
+		//print("Loaded Cust1: " + playerCustom.custom1Unlocked + " || Loaded Cust2: " + playerCustom.custom2Unlocked);
+
+		//CmdLoadCos(playerCustom.custom1Unlocked, playerCustom.custom2Unlocked);
+		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked);
 
 	}
+
+	[Command]
+	void CmdLoadCos(bool b1, bool b2)
+	{
+		RpcLoadCos(b1, b2);
+	}
+
+	[ClientRpc]
+	void RpcLoadCos( bool b1, bool b2)
+	{
+		playerCustom.custom1Unlocked = b1;
+		playerCustom.custom2Unlocked = b2;
+	}
+
 
 	[Command]
     void CmdCharacterSetup(int id) //this needs to be sent back to all clients (RPC)
