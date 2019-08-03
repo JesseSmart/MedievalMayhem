@@ -22,6 +22,7 @@ public class PotionCharacterController : NetworkBehaviour
 
     private int sabPNum;
     private GameObject saboteurIdentifier;
+	private GameObject innocentIdentifier;
 
 	public PlayerCustoms playerCustom;
     // Start is called before the first frame update
@@ -35,17 +36,20 @@ public class PotionCharacterController : NetworkBehaviour
 
             //SAB Stuff
             sabPNum = FindObjectOfType<IDSaver>().sabNum;
-            saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
-            if (playerNum == sabPNum)
-            {
-                saboteurIdentifier.GetComponent<Image>().color = Color.red;
+			saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
+			innocentIdentifier = GameObject.FindGameObjectWithTag("InnocentIdentifier");
+			if (playerNum == sabPNum)
+			{
+				//saboteurIdentifier.GetComponent<Image>().color = Color.red;
+				saboteurIdentifier.GetComponent<Image>().enabled = true;
 
-            }
-            else
-            {
-                saboteurIdentifier.GetComponent<Image>().color = Color.green;
+			}
+			else
+			{
+				//saboteurIdentifier.GetComponent<Image>().color = Color.green;
+				innocentIdentifier.GetComponent<Image>().enabled = true;
 
-            }
+			}
 			doTheLoad();
         }
     }

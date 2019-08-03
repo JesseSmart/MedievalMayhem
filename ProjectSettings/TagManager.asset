@@ -12,6 +12,7 @@ TagManager:
   - MinigameManager
   - NetworkManager
   - SaboteurIdentifier
+  - InnocentIdentifier
   layers:
   - Default
   - TransparentFX

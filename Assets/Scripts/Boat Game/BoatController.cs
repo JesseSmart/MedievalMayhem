@@ -24,6 +24,8 @@ public class BoatController : NetworkBehaviour
     public GameObject playerModelObj;
 
     private GameObject saboteurIdentifier;
+    private GameObject innocentIdentifier;
+
     [SyncVar]
     private int sabPNum;
 
@@ -46,16 +48,19 @@ public class BoatController : NetworkBehaviour
             //SAB Stuff
             sabPNum = FindObjectOfType<IDSaver>().sabNum;
             saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
+            innocentIdentifier = GameObject.FindGameObjectWithTag("InnocentIdentifier");
             if (playerNum == sabPNum)
             {
-                saboteurIdentifier.GetComponent<Image>().color = Color.red;
+                //saboteurIdentifier.GetComponent<Image>().color = Color.red;
+				saboteurIdentifier.GetComponent<Image>().enabled = true;
 
             }
             else
             {
-                saboteurIdentifier.GetComponent<Image>().color = Color.green;
+                //saboteurIdentifier.GetComponent<Image>().color = Color.green;
+				innocentIdentifier.GetComponent<Image>().enabled = true;
 
-            }
+			}
 
 			doTheLoad();
         }

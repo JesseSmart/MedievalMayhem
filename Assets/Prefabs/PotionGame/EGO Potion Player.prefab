@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8467142050258471661
 Transform:
   m_ObjectHideFlags: 0
@@ -109,7 +109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6551225160923867015
 Transform:
   m_ObjectHideFlags: 0
@@ -524,16 +524,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7423384932658308811}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 1bcd7db1eb59ffe4690a658adda25682,
-        type: 3}
-      propertyPath: m_Name
-      value: WalkPlayerModel
-      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 1bcd7db1eb59ffe4690a658adda25682,
         type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 15f8a2aefe4a0cf46b4d0b8310feec53, type: 2}
+    - target: {fileID: -927199367670048503, guid: 1bcd7db1eb59ffe4690a658adda25682,
+        type: 3}
+      propertyPath: m_Name
+      value: WalkPlayerModel
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 1bcd7db1eb59ffe4690a658adda25682,
         type: 3}
       propertyPath: m_LocalPosition.x
