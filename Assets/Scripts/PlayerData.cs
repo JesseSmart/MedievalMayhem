@@ -47,6 +47,7 @@ public class PlayerData
 		shadowR = ShadowResolution.Low;
 		shadowQ = ShadowQuality.Disable;
 		QualitySettings.anisotropicFiltering = AnisotropicFiltering.Disable;
+		
 
 		Debug.Log("PLAYER DATA BLANK");
 	}

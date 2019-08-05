@@ -58,31 +58,23 @@ public class ChickenPlayerController : NetworkBehaviour
 		{
 			data = new PlayerData();
 		}
-
-		//playerCustom.custom1Unlocked = data.cust1Unlocked;
-		//playerCustom.custom2Unlocked = data.cust2Unlocked;
-
-		//playerCustom.SetCos1(playerCustom.custom1Unlocked);
-		//playerCustom.SetCos2(playerCustom.custom2Unlocked);
-
-		//print("Loaded Cust1: " + playerCustom.custom1Unlocked + " || Loaded Cust2: " + playerCustom.custom2Unlocked);
-
-		//CmdLoadCos(playerCustom.custom1Unlocked, playerCustom.custom2Unlocked);
-		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked);
+		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked, data.custom1Enabled, data.custom2Enabled);
 
 	}
 
 	[Command]
-	void CmdLoadCos(bool b1, bool b2)
+	void CmdLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
-		RpcLoadCos(b1, b2);
+		RpcLoadCos(b1, b2, equip1, equip2);
 	}
 
 	[ClientRpc]
-	void RpcLoadCos(bool b1, bool b2)
+	void RpcLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
 		playerCustom.custom1Unlocked = b1;
 		playerCustom.custom2Unlocked = b2;
+		playerCustom.custom1Enabled = equip1;
+		playerCustom.custom2Enabled = equip2;
 	}
 
 

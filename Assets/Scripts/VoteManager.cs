@@ -30,6 +30,8 @@ public class VoteManager : MinigameInherit
 	private int sabPlayerNum;
 	private IDSaver saver;
 
+	private bool coru1HasRun;
+
 	//SCORE STUFF
     [SyncVar]
 	public bool readyToRecievePoints;
@@ -69,27 +71,32 @@ public class VoteManager : MinigameInherit
 
 			if (votingComplete)
 			{
-				tempTimer -= Time.deltaTime;
-				if (tempTimer <= 0 && !uiChangedBool)
+				if (!coru1HasRun)
 				{
-					RpcUIChange();
-					RpcSendSetFinalScores();
-
-
-					uiChangedBool = true;
+					StartCoroutine(WaitToUIAndScore());
+					coru1HasRun = true;
 				}
+				//tempTimer -= Time.deltaTime;
+				//if (tempTimer <= 0 && !uiChangedBool)
+				//{
+				//	RpcUIChange();
+				//	RpcSendSetFinalScores();
+				//	uiChangedBool = true;
+				//}
 			}
 
 			if (uiChangedBool)
 			{
 				if (!loadNextHasRun)
 				{
+					StartCoroutine(WaitToLoad());
 					tempSecondTimer -= Time.deltaTime;
-					if (tempSecondTimer <= 0)
-					{
-						LoadNextGame();
-						loadNextHasRun = true;
-					}
+					//if (tempSecondTimer <= 0)
+					//{
+					//	LoadNextGame();
+					//	loadNextHasRun = true;
+					//}
+					loadNextHasRun = true;
 				}
 			}
 		}
@@ -245,5 +252,20 @@ public class VoteManager : MinigameInherit
 	void RpcDebugText(string s)
 	{
 		print(s);
+	}
+
+	IEnumerator WaitToUIAndScore()
+	{
+		yield return new WaitForSecondsRealtime(4f);
+		RpcUIChange();
+		RpcSendSetFinalScores();
+		uiChangedBool = true;
+	}
+
+	IEnumerator WaitToLoad()
+	{
+		yield return new WaitForSecondsRealtime(4f);
+		LoadNextGame();
+
 	}
 }
