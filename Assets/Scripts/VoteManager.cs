@@ -90,7 +90,7 @@ public class VoteManager : MinigameInherit
 				if (!loadNextHasRun)
 				{
 					StartCoroutine(WaitToLoad());
-					tempSecondTimer -= Time.deltaTime;
+					//tempSecondTimer -= Time.deltaTime;
 					//if (tempSecondTimer <= 0)
 					//{
 					//	LoadNextGame();
@@ -103,12 +103,12 @@ public class VoteManager : MinigameInherit
 
 
 	}
-
+	//inputer has sent vote
 	public void VoteRecieved(int suspect)
 	{
 		CmdVoteAdd(suspect);
 	}
-
+	//tell server recieved vote info
 	[Command] //ERROR: CLIENTS CANT VOTE
 	void CmdVoteAdd(int suspectedPlayer)
 	{
@@ -118,7 +118,7 @@ public class VoteManager : MinigameInherit
 		//}
 
 	}
-
+	//tell clients what was the vote
 	[ClientRpc]
 	void RpcSendVoteInfo(int sus)
 	{
@@ -126,7 +126,7 @@ public class VoteManager : MinigameInherit
 		voteText[sus].text = voteTotalArray[sus].ToString();
 		totalInputs += 1;
 	}
-
+	//has everyone voted?
 	[ClientRpc]
 	private void RpcVotingComplete()
 	{
@@ -139,7 +139,7 @@ public class VoteManager : MinigameInherit
 		voteDoneRunBool = true;
 	}
 
-
+	//load next scene
 	void LoadNextGame()
 	{
         if (saver.gamesPlayed < saver.maxGames)//is < in votemanager because otherwise it would load another game
@@ -147,6 +147,7 @@ public class VoteManager : MinigameInherit
 
             int rnd = Random.Range(0, 4);
             RpcSendNewSabNum(rnd);
+			//delay load as issues arise if imidiate load
             Invoke("DoLoad", 1);
 
         }
@@ -157,11 +158,12 @@ public class VoteManager : MinigameInherit
         }
 
 	}
+	//load
 	void DoLoad()
 	{
 		networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(saver.levelNames[saver.levelLoadArray[saver.gamesPlayed]]);
 	}
-
+	//change ui
 	[ClientRpc]
 	void RpcUIChange()
 	{
@@ -169,7 +171,7 @@ public class VoteManager : MinigameInherit
 		scorePanel.gameObject.SetActive(true);
 
 	}
-
+	//check bonus point possibilities, 
 	void CalcPointStats()
 	{
 		if (voteTotalArray[sabPlayerNum] == 3) //Whole Team Correct
@@ -177,11 +179,11 @@ public class VoteManager : MinigameInherit
 			wholeTeamCorrect = true;
 		}
 
-		if (voteTotalArray[sabPlayerNum] == 0) //Whole Team Correct
+		if (voteTotalArray[sabPlayerNum] == 0) //Whole Team Incorrect
 		{
 			wholeTeamWrong = true;
 		}
-
+		//what saboteur gains from incorrect votes
 		sabPointGain = 0;
 		foreach (int point in voteTotalArray)
 		{
@@ -189,7 +191,7 @@ public class VoteManager : MinigameInherit
 		}
 
 		sabPointGain -= voteTotalArray[sabPlayerNum] + 1; //the + 1 gets rid of the sab player's vote
-
+		//did innocents or saboteur win
         teamDidWin = false;
         if (FindObjectOfType<IDSaver>().lastGameTeamWon)
         {
@@ -213,11 +215,12 @@ public class VoteManager : MinigameInherit
 		//if win lose
 
     }
-
+	//display points
     public void DisplayPoints(int pNum, int gainPoint, int totalPoint)
     {
         CmdDisplayPoints(pNum, gainPoint, totalPoint);
     }
+	//tell server to display
     [Command]
     public void CmdDisplayPoints(int pNum, int gainPoint, int totalPoint) //this called from inputer, maybe do it other way //make void then call cmd
     {
@@ -226,7 +229,7 @@ public class VoteManager : MinigameInherit
 		RpcSendDisplayPoints(pNum, gainPoint, totalPoint);
 
     }
-
+	//tell clients to display
     [ClientRpc]
     void RpcSendDisplayPoints(int pNum, int gainPoint, int totalPoint) 
     {
@@ -235,13 +238,13 @@ public class VoteManager : MinigameInherit
         currentPoints[pNum].text = totalPoint.ToString();
         gainedPoints[pNum].text = gainPoint.ToString();
     }
-
+	//send new sab num
     [ClientRpc]
     void RpcSendNewSabNum(int num)
     {
         FindObjectOfType<IDSaver>().sabNum = num;
     }
-
+	//tell clients new sab num
     [ClientRpc]
     void RpcSendSetFinalScores()
     {
@@ -253,7 +256,7 @@ public class VoteManager : MinigameInherit
 	{
 		print(s);
 	}
-
+	//wait to display score totals screen
 	IEnumerator WaitToUIAndScore()
 	{
 		yield return new WaitForSecondsRealtime(4f);
@@ -261,7 +264,7 @@ public class VoteManager : MinigameInherit
 		RpcSendSetFinalScores();
 		uiChangedBool = true;
 	}
-
+	//wait to load next scene
 	IEnumerator WaitToLoad()
 	{
 		yield return new WaitForSecondsRealtime(4f);

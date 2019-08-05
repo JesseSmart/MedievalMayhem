@@ -63,12 +63,15 @@ public class BoatGameManager : MinigameInherit
         }
 
     }
+
+	//No health remaining
     public void BoatBroke() //make sure this is only caalled once
     {
         CmdSetWinState(false);
 		EndGame();
     }
 
+	//Load Next Scene
     private void EndGame()
     {
         //networkManagerObj.GetComponent<CustomNetworkManager>().LoadGameScene(PlayerPrefs.GetString("LevelName" + PlayerPrefs.GetInt("LevelLoad" + PlayerPrefs.GetInt("GamesPlayed"))));
@@ -89,12 +92,14 @@ public class BoatGameManager : MinigameInherit
 
     }
 
+	//Tell server whether objective was completed successfully or not
     [Command]
     void CmdSetWinState(bool b)
     {
         RpcSendOutWinState(b);
     }
 
+	//tell clents whether objective was successful or not
     [ClientRpc]
     void RpcSendOutWinState(bool b)
     {

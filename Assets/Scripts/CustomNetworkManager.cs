@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CustomNetworkManager : NetworkManager
 {
+	//Host
     public void StartUpHost()
     {
         SetPort();
@@ -13,6 +14,7 @@ public class CustomNetworkManager : NetworkManager
 
     }
 
+	//JoinGame
     public void JoinGame()
     {
         SetIPAdress();
@@ -20,11 +22,13 @@ public class CustomNetworkManager : NetworkManager
         NetworkManager.singleton.StartClient();
     }
 
+	//Set IP
     void SetIPAdress()
     {
         string ipAdress = GameObject.Find("InputFieldIPAdress").transform.Find("Text").GetComponent<Text>().text; //hmm
         NetworkManager.singleton.networkAddress = ipAdress;
     }
+
 
     void SetPort()
     {

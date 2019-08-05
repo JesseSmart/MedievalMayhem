@@ -30,7 +30,7 @@ public class ChickenPlayerController : NetworkBehaviour
             CmdServerCharSetup(playerNum);
 
 
-            //SAB Stuff
+            //Set identifiers to sabotuers or innocent
             sabPNum = FindObjectOfType<IDSaver>().sabNum;
 			saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
 			innocentIdentifier = GameObject.FindGameObjectWithTag("InnocentIdentifier");
@@ -51,6 +51,7 @@ public class ChickenPlayerController : NetworkBehaviour
         }
     }
 
+	//Load cosmetics
 	private void doTheLoad()
 	{
 		PlayerData data = SaveSystem.LoadPlayer();
@@ -62,12 +63,14 @@ public class ChickenPlayerController : NetworkBehaviour
 
 	}
 
+	//tell server about cosmetics
 	[Command]
 	void CmdLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
 		RpcLoadCos(b1, b2, equip1, equip2);
 	}
 
+	//tell clientts cosmetics info
 	[ClientRpc]
 	void RpcLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
@@ -77,7 +80,7 @@ public class ChickenPlayerController : NetworkBehaviour
 		playerCustom.custom2Enabled = equip2;
 	}
 
-
+	//set up character info on server
 	[Command]
     void CmdServerCharSetup(int id)
     {
@@ -86,6 +89,7 @@ public class ChickenPlayerController : NetworkBehaviour
         RpcBackToClientSetup(id);
     }
 
+	//set up character info on client
     [ClientRpc]
     void RpcBackToClientSetup(int id)
     {
@@ -107,6 +111,7 @@ public class ChickenPlayerController : NetworkBehaviour
         }
     }
 
+	//movement
     private void Movement()
     {
 
@@ -125,19 +130,22 @@ public class ChickenPlayerController : NetworkBehaviour
 		CmdRecieveAnim(Input.GetAxis("Horizontal"), Input.GetAxis("Horizontal"));
     }
 
+	//animation on server
 	[Command]
 	void CmdRecieveAnim(float hor, float ver)
 	{
-		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+		//anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
 		RpcSendOutAnim(hor, ver);
 	}
+
+	//animation on clients
 	[ClientRpc]
 	void RpcSendOutAnim(float hor, float ver)
 	{
 		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
 	}
 
-
+	//rotation
     private void RotationChar()
     {
         Vector3 currentPos = rbody.position;
@@ -149,7 +157,7 @@ public class ChickenPlayerController : NetworkBehaviour
         Vector3 inputVector = new Vector3(horizontalInput, 0, verticalInput);
         Vector3 lookPos = currentPos + inputVector;
 
-
+		//do not rotate if no input found
         if (inputVector != lookPos)
         {
             transform.LookAt(lookPos);

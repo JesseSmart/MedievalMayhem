@@ -69,6 +69,7 @@ public class VoteInputer : NetworkBehaviour
         float verticalInput = Input.GetAxis("DPadVertical");
 
         #region //PC Controls
+		//If buttin to vote pressed and has not alredy voted and vote is not for self
         if ((Input.GetKeyDown(KeyCode.Alpha1) || verticalInput > 0) && hasInputted == false && FindObjectOfType<IDSaver>().savedID != 1)
         {
             hasInputted = true;
@@ -104,8 +105,7 @@ public class VoteInputer : NetworkBehaviour
 
     }
 
-    //could have void which calls all voids to do with score. Would have to change alot
-
+	//tell manager that i have voted
     [Command]
     void CmdSendReady(int i)
     {
@@ -113,14 +113,14 @@ public class VoteInputer : NetworkBehaviour
         minigameManager.GetComponent<VoteManager>().VoteRecieved(i); //maybe make a findobjectoftype
         RpcBackToClientSendReady();
     }
-
+	//tell everyone that this has voted
     [ClientRpc]
     void RpcBackToClientSendReady()
     {
         hasInputted = true;
     }
 
-
+	//wait until manager says to calculate points
     void CheckIfPointReady()
     {
         if (FindObjectOfType<VoteManager>().readyToRecievePoints)
@@ -133,26 +133,26 @@ public class VoteInputer : NetworkBehaviour
         }
     }
 
+	//calculate points gained
     void CalcPoints()
     {
         gainedPoints = 0;
         VoteManager mang = FindObjectOfType<VoteManager>();
 
         print("Team Did Win: " + mang.teamDidWin);
-        if (playerNum != sabNum) //not sab
+        if (playerNum != sabNum) //I am not sabotuer
         {
-            print("AM GOOD POINTS");
-
+			//objective successfl
             if (mang.teamDidWin)
             {
                 gainedPoints++;
             }
-
+			//vote correct
             if (myVote == sabNum)
             {
                 gainedPoints++;
             }
-
+			//everyone correct
             if (mang.wholeTeamCorrect)
             {
                 gainedPoints++;
@@ -160,13 +160,12 @@ public class VoteInputer : NetworkBehaviour
         }
         else if (playerNum == sabNum) //is sab
         {
-            print("AM SAB POINTS");
-
+			//objective failed
             if (!(mang.teamDidWin))
             {
                 gainedPoints++;
             }
-
+			//not one voted correct
             if (mang.wholeTeamWrong)
             {
                 gainedPoints++;
@@ -178,28 +177,23 @@ public class VoteInputer : NetworkBehaviour
         {
             print("NOT SAB NOR PLAYER");
         }
-        //pointsSent = true;
-        FindObjectOfType<IDSaver>().points += gainedPoints; //BIG issues with mySaver in this area
+       
+        FindObjectOfType<IDSaver>().points += gainedPoints; 
         int tP = FindObjectOfType<IDSaver>().points;
 
-        //FindObjectOfType<VoteManager>().DisplayPoints(playerNum, gainedPoints, tP);
-
+		//tell manager info
 		FindObjectOfType<VoteManager>().currentPoints[playerNum].text = tP.ToString();
 		FindObjectOfType<VoteManager>().gainedPoints[playerNum].text = gainedPoints.ToString();
 		CmdSendPointGain(gainedPoints, gainedPoints, tP);
 	}
-
+	//tell clients to show points
     [Command]
     void CmdSendPointGain(int p, int gained, int total)
     {
-        //gainedPoints = p;
-        //pointsSent = true;
-
-
 
         RpcSendOutPointGain(p, gained, total);
     }
-
+	//show my points info
     [ClientRpc]
     void RpcSendOutPointGain(int p, int gained, int total)
     {
@@ -211,13 +205,13 @@ public class VoteInputer : NetworkBehaviour
         pointsSent = true;
 
     }
-
+	//debug
 	[Command]
 	void CmdDebug(string s)
 	{
 		print(s);
 	}
-
+	//debug
     [ClientRpc]
     void RpcDebugPrint(string s)
     {

@@ -66,6 +66,7 @@ public class BoatController : NetworkBehaviour
         }
 	}
 
+	//Load customisation options
 	private void doTheLoad()
 	{
 		PlayerData data = SaveSystem.LoadPlayer();
@@ -76,13 +77,14 @@ public class BoatController : NetworkBehaviour
 		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked, data.custom1Enabled, data.custom2Enabled);
 
 	}
-
+	//send cosmetic states to server
 	[Command]
 	void CmdLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
 		RpcLoadCos(b1, b2, equip1, equip2);
 	}
 
+	//tell clients customisation states
 	[ClientRpc]
 	void RpcLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
@@ -92,7 +94,7 @@ public class BoatController : NetworkBehaviour
 		playerCustom.custom2Enabled = equip2;
 	}
 
-
+	//Tell server player id and set up colour and position
 	[Command]
     void CmdCharacterSetup(int id) //this needs to be sent back to all clients (RPC)
     {
@@ -103,7 +105,8 @@ public class BoatController : NetworkBehaviour
         RpcBackToClientSetup(id);
     }
 
-    [ClientRpc]
+	//Tell clients player id and set up colour and position
+	[ClientRpc]
     void RpcBackToClientSetup(int id)
     {
         playerNum = id;
@@ -121,6 +124,7 @@ public class BoatController : NetworkBehaviour
         }
     }
 
+	//Inputes for movement
     void InputBoat(int pNum)
     {
 
@@ -135,6 +139,7 @@ public class BoatController : NetworkBehaviour
         }
     }
 
+	//add force
     [Command]
     void CmdMoveBoat(int dir)
     {
@@ -143,6 +148,7 @@ public class BoatController : NetworkBehaviour
 		RpcSendAnimOut();
     }
 
+	//Animate on clients
 	[ClientRpc]
 	void RpcSendAnimOut()
 	{
