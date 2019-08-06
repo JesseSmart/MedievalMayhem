@@ -34,7 +34,7 @@ public class PotionCharacterController : NetworkBehaviour
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];
             CmdServerCharSetup(playerNum);
 
-            //SAB Stuff
+            //Set Identifier to show whether saboteur or innocent
             sabPNum = FindObjectOfType<IDSaver>().sabNum;
 			saboteurIdentifier = GameObject.FindGameObjectWithTag("SaboteurIdentifier");
 			innocentIdentifier = GameObject.FindGameObjectWithTag("InnocentIdentifier");
@@ -54,6 +54,7 @@ public class PotionCharacterController : NetworkBehaviour
         }
     }
 
+	//Load cosmetics
 	private void doTheLoad()
 	{
 		PlayerData data = SaveSystem.LoadPlayer();
@@ -61,31 +62,23 @@ public class PotionCharacterController : NetworkBehaviour
 		{
 			data = new PlayerData();
 		}
-
-		//playerCustom.custom1Unlocked = data.cust1Unlocked;
-		//playerCustom.custom2Unlocked = data.cust2Unlocked;
-
-		//playerCustom.SetCos1(playerCustom.custom1Unlocked);
-		//playerCustom.SetCos2(playerCustom.custom2Unlocked);
-
-		//print("Loaded Cust1: " + playerCustom.custom1Unlocked + " || Loaded Cust2: " + playerCustom.custom2Unlocked);
-
-		//CmdLoadCos(playerCustom.custom1Unlocked, playerCustom.custom2Unlocked);
-		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked);
+		CmdLoadCos(data.cust1Unlocked, data.cust2Unlocked, data.custom1Enabled, data.custom2Enabled);
 
 	}
 
 	[Command]
-	void CmdLoadCos(bool b1, bool b2)
+	void CmdLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
-		RpcLoadCos(b1, b2);
+		RpcLoadCos(b1, b2, equip1, equip2);
 	}
 
 	[ClientRpc]
-	void RpcLoadCos(bool b1, bool b2)
+	void RpcLoadCos(bool b1, bool b2, bool equip1, bool equip2)
 	{
 		playerCustom.custom1Unlocked = b1;
 		playerCustom.custom2Unlocked = b2;
+		playerCustom.custom1Enabled = equip1;
+		playerCustom.custom2Enabled = equip2;
 	}
 
 	// Update is called once per frame
@@ -101,6 +94,7 @@ public class PotionCharacterController : NetworkBehaviour
 		}
     }
 
+	//Character movement
     private void Movement()
     {
 
@@ -119,18 +113,22 @@ public class PotionCharacterController : NetworkBehaviour
 		CmdRecieveAnim(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 	}
 
+	//Tell server to tell clients to animate
 	[Command]
 	void CmdRecieveAnim(float hor, float ver)
 	{
-		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+		//anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
 		RpcSendOutAnim(hor, ver);
 	}
+
+	//animate clients
 	[ClientRpc]
 	void RpcSendOutAnim(float hor, float ver)
 	{
 		anim.SetFloat("mySpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
 	}
 
+	//character rotation
 	private void RotationChar()
     {
         Vector3 currentPos = rbody.position;
@@ -141,6 +139,7 @@ public class PotionCharacterController : NetworkBehaviour
         Vector3 inputVector = new Vector3(horizontalInput, 0, verticalInput);
         Vector3 lookPos = currentPos + inputVector;
 
+		//if no input, do not rotate
         if (lookPos != Vector3.zero)
         {
             transform.LookAt(lookPos);
@@ -152,7 +151,7 @@ public class PotionCharacterController : NetworkBehaviour
 
     }
 
-
+	//Pick up potions
 	public void PickupCheck()
 	{
 
@@ -198,6 +197,7 @@ public class PotionCharacterController : NetworkBehaviour
 
 	}
 
+	//Find closest potion
 	void SortArray()
 	{
 
@@ -219,7 +219,7 @@ public class PotionCharacterController : NetworkBehaviour
 		}
 	}
 
-
+	//character setup on server
     [Command]
     void CmdServerCharSetup(int id)
     {
@@ -228,6 +228,7 @@ public class PotionCharacterController : NetworkBehaviour
         RpcBackToClientSetup(id);
     }
 
+	//character setup on client
     [ClientRpc]
     void RpcBackToClientSetup(int id)
     {
@@ -236,6 +237,7 @@ public class PotionCharacterController : NetworkBehaviour
 
     }
 
+	//potion gravity on server
     [Command]
     void CmdSetGravityState(GameObject item, bool b)
     {
@@ -243,12 +245,14 @@ public class PotionCharacterController : NetworkBehaviour
         RpcSendOutGravity(item, b);
     }
 
+	//set gravity on client
     [ClientRpc]
     void RpcSendOutGravity(GameObject item, bool b)
     {
         item.GetComponent<Rigidbody>().useGravity = b;
     }
 
+	//set position of potion to player holder
     [Command]
     void CmdSetPotionPos(GameObject item, GameObject holderEgo)
     {

@@ -60,10 +60,16 @@ public class MainMenuController : MonoBehaviour
     public void GoToNetworkPanelClick()
     {
         panelNetwork.SetActive(true);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
-    public void QuitGame()
+	public void NetworkBackToMenu()
+	{
+		panelNetwork.SetActive(false);
+
+	}
+
+	public void QuitGame()
     {
         Application.Quit();
     }
