@@ -10,6 +10,8 @@ public class BoatController : NetworkBehaviour
     private Rigidbody rbody;
     public int currentSpeed;
 
+	public GameObject oarLeft;
+	public GameObject oarRight;
 
     private GameObject[] networkPlayerObjs;
     private GameObject[] spArray;
@@ -145,14 +147,32 @@ public class BoatController : NetworkBehaviour
     {
         anim.SetTrigger("Row");
         rbody.AddForce(dir * 10, 0, 0);
-		RpcSendAnimOut();
+		RpcSendAnimOut(dir);
     }
 
 	//Animate on clients
 	[ClientRpc]
-	void RpcSendAnimOut()
+	void RpcSendAnimOut(int dir)
 	{
 		anim.SetTrigger("Row");
+		StartCoroutine(OarOnOff(dir));
+	}
+
+	IEnumerator OarOnOff(int direction)
+	{
+		//dir needed
+		if (direction < 0)
+		{
+			oarLeft.SetActive(true);
+		}
+		else
+		{
+			oarRight.SetActive(true);
+		}
+		yield return new WaitForSeconds(0.8f);
+
+		oarLeft.SetActive(false);
+		oarRight.SetActive(false);
 
 	}
 

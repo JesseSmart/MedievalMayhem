@@ -170,8 +170,8 @@ public class PotionCharacterController : NetworkBehaviour
                     }
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
-					myObject.GetComponent<Rigidbody>().useGravity = false;
-                    CmdSetGravityState(myObject, false);
+					//myObject.GetComponent<Rigidbody>().useGravity = false;
+     //               CmdSetGravityState(myObject, false);
                     print(holdPoint);
                     CmdSetPotionPos(myObject, holdPoint);
 					//myObject.transform.position = holdPoint.transform.position;
@@ -181,11 +181,12 @@ public class PotionCharacterController : NetworkBehaviour
 				{
 
 					//pickupObject.GetComponent<BoxCollider>().enabled = false;
-					myObject.GetComponent<Rigidbody>().useGravity = true;
-                    CmdSetGravityState(myObject, true);
+					//myObject.GetComponent<Rigidbody>().useGravity = true;
+     //               CmdSetGravityState(myObject, true);
 
                     myObject = null;
                     isHolding = false;
+
 					//ingredientArray[0].transform.position = holdPoint.transform.position;
 				}
 
