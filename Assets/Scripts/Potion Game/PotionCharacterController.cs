@@ -173,7 +173,7 @@ public class PotionCharacterController : NetworkBehaviour
 					//myObject.GetComponent<Rigidbody>().useGravity = false;
      //               CmdSetGravityState(myObject, false);
                     print(holdPoint);
-                    CmdSetPotionPos(myObject, holdPoint);
+                    CmdSetPotionPos(myObject, holdPoint); //THIS WILL NOT WORK COZ U CANT PASS GAME OBJECTS ____________-----------------------------------------------
 					//myObject.transform.position = holdPoint.transform.position;
 				}
 

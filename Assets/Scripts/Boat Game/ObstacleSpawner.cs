@@ -49,22 +49,13 @@ public class ObstacleSpawner : NetworkBehaviour
 
     void Spawner()
     {
-        //foreach (GameObject spawn in spawnPoints)
-        //{
-        //    int rndNum = Random.Range(0, 3);
-        //    if (rndNum == 1)
-        //    {
-        //        Instantiate(obstaclesArray[Random.Range(0, obstaclesArray.Length)], spawn.transform.position, spawn.transform.rotation);
-        //    }
-        //}
-
         int rndObstacleTotal;
         rndObstacleTotal = Random.Range(minObstacleSpawn, maxObstacleSpawn);
 
         bool hasSpawned = false;
 
-        int totalSpawnedBatch;
-        totalSpawnedBatch = rndObstacleTotal;
+        //int totalSpawnedBatch;
+        //totalSpawnedBatch = rndObstacleTotal;
         for (int i = 0; i < rndObstacleTotal; i++)
         {
             int rndLane;
@@ -85,14 +76,19 @@ public class ObstacleSpawner : NetworkBehaviour
                 for (int j = 0; j < 10; j++)
                 {
                     rndLane = Random.Range(0, spawnPoints.Length);
-                    if (hasSpawned == false)
-                    {
 
-                        nowOccupiedLaneArray[rndLane] = true;
-                        StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane, Random.Range(0, obstaclesArray.Length)));
-                        //SpawnObstacle(rndLane);
-                        hasSpawned = true;
-                    }
+					if (nowOccupiedLaneArray[rndLane] == false)
+					{
+						if (hasSpawned == false)
+						{
+							nowOccupiedLaneArray[rndLane] = true;
+							StartCoroutine(WaitAndSpawn(Random.Range(0, randomObstacleDelay), rndLane, Random.Range(0, obstaclesArray.Length)));
+							//SpawnObstacle(rndLane);
+							hasSpawned = true;
+						}
+					}
+
+                    
 
                 }
             }
