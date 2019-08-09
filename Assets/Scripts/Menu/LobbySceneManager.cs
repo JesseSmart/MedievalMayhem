@@ -168,13 +168,13 @@ public class LobbySceneManager : NetworkBehaviour
 
     void RandomizeArray(int[] array) //randomises load order array
     {
-        for (int i = array.Length - 1; i > 1; i--)
-        {
-            int rnd = Random.Range(0, i);
-            int temp = array[i];
-            array[i] = array[rnd];
-            array[rnd] = temp;
-        }
+        //for (int i = array.Length - 1; i > 1; i--)
+        //{
+        //    int rnd = Random.Range(0, i);
+        //    int temp = array[i];
+        //    array[i] = array[rnd];
+        //    array[rnd] = temp;
+        //}
         levelLoadOrder = array;
         saver.levelLoadArray = array;
     }

@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class CustomNetworkManager : NetworkManager
 {
+	private int tempTotal;
+
+	NetworkStartPosition[] tempSpawn;
 	//Host
-    public void StartUpHost()
+	public void StartUpHost()
     {
         SetPort();
         NetworkManager.singleton.StartHost();
@@ -44,8 +47,15 @@ public class CustomNetworkManager : NetworkManager
         else
         {
             SetupOtherSceneButtons();
-        }
-    }
+			
+		}
+
+		if (FindObjectOfType<NetworkStartPosition>())
+		{
+			tempSpawn = FindObjectsOfType<NetworkStartPosition>();
+
+		}
+	}
 
     void SetUpMenuSceneButtons()
     {
@@ -67,5 +77,26 @@ public class CustomNetworkManager : NetworkManager
         ServerChangeScene(sceneName);
     }
 
+	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	{
+		StartCoroutine(WaitLoad(conn, playerControllerId));
+	}
+
+	IEnumerator WaitLoad(NetworkConnection conn, short playerControllerId) //THIS METHOD DOESNT WORK ON BOAT GAME
+	{
+		yield return new WaitForSeconds(0.5f);
+		if (FindObjectOfType<NetworkStartPosition>())
+		{
+			GameObject player = (GameObject)Instantiate(playerPrefab, tempSpawn[playerControllerId].transform.position, Quaternion.identity);
+			tempTotal++;
+			NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+
+		}
+		else
+		{
+			GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+			NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+		}
+	}
 
 }

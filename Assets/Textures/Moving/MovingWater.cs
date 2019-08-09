@@ -28,7 +28,7 @@ public class MovingWater : NetworkBehaviour
         //rend.material.SetTextureOffset("_MainTex", new Vector2(Mathf.Sin(offset), 0));
     }
 
-    [ClientRpc]
+    [ClientRpc] //speed of material is determined in BoatStats script on Ego Boat prefab in scene
     void RpcMaterial(float offVal)
     {
         rend.material.SetTextureOffset("_MainTex", new Vector2(Mathf.Sin(offVal), 0));
