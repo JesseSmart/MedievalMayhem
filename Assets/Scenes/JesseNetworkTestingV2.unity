@@ -824,7 +824,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 18.8
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -841,7 +841,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -870,7 +870,7 @@ MonoBehaviour:
     spaceCount: 5
     wordCount: 3
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -1833,7 +1833,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6340757868766174046, guid: 82f1655bba5e27643afe91b99174357d, type: 3}
+    - {fileID: 4319914972801474596, guid: 82f1655bba5e27643afe91b99174357d, type: 3}
+    - {fileID: 7715551096963445127, guid: 82f1655bba5e27643afe91b99174357d, type: 3}
+    - {fileID: 1176827233442246661, guid: 82f1655bba5e27643afe91b99174357d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 82f1655bba5e27643afe91b99174357d, type: 3}
 --- !u!1 &1102756318717246866 stripped
 GameObject:
