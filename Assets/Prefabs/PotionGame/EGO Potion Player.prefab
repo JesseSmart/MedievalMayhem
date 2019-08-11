@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rbody: {fileID: 3110512034149671979}
-  speed: 10
+  speed: 4
   holdPoint: {fileID: 3518475882720825174}
   ingredientArray: []
   anim: {fileID: 4152335367224167936}
@@ -496,6 +496,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7423384932658308811}
     m_Modifications:
+    - target: {fileID: 1615642832341465730, guid: 79782d25c2a062948b8baaaee5e1c2d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3137213601965512117, guid: 79782d25c2a062948b8baaaee5e1c2d7,
         type: 3}
       propertyPath: m_Name
@@ -575,11 +580,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1615642832341465730, guid: 79782d25c2a062948b8baaaee5e1c2d7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2660090817621595210, guid: 79782d25c2a062948b8baaaee5e1c2d7,
         type: 3}

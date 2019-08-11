@@ -28,7 +28,7 @@ public class PotionCharacterController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (hasAuthority || FindObjectsOfType<PlayerConnectedObject>().Length == 1)
+        if (hasAuthority || FindObjectOfType<IDSaver>().savedID == 1)
         {
             playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             playerModelObj.GetComponent<SkinnedMeshRenderer>().material = playerColours[playerNum];

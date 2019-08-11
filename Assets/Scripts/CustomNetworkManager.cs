@@ -84,7 +84,7 @@ public class CustomNetworkManager : NetworkManager
 
 	IEnumerator WaitLoad(NetworkConnection conn, short playerControllerId) //THIS METHOD DOESNT WORK ON BOAT GAME
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.1f);
 		if (FindObjectOfType<NetworkStartPosition>())
 		{
 			GameObject player = (GameObject)Instantiate(playerPrefab, tempSpawn[playerControllerId].transform.position, Quaternion.identity);

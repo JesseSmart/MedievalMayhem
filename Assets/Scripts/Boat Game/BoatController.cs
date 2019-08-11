@@ -40,7 +40,7 @@ public class BoatController : NetworkBehaviour
             rbody = boatObj.GetComponent<Rigidbody>();
 
             sceneManager = GameObject.FindGameObjectWithTag("MinigameManager");
-        if (hasAuthority || FindObjectsOfType<PlayerConnectedObject>().Length == 1 )
+        if (hasAuthority ||  FindObjectOfType<IDSaver>().savedID == 1)
         {
             playerNum = FindObjectOfType<IDSaver>().savedID - 1;
             CmdCharacterSetup(playerNum);
