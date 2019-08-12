@@ -184,7 +184,7 @@ public class PotionCharacterController : NetworkBehaviour
 					//myObject.GetComponent<Rigidbody>().useGravity = true;
      //               CmdSetGravityState(myObject, true);
 
-                    myObject = null;
+                    //myObject = null;
                     isHolding = false;
 
 					//ingredientArray[0].transform.position = holdPoint.transform.position;

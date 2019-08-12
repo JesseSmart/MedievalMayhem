@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using TMPro;
 
 public class BoatStats : NetworkBehaviour
 {
@@ -10,10 +10,11 @@ public class BoatStats : NetworkBehaviour
     public float scrollSpeed = 1f;
     public float constantForceBase;
     public Rigidbody rbody;
-
     public GameObject[] spawnPointArray;
     //[SyncVar]
     public int health;
+
+	public TextMeshProUGUI txtHealth;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class BoatStats : NetworkBehaviour
     {
         CheckDeath();
         ConstantForce();
-
+		txtHealth.text = health.ToString();
     }
 
     public void TakeDamage(int damage)
